@@ -1,0 +1,118 @@
+﻿@model IEnumerable<MvcMovie.Models.Movie>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    window.onerror = function (message, url, lineNo) {
+        console.log('Error: ' + message + '\n' + 'Line Number: ' + lineNo);
+
+        return true;
+    }
+
+    $(document).ready(function () {
+
+        $("#buttontest").on("click", function (event) {
+            var url = { "url": $("#SearchString").val() };
+
+            var json = JSON.stringify(url);
+
+            $.ajax({
+                url: '/Browser/SetURL',
+                data: json,
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    // get the result and do some magic with it
+                    //debugger;
+                    $.ajax({
+                        url: '/SeletElement',
+                        type: 'GET',
+                        //contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            // get the result and do some magic with it
+                            var w = window.open();
+                            w.document.open(data);
+                            w.document.write(data);
+                            w.document.close();
+                        }
+                    });
+                }
+            });
+        });
+
+    });
+
+</script>
+
+
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    @*    @using (Html.BeginForm("Index","Movies",FormMethod.Get))
+        {
+        <p>
+            Genre: @Html.DropDownList("movieGenre", "All")
+            Title: @Html.TextBox("SearchString") <br />
+            <input type="submit" value="Filter" />
+        </p>
+        }*@
+
+<p>
+    URL: @Html.TextBox("SearchString") <br />
+    <button type="button" id="buttontest" >OpenBrowser</button>
+</p>
+    
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rating)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReleaseDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rating)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

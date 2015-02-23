@@ -1,0 +1,151 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+@*<div id="cntnr">
+        <ul id="items">
+            <li>Item1</li>
+            <li>Item2</li>
+            <li>Item3</li>
+            <li>Item4</li>
+            <li>Item5</li>
+        </ul>
+    </div>*@
+<script>
+    var cssLink = document.createElement("link")
+    cssLink.href = "/js/ContextMenu.css";
+    cssLink.rel = "stylesheet";
+    cssLink.type = "text/css";
+    $('head',document).append(cssLink);
+</script>
+
+<script >
+    //debugger;
+    $(document).ready(function () {
+        //var d = $("#myframe")[0].contentDocument; // contentWindow works in IE7 and FF
+
+        //d.open(); d.close(); // must open and close document object to start using it!
+
+        // now start doing normal jQuery:
+        //$("body", d).append("<div>A</div><div>B</div><div>C</div>");
+        var myVar = setTimeout(function () {
+            var d = window.frames["myframename"].document;
+            $("#demo").html($(d).contents().find("title").html());
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = "/js/ContextMenu.js";
+            //script.innerHTML = '$(document).bind("contextmenu", function (e) {e.preventDefault();alert(2);$("#cntnr").css("left", e.pageX);$("#cntnr").css("top", e.pageY);})';
+
+            //var cssLink = document.createElement("link")
+            //cssLink.href = "/js/ContextMenu.css";
+            //cssLink.rel = "stylesheet";
+            //cssLink.type = "text/css";
+
+            //var style = document.createElement("style");
+            //style.innerHTML = '#items {list-style: none;margin: 5px 0 0 5px;font-size: 20px;} #cntnr {display: none;border: 1px solid grey;position: absolute;width: 150px;background: url("http://cdn.freebievectors.com/illustrations/12/d/dynamic-brilliant-stereo-effects-figure-vector/small-thumb.jpg");}li {border-bottom: 1px solid grey;}#items :hover {background: grey;color: white;}</style>';
+
+            //$("body", d).append("<div id='cntnr'><ul id='items'><li>Item1</li><li>Item2</li><li>Item3</li><li>Item4</li><li>Item5</li></ul></div>");
+            //$("head", d).append(cssLink);
+            $("head", d).append(script);
+
+            /*
+            var doc1 = $("#myframe")[0].contenDocument || $("#myframe")[0].contentWindow.document;
+            $(doc1)).contents().find('body').bind("contextmenu", function (e) { //this is to bind an event to an element
+                e.preventDefault();                 // To prevent the default context menu.
+                $("#cntnr").css("left", e.pageX);   // For updating the menu position.
+                $("#cntnr").css("top", e.pageY);    //
+                $("#cntnr").fadeIn(500, startFocusOut()); //  For bringing the context menu in picture.
+            });*/
+
+            // d.location.reload(true);;
+        }, 5000);
+
+    });
+    /*
+    $(document).bind("contextmenu", function (e) {
+        e.preventDefault();                 // To prevent the default context menu.
+        $("#cntnr").css("left", e.pageX);   // For updating the menu position.
+        $("#cntnr").css("top", e.pageY);    //
+        $("#cntnr").fadeIn(500, startFocusOut()); //  For bringing the context menu in picture.
+    });
+    function startFocusOut() {
+        $(document).on("click", function () {
+            $("#cntnr").hide(500);              // To hide the context menu
+            $(document).off("click");
+        });
+    }
+    $("#items > li").click(function () {
+        $("#op").text("You have selected " + $(this).text());  // Performing the selected function.
+    });*/
+
+</script >
+
+
+
+<iframe id="myframe" name="myframename" src="/browser/Index" width="1200" height="400"></iframe>
+<p id="demo">TEST</p>
+
+<div class="container">
+    <form>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Node1</span>
+                    <textarea id="node1" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Node2</span>
+                    <textarea id="node2" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Next<br /> Page</span>
+                    <textarea id="nextPage" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-addon">Email</span>
+                <textarea id="email" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-addon">Password</span>
+                <textarea id="password" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <button id="startEmail" class="btn btn-primary btn-lg">Email Start</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="cntnr" class="dropdown clearfix">
+    <ul id="items" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+        <li id="itemNode1"><a tabindex="-1" href="#">Job Node1</a></li>
+        <li id="itemNode2"><a tabindex="-1" href="#">Job Node2</a></li>
+        <li id="itemHLight"><a tabindex="-1" href="#">High Light All Nodes</a></li>
+        <li class="divider"></li>
+        <li id="itemNext"><a tabindex="-1" href="#">Next Page</a></li>
+    </ul>
+</div>
+
+<span id="op">TEST</span>
+

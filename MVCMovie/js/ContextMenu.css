@@ -1,0 +1,29 @@
+﻿/*#items {
+    list-style: none;
+    margin: 5px 0 0 5px;
+    font-size: 20px;
+}
+
+#cntnr {
+    display: none;
+    border: 1px solid grey;
+    position: absolute;
+    width: 150px;
+    background: url("http://cdn.freebievectors.com/illustrations/12/d/dynamic-brilliant-stereo-effects-figure-vector/small-thumb.jpg");
+}
+
+li {
+    border-bottom: 1px solid grey;
+}
+
+#items :hover {
+    background: grey;
+    color: white;
+}*/
+
+#cntnr {
+    display:none;
+    position: absolute;
+    z-index: 10000;
+
+}
