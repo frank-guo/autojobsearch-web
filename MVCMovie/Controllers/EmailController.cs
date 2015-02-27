@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,6 +15,8 @@ namespace MVCMovie.Controllers
 
         private const string sendingTime = "16:00";
         private const double interval = 60 * 1000; //one second
+        private string sentDate = "C:/Users/Frank/Documents/Visual Studio 2013/Projects/MVCMovie/sentDate.txt";
+        private string dateFormat = "MM/dd/yy";
 
         // GET: Email
         public ActionResult Index()
@@ -60,6 +63,31 @@ namespace MVCMovie.Controllers
 
         private bool hasSent()
         {
+
+            if (!System.IO.File.Exists(sentDate))
+            {
+                return false;
+            }
+            
+            DateTime dateTime = DateTime.Now;
+            string today = dateTime.ToString(dateFormat);
+
+            using (StreamReader file = new StreamReader(sentDate))
+            {
+                try
+                {
+                    string date = file.ReadLine();
+                    if (date.Equals(today))
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+
             return false;
         }
 
@@ -88,7 +116,6 @@ namespace MVCMovie.Controllers
                 client.Send(mm);
 
                 DateTime dateTime = DateTime.Now;
-                string dateFormat = "MM/dd/yy";
                 string today = dateTime.ToString(dateFormat);
                 setHasSent(today);
             }
@@ -101,7 +128,17 @@ namespace MVCMovie.Controllers
 
         private void setHasSent(string today)
         {
-
+            using (StreamWriter file = new StreamWriter(sentDate))
+            {
+                try
+                {
+                    file.Write(today);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
         }
     }
 }
