@@ -11,6 +11,6 @@ namespace MVCMovie.Models
     {
         public int ID {get; set;}
         public int position { get; set; }
-        public int hasCommonParent { get; set; }
+        public bool hasCommonParent { get; set; }
     }
 }

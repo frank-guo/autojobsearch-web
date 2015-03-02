@@ -109,17 +109,17 @@ namespace MVCMovie.Controllers
                 for (int i = 0; i < listPathNodes.Count; i++)
                 {
 
-                    if (site.ListPathNodes == null || site.ListPathNodes.Count - 1 < i)
+                    if (site.JobPath == null || site.JobPath.Count - 1 < i)
                     {
                         PathNode pn = new PathNode();
                         pn.position = listPathNodes.ElementAt(i).position;
                         pn.hasCommonParent = listPathNodes.ElementAt(i).hasCommonParent;
-                        site.ListPathNodes.Add(pn);
+                        site.JobPath.Add(pn);
                     }
                     else
                     {
-                        site.ListPathNodes.ElementAt(i).position = listPathNodes.ElementAt(i).position;
-                        site.ListPathNodes.ElementAt(i).hasCommonParent = listPathNodes.ElementAt(i).hasCommonParent;
+                        site.JobPath.ElementAt(i).position = listPathNodes.ElementAt(i).position;
+                        site.JobPath.ElementAt(i).hasCommonParent = listPathNodes.ElementAt(i).hasCommonParent;
                     }
                 }
                 db.SaveChanges();
