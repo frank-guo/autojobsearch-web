@@ -103,9 +103,8 @@ namespace MVCMovie.Controllers
 
             EmailProcessor emailProcessor = new EmailProcessor();
 
-            // Create the thread object, passing in the Alpha.Beta method
+            // Create the thread object, passing in the EmailProcessor.sendAllJobs method
             // via a ThreadStart delegate. This does not start the thread.
-            //Thread oThread = new Thread(new ThreadStart(oAlpha.Beta));
 
             var t = new Thread(() => emailProcessor.sendAllJobs(address, password));
 
@@ -147,12 +146,50 @@ namespace MVCMovie.Controllers
                 JobPath.Add(p);
             }
 
-            HtmlElement parent1 = document.GetElementsByTagName("html")[0];
-            HtmlElement node1; 
+            List<Company> companyPath = new List<Company>();
+            foreach (Company p in site.companyPath)
+            {
+                companyPath.Add(p);
+            }
 
-            int i;
+            List<Others> othersPath = new List<Others>();
+            foreach (Others p in site.othersPath)
+            {
+                othersPath.Add(p);
+            }
+
+            //Since use Element, have to start from <html> because document is a node but not element
+            HtmlElement parent1 = document.GetElementsByTagName("html")[0];
+            HtmlElement node1, job1, company;
             HtmlElementCollection children;
 
+            //Caculate the common ancestor of Job1, company and others
+            int levelNoCommonAnstr = 1;     //This refers to the level count from root node which is level 0
+            int i;
+            int maxIdxJobPath = JobPath.Count - 1;
+            int maxIdxCompPath = companyPath.Count - 1;
+
+            do
+            {
+                //start from <html> element, i.e. level 1
+                children = parent1.Children;
+                
+                job1 = children[JobPath[maxIdxJobPath - levelNoCommonAnstr].position];
+                company = children[companyPath[maxIdxCompPath - levelNoCommonAnstr].position];
+                parent1 = job1;
+                levelNoCommonAnstr++;
+            }while(job1 == company);
+
+            //At this point, idxCommonAncestor is 2 larger than the actual index of the common ancestor
+            //since idxCommonAncestor++ at the end of the loop and  job1 already diffs from company before the last idxCommonAncestor++
+            levelNoCommonAnstr -= 2;
+            var idxCommonAnstr = maxIdxJobPath - levelNoCommonAnstr;
+
+
+
+            //Get all the job nodes
+            //First get to the commmon Parent of job1 and job2
+            parent1 = document.GetElementsByTagName("html")[0];
             for (i = JobPath.Count - 2; i >= 0; i--)
             {
                 if (!(JobPath.ElementAt<PathNode>(i).hasCommonParent))
@@ -181,7 +218,7 @@ namespace MVCMovie.Controllers
                 node1 = child;
                 try
                 {
-                    for (; i >= 0; i--)
+                    for (; i >= idxCommonAnstr; i--)
                     {
                         node1 = node1.Children[JobPath.ElementAt<PathNode>(i).position];
                     }
@@ -200,7 +237,7 @@ namespace MVCMovie.Controllers
                 i = startIdx;
                 if (node1 != null)
                 {
-                    body += node1.InnerHtml + "\n";
+                    body += node1.InnerHtml + "\n\n\n\n";
                 }
             }
 

@@ -44,7 +44,7 @@ $("#itemCompany").click(function (e) {
     var listPositions = getNodePath(company);
 
     //Highlight the company node with green using the caculated path
-    hightLightNode(listPositions);
+    hightLightNode(listPositions, 'green');
 
     //Send listPositions to the website to store
     $.ajax({
@@ -57,6 +57,20 @@ $("#itemCompany").click(function (e) {
             alert("send listPositions successfully!");
         }
     });
+
+    //Highlight the company node, the path of which is got from the website, with red
+    var listPostions = [];
+    $.ajax({
+        type: "GET",
+        url: "/Browser/GetCompany",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (lp) {
+            listPostions = lp;
+        }
+    });
+
+    hightLightNode(listPositions, 'red');
 });
 
 $("#itemOthers").click(function (e) {
@@ -67,7 +81,7 @@ $("#itemOthers").click(function (e) {
     var listPositions = getNodePath(others);
 
     //Highlight the company node with green using the caculated path
-    hightLightNode(listPositions);
+    hightLightNode(listPositions, 'green');
 });
 
 $("#itemNext").click(function (e) {
@@ -78,7 +92,7 @@ $("#itemNext").click(function (e) {
     var listPostions = getNodePath(next);
 
     //Highlight the next nodes with color green
-    hightLightNode(listPostions);
+    hightLightNode(listPostions, 'green');
     
 
     //Send listPositions to the website to store
@@ -269,7 +283,7 @@ function getNodePath(node) {
     return listPostions;
 }
 
-function hightLightNode(nodePath) {
+function hightLightNode(nodePath, color) {
     //Highlight the node with color green
     parent1 = doc1;
     var node;
@@ -279,5 +293,5 @@ function hightLightNode(nodePath) {
         parent1 = node;
     }
 
-    $(node).css('background-color', 'green');
+    $(node).css('background-color', color);
 }

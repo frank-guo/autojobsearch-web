@@ -104,6 +104,24 @@ namespace MVCMovie.Controllers
             }
         }
 
+        public JsonResult GeCompany()
+        {
+
+            var qry = from s in db.RecruitingSites
+                      select s;
+            qry = qry.Where(s => s.ID == 1);
+            RecruitingSite site = qry.FirstOrDefault();
+
+            List<int> listCompanyPositions = new List<int>();
+            foreach (Company p in site.companyPath)
+            {
+
+                listCompanyPositions.Add(p.position);
+            }
+
+            return Json(listCompanyPositions, JsonRequestBehavior.AllowGet);
+
+        }
 
         public JsonResult GetNext()
         {
