@@ -1,6 +1,7 @@
 ﻿var doc1 = $("#myframe")[0].contenDocument || $("#myframe")[0].contentWindow.document;
 var targetE;
 var node1, node2, parent1, parent2, child, next;
+var company, others;
 var count = 0;
 $(doc1).bind("contextmenu", function (e) {
     e.preventDefault();// To prevent the default context menu.
@@ -35,50 +36,50 @@ $("#itemNode2").click(function (e) {
     node2 = targetE;
 });
 
+$("#itemCompany").click(function (e) {
+    $("#company").text($(targetE).prop('outerHTML'));
+    company = targetE;
+
+    //Caculate the path for the company node
+    var listPositions = getNodePath(company);
+
+    //Highlight the company node with green using the caculated path
+    hightLightNode(listPositions);
+
+    //Send listPositions to the website to store
+    $.ajax({
+        type: "POST",
+        url: "/Browser/SetCompany",
+        data: JSON.stringify(listPositions),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (json) {
+            alert("send listPositions successfully!");
+        }
+    });
+});
+
+$("#itemOthers").click(function (e) {
+    $("#others").text($(targetE).prop('outerHTML'));
+    others = targetE;
+
+    //Caculate the path for the others node
+    var listPositions = getNodePath(others);
+
+    //Highlight the company node with green using the caculated path
+    hightLightNode(listPositions);
+});
+
 $("#itemNext").click(function (e) {
     $("#nextPage").text($(targetE).prop('outerHTML'));
     next = targetE;
 
-    parent1 = $(next).parent();
-    count = 0;
-    var listPostions = [];
-
-    //All the way get to the root
-    while ($(parent1)[0] != null) {
-        children = $(parent1).children();
-        $(children).each(function () {
-            if (this == $(next)[0]) {
-                return false;
-            }
-            count++;
-        });
-
-        listPostions.push(count);
-
-        $('#op').append("<p></p>");
-        $('#op p').last().text(count.toString() + "     " + $(next).prop('tagName'));
-
-        //Go up one level
-        count = 0;
-        next = parent1;
-        parent1 = $(next).parent();
-    }
+    //Caculate the path for the next node
+    var listPostions = getNodePath(next);
 
     //Highlight the next nodes with color green
-    parent1 = doc1;
-
-    //Get to the common ancestor
-    for (i = listPostions.length - 1; i >= 0 ; i--) {
-        next = $(parent1).children().eq(listPostions[i]);
-
-        $('#op').append("<p></p>");
-        $('#op p').last().text(listPostions[i].toString() + "    " + $(next).prop('tagName'));
-
-        parent1 = next;       
-    }
-
-    $(next).css('background-color', 'green');
-
+    hightLightNode(listPostions);
+    
 
     //Send listPositions to the website to store
     $.ajax({
@@ -92,7 +93,7 @@ $("#itemNext").click(function (e) {
         }
     });
 
-    //Highlight the next nodes with color red
+    //Highlight the next nodes, the path of which is got from the website, with red
     var listPositions = [];
     $.ajax({
         type: "GET",
@@ -242,3 +243,41 @@ $("#itemHLight").click(function (e) {
     });
 });
 
+function getNodePath(node) {
+    parent1 = $(node).parent();
+    count = 0;
+    var listPostions = [];
+
+    //All the way get to the root
+    while ($(parent1)[0] != null) {
+        children = $(parent1).children();
+        $(children).each(function () {
+            if (this == $(node)[0]) {
+                return false;
+            }
+            count++;
+        });
+
+        listPostions.push(count);
+
+        //Go up one level
+        count = 0;
+        node = parent1;
+        parent1 = $(node).parent();
+    }
+
+    return listPostions;
+}
+
+function hightLightNode(nodePath) {
+    //Highlight the node with color green
+    parent1 = doc1;
+    var node;
+
+    for (i = nodePath.length - 1; i >= 0 ; i--) {
+        node = $(parent1).children().eq(nodePath[i]);
+        parent1 = node;
+    }
+
+    $(node).css('background-color', 'green');
+}

@@ -71,6 +71,40 @@ namespace MVCMovie.Controllers
             }
         }
 
+        [HttpPost]
+        public void SetCompany(List<int> listCompanyPositions)
+        {
+            if (listCompanyPositions == null)
+            {
+                return;
+            }
+
+            if (ModelState.IsValid)
+            {
+                var qry = from s in db.RecruitingSites
+                          select s;
+                qry = qry.Where(s => s.ID == 1);
+                RecruitingSite site = qry.FirstOrDefault();
+
+                for (int i = 0; i < listCompanyPositions.Count; i++)
+                {
+
+                    if (site.companyPath == null || site.companyPath.Count - 1 < i)
+                    {
+                        Company cp = new Company();
+                        cp.position = listCompanyPositions.ElementAt(i);
+                        site.companyPath.Add(cp);
+                    }
+                    else
+                    {
+                        site.companyPath.ElementAt(i).position = listCompanyPositions.ElementAt(i);
+                    }
+                }
+                db.SaveChanges();
+            }
+        }
+
+
         public JsonResult GetNext()
         {
 

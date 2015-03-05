@@ -19,6 +19,10 @@ namespace MVCMovie.Models
         public virtual IList<NextPosition> ListNextPositions { get; set; }
 
         public virtual IList<PathNode> JobPath { get; set; }
+
+        public virtual IList<Company> companyPath { get; set; }
+
+        public virtual IList<Others> othersPath { get; set; }
     }
 
     public class RecruitingSiteDBContext : DbContext

@@ -174,6 +174,7 @@ namespace MVCMovie.Controllers
             //Get all the job title nodes
             var startIdx = --i;
             children = parent1.Children;
+            bool isToday = true;
 
             foreach (HtmlElement child in children)
             {
@@ -192,6 +193,9 @@ namespace MVCMovie.Controllers
                 {
                     Console.WriteLine(ex.ToString());
                 }
+
+                //check if it is still today's job
+
 
                 i = startIdx;
                 if (node1 != null)
