@@ -24,6 +24,8 @@ namespace MVCMovie.Controllers
         private string sentDate = "C:/Users/Frank/Documents/Visual Studio 2013/Projects/MVCMovie/sentDate.txt";
         private string dateFormat = "MM/dd/yy";
         private RecruitingSite site;
+        private HtmlDocument document;
+        private HtmlElement htmlElement;
 
         public EmailProcessor()
         {
@@ -33,14 +35,19 @@ namespace MVCMovie.Controllers
         // This method that will be called when the thread is started
         public void sendAllJobs(string address, string password)
         {
-            WebClient client = new WebClient();
-            string html = client.DownloadString(site.url);
             WebBrowser browser = new WebBrowser();
+            WebClient client = new WebClient();
             browser.ScriptErrorsSuppressed = true;
-            browser.Url = new Uri("about:blank"); ;
-            HtmlDocument document = browser.Document.OpenNew(true);
-            document.Write(html);
 
+            //If don't set Url about:blank, browser.Document will be null, which causes a null reference exception
+            //Since there is no actual form there.
+            //ToDo: Subscribe to the webBrowser.DocumentCompleted event so document could be loaded.
+            //Refer to http://stackoverflow.com/questions/9925022/webbrowser-document-is-always-null
+            browser.Url = new Uri("about:blank");
+            
+
+            string html;
+            
             string body = "";
 
             List<PathNode> JobPath = new List<PathNode>();
@@ -57,97 +64,173 @@ namespace MVCMovie.Controllers
 
             List<Others> othersPath = getOthers();
 
-            //Since use Element, have to start from <html> because document is a node but not element
-            HtmlElement parent1 = document.GetElementsByTagName("html")[0];
-            HtmlElement node1, job1, company;
-            HtmlElementCollection children;
 
-            //Caculate the common ancestor of Job1, company and others
-            int levelNoCommonAnstr = 1;     //This refers to the level count from the child of html node
-                                            //html node is actually level 0
-            int i;
-            int maxIdxJobPath = JobPath.Count - 1;
-            int maxIdxCompPath = companyPath.Count - 1;
+            
+            //bool isToday = true;
 
-            do
+            string url = site.url;
+
+            while (true)
             {
-                //start from <html> element, i.e. level 1
+
+                html = client.DownloadString(url);
+                document = browser.Document.OpenNew(true);
+                document.Write(html);
+                htmlElement = document.GetElementsByTagName("html")[0];
+
+                //Since use Element, have to start from <html> because document is a node but not element
+                HtmlElement parent1 = htmlElement;
+                HtmlElement node1, job1, company;
+                HtmlElementCollection children;
+
+                //Caculate the common ancestor of Job1, company and others
+                int levelNoCommonAnstr = 1;     //This refers to the level count from the child of html node
+                //html node is actually level 0
+                int i;
+                int maxIdxJobPath = JobPath.Count - 1;
+                int maxIdxCompPath = companyPath.Count - 1;
+
+                do
+                {
+                    //start from <html> element, i.e. level 1
+                    children = parent1.Children;
+
+                    job1 = children[JobPath[maxIdxJobPath - levelNoCommonAnstr].position];
+                    company = children[companyPath[maxIdxCompPath - levelNoCommonAnstr].position];
+                    parent1 = job1;
+                    levelNoCommonAnstr++;
+                } while (job1 == company);
+
+                //At this point, levelNoCommonAnstr is 2 larger than the actual index of the common ancestor
+                //since levelNoCommonAnstr++ at the end of the loop and  job1 already diffs from company before the last levelNoCommonAnstr++
+                levelNoCommonAnstr -= 2;
+                var idxCommonAnstr = maxIdxJobPath - levelNoCommonAnstr;
+
+
+
+                //Get all the job nodes
+                //First get to the commmon Parent of job1 and job2
+                parent1 = document.GetElementsByTagName("html")[0];
+                for (i = JobPath.Count - 2; i >= 0; i--)
+                {
+                    if (!(JobPath.ElementAt<PathNode>(i).hasCommonParent))
+                    {
+                        //Get the child of parent1 at the position
+                        children = parent1.Children;
+                        node1 = children[JobPath.ElementAt<PathNode>(i).position];
+
+                        parent1 = node1;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                //parent1 is currently at th level of the common ancestor
+                //i is currently at the level one lower than the common ancestor
+                //Get all the job title nodes
+                var startIdx = --i;
                 children = parent1.Children;
 
-                job1 = children[JobPath[maxIdxJobPath - levelNoCommonAnstr].position];
-                company = children[companyPath[maxIdxCompPath - levelNoCommonAnstr].position];
-                parent1 = job1;
-                levelNoCommonAnstr++;
-            } while (job1 == company);
-
-            //At this point, levelNoCommonAnstr is 2 larger than the actual index of the common ancestor
-            //since levelNoCommonAnstr++ at the end of the loop and  job1 already diffs from company before the last levelNoCommonAnstr++
-            levelNoCommonAnstr -= 2;
-            var idxCommonAnstr = maxIdxJobPath - levelNoCommonAnstr;
-
-
-
-            //Get all the job nodes
-            //First get to the commmon Parent of job1 and job2
-            parent1 = document.GetElementsByTagName("html")[0];
-            for (i = JobPath.Count - 2; i >= 0; i--)
-            {
-                if (!(JobPath.ElementAt<PathNode>(i).hasCommonParent))
+                //Iterate all the immediate children of the common ancestor of job1 and job2  to get all the jobs
+                foreach (HtmlElement child in children)
                 {
-                    //Get the child of parent1 at the position
-                    children = parent1.Children;
-                    node1 = children[JobPath.ElementAt<PathNode>(i).position];
+                    node1 = child;
+                    try
+                    {
+                        for (; i >= idxCommonAnstr; i--)
+                        {
+                            node1 = node1.Children[JobPath.ElementAt<PathNode>(i).position];
+                        }
 
-                    parent1 = node1;
+                        if (node1 != null)
+                        {
+                            if (!isTodayJob(node1, levelNoCommonAnstr))
+                            {
+                                goto sending;
+                            }
+
+                            //node1 is currently the common ancestor of joba and company
+                            body += node1.InnerHtml + "\n\n\n\n";
+                        }
+                    }
+                    //Some of branches of the common ancestor of Node1 and Node2 might not be the job title,
+                    //e.g. The leaf of the first branch on T-Net is a img tag.
+                    //Thus, this case may throw out an out-of-bound excpetion
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+
+                    //check if it is still today's job
+                    i = startIdx;
                 }
-                else
+
+                url = getNextUrl().Substring(6);    //delete "about:"
+
+                if (!url.StartsWith("http"))
+                {
+                    int count = 0;
+                    int j = 0;
+
+                    for (; j <= site.url.Length - 1 && count < 3; j++)
+                    {
+
+                        if (site.url.ElementAt<char>(j) == '/')
+                        {
+                            count++;
+                        }
+                    }
+
+                    //At this point, j points to the char right after the third '/'
+                    //j-1 represents the length of the substring ahead of the third '/'
+                    string preStr = site.url.Substring(0, j - 1);
+                    url = preStr + url;
+
+                }
+
+                if ( url == null)
                 {
                     break;
                 }
-            }
-
-            //parent1 is currently at th level of the common ancestor
-            //i is currently at the level one lower than the common ancestor
-            //Get all the job title nodes
-            var startIdx = --i;
-            children = parent1.Children;
-            //bool isToday = true;
-
-            //Iterate all the immediate children of the common ancestor of job1 and job2  to get all the jobs
-            foreach (HtmlElement child in children)
-            {
-                node1 = child;
-                try
-                {
-                    for (; i >= idxCommonAnstr; i--)
-                    {
-                        node1 = node1.Children[JobPath.ElementAt<PathNode>(i).position];
-                    }
-
-
-                    //node1 is currently the common ancestor of joba and company
-                    if (node1 != null && isTodayJob(node1, levelNoCommonAnstr))
-                    {
-                        body += node1.InnerHtml + "\n\n\n\n";
-                    }
-                }
-                //Some of branches of the common ancestor of Node1 and Node2 might not be the job title,
-                //e.g. The leaf of the first branch on T-Net is a img tag.
-                //Thus, this case may throw out an out-of-bound excpetion
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-
-                //check if it is still today's job
-
-
-                i = startIdx;
 
             }
 
+            sending:
             sendEmail(address, password, body);
 
+        }
+
+        private string getNextUrl()
+        {
+            List<NextPosition> nextPath = getNext();
+            HtmlElement parent = htmlElement;
+            HtmlElement node = null;
+
+            for (int i = nextPath.Count - 2; i >= 0; i--)
+            {
+                node = parent.Children[nextPath[i].position];
+                parent = node;
+            }
+
+            if ( node != null )
+            {
+                return node.GetAttribute("href");
+            }
+
+            return null;
+        }
+
+        private List<NextPosition> getNext()
+        {
+            List<NextPosition> nextPath = new List<NextPosition>();
+            foreach (NextPosition p in site.ListNextPositions)
+            {
+                nextPath.Add(p);
+            }
+
+            return nextPath;
         }
 
         private List<Others> getOthers()

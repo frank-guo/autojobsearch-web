@@ -317,9 +317,6 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controllers\EmailController.resx">
-      <DependentUpon>EmailController.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201501110527079_Initial.resx">
       <DependentUpon>201501110527079_Initial.cs</DependentUpon>
     </EmbeddedResource>
