@@ -123,6 +123,61 @@ namespace MVCMovie.Controllers
 
         }
 
+        [HttpPost]
+        public void SetOthers(List<int> listOthersPositions)
+        {
+            if (listOthersPositions == null)
+            {
+                return;
+            }
+
+            if (ModelState.IsValid)
+            {
+                var qry = from s in db.RecruitingSites
+                          select s;
+                qry = qry.Where(s => s.ID == 1);
+                RecruitingSite site = qry.FirstOrDefault();
+
+                for (int i = 0; i < listOthersPositions.Count; i++)
+                {
+
+                    if (site.othersPath == null || site.othersPath.Count - 1 < i)
+                    {
+                        //Create new others and add to othersPath if there is no othersPath
+                        //or the current othersPath is shorter than the new one
+                        Others op = new Others();
+                        op.position = listOthersPositions.ElementAt(i);
+                        site.othersPath.Add(op);
+                    }
+                    else
+                    {
+                        //Overwrite the current othersPath
+                        site.othersPath.ElementAt(i).position = listOthersPositions.ElementAt(i);
+                    }
+                }
+                db.SaveChanges();
+            }
+        }
+
+        public JsonResult GetOthers()
+        {
+
+            var qry = from s in db.RecruitingSites
+                      select s;
+            qry = qry.Where(s => s.ID == 1);
+            RecruitingSite site = qry.FirstOrDefault();
+
+            List<int> listOthersPositions = new List<int>();
+            foreach (Others p in site.othersPath)
+            {
+
+                listOthersPositions.Add(p.position);
+            }
+
+            return Json(listOthersPositions, JsonRequestBehavior.AllowGet);
+
+        }
+
         public JsonResult GetNext()
         {
 

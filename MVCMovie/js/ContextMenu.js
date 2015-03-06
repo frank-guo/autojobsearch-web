@@ -82,6 +82,32 @@ $("#itemOthers").click(function (e) {
 
     //Highlight the company node with green using the caculated path
     hightLightNode(listPositions, 'green');
+
+    //Send listPositions to the website to store
+    $.ajax({
+        type: "POST",
+        url: "/Browser/SetOthers",
+        data: JSON.stringify(listPositions),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (json) {
+            alert("send listPositions successfully!");
+        }
+    });
+
+    //Highlight the company node, the path of which is got from the website, with red
+    var listPostions = [];
+    $.ajax({
+        type: "GET",
+        url: "/Browser/GetOthers",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (lp) {
+            listPostions = lp;
+        }
+    });
+
+    hightLightNode(listPositions, 'red');
 });
 
 $("#itemNext").click(function (e) {
