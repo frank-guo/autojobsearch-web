@@ -27,3 +27,13 @@ li {
     z-index: 10000;
 
 }
+
+.buttonBox {
+    position: absolute;
+    bottom:0;
+    right:0;
+}
+
+.row {
+    position: relative;
+}

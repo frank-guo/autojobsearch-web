@@ -50,21 +50,11 @@ namespace MVCMovie.Controllers
             
             string body = "";
 
-            List<PathNode> JobPath = new List<PathNode>();
-            foreach (PathNode p in site.JobPath)
-            {
-                JobPath.Add(p);
-            }
+            List<PathNode> JobPath = getJobPath();
 
-            List<Company> companyPath = new List<Company>();
-            foreach (Company p in site.companyPath)
-            {
-                companyPath.Add(p);
-            }
+            List<Company> companyPath = getCompanyPath();
 
             List<Others> othersPath = getOthers();
-
-
             
             //bool isToday = true;
 
@@ -152,7 +142,8 @@ namespace MVCMovie.Controllers
                             }
 
                             //node1 is currently the common ancestor of joba and company
-                            body += node1.InnerHtml + "\n\n\n\n";
+                            body += getJobTitleNode(node1, levelNoCommonAnstr).InnerText + " " + getCompanyNameNode(node1, levelNoCommonAnstr).InnerText
+                                + " " + getOtherInfo(node1, levelNoCommonAnstr).InnerText + "\n\n\n";
                         }
                     }
                     //Some of branches of the common ancestor of Node1 and Node2 might not be the job title,
@@ -200,6 +191,81 @@ namespace MVCMovie.Controllers
             sending:
             sendEmail(address, password, body);
 
+        }
+
+
+        private List<PathNode> getJobPath()
+        {
+            List<PathNode> JobPath = new List<PathNode>();
+
+            foreach (PathNode p in site.JobPath)
+            {
+                JobPath.Add(p);
+            }
+
+            return JobPath;
+        }
+
+        private List<Company> getCompanyPath()
+        {
+            List<Company> companyPath = new List<Company>();
+
+            foreach (Company p in site.companyPath)
+            {
+                companyPath.Add(p);
+            }
+
+            return companyPath;
+        }
+
+        //Given the common ancestor of job1, company and others, Get the Node of this job title
+        private HtmlElement getJobTitleNode(HtmlElement commonAncestor, int levelNoCommonAnstr)
+        {
+            List<PathNode> jobPath = getJobPath();
+
+            if (jobPath.Count == 0)
+            {
+                return null;
+            }
+            
+            int idxCommonAnstr = (jobPath.Count - 1) - levelNoCommonAnstr;  //To get the index of common anstr, (jobPath.Count -1) has to be used here
+                                                                            //since levelNoCommonAnstr actually starts from 0, like an index
+
+            var node = commonAncestor;
+            HtmlElementCollection children;
+
+            for (int i = idxCommonAnstr - 1; i >= 0; i--)
+            {
+                children = node.Children;
+                node = children[jobPath[i].position];
+            }
+
+            return node;
+        }
+
+        //Given the common ancestor of job1, company and others, Get the Node of this job company
+        private HtmlElement getCompanyNameNode(HtmlElement commonAncestor, int levelNoCommonAnstr)
+        {
+            List<Company> companyPath = getCompanyPath();
+
+            if (companyPath.Count == 0)
+            {
+                return null;
+            }
+
+            int idxCommonAnstr = (companyPath.Count - 1) - levelNoCommonAnstr;  //To get the index of common anstr, (companyPath.Count -1) has to be used here
+                                                                                //since levelNoCommonAnstr actually starts from 0, like an index
+
+            var node = commonAncestor;
+            HtmlElementCollection children;
+
+            for (int i = idxCommonAnstr - 1; i >= 0; i--)
+            {
+                children = node.Children;
+                node = children[companyPath[i].position];
+            }
+
+            return node;
         }
 
         private string getNextUrl()
@@ -258,8 +324,9 @@ namespace MVCMovie.Controllers
         //Given the common ancestor of job1, company and others, tell if the job is for today
         private bool isTodayJob(HtmlElement commonAncestor, int levelNoCommonAnstr)
         {
-            string others = getOtherInfo(commonAncestor, levelNoCommonAnstr);
-            if (others.Contains("Today"))
+            HtmlElement others = getOtherInfo(commonAncestor, levelNoCommonAnstr);
+
+            if (others.InnerText.Contains("Today"))
             {
                 return true;
             }
@@ -267,9 +334,15 @@ namespace MVCMovie.Controllers
         }
 
         //Given the common ancestor of job1, company and others, Get the other info of this job
-        private string getOtherInfo(HtmlElement commonAncestor, int levelNoCommonAnstr)
+        private HtmlElement getOtherInfo(HtmlElement commonAncestor, int levelNoCommonAnstr)
         {
             List<Others> othersPath = getOthers();
+
+            if (othersPath.Count == 0)
+            {
+                return null;
+            }
+
             int idxCommonAnstr = (othersPath.Count - 1) - levelNoCommonAnstr;   //To get the index of common anstr, (othersPath.Count -1) has to be used here
                                                                                 //since levelNoCommonAnstr actually starts from 0, like an index
 
@@ -282,7 +355,7 @@ namespace MVCMovie.Controllers
                 node = children[othersPath[i].position];
             }
 
-            return node.InnerText;
+            return node;
         }
 
         private void sendEmail(string address, string password, string body)

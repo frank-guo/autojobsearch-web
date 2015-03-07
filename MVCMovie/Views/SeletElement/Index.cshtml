@@ -55,6 +55,17 @@
             });
         });
 
+        $('#containLinks').click(function () {
+            //show the text box to help find job1's link
+            if (this.checked) {
+                $("#locateJob1Link").removeAttr("disabled");
+            }
+
+            if (!this.checked) {
+                $("#locateJob1Link").attr("disabled", "disabled")
+            }
+        });
+
     });
 
     function checkIframeLoaded() {
@@ -75,6 +86,18 @@
 
     }
 </script >
+
+<style>
+    .buttonBox {
+    position: absolute;
+    bottom:0;
+    right:0;
+    }
+
+    .row {
+    position: relative;
+    }
+</style>
 
 
 
@@ -121,6 +144,32 @@
             </div>
         </fieldset>
     </form>
+
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="checkbox">
+                <label><input type="checkbox" id="containLinks"> Contain job links in email</label>
+            </div>
+        </div>
+    </div>
+
+    <fieldset disabled="disabled" id="locateJob1Link">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">Job1</span>
+                    <textarea id="node1" class="form-control"></textarea>
+                </div>              
+            </div>
+            @*here must be col-md-8, othewise the button will not next the textarea. 
+                The btn-primary will take care of the button width*@
+            <div class="col-md-8 buttonBox">
+                    <button id="goUp" class="btn btn-primary ">Go up one level</button>
+            </div>
+        </div>
+    </fieldset>
+
     <br />
     <div class="row">
         <div class="col-md-4">
@@ -135,7 +184,7 @@
                 <input id="password" type="password" class="form-control" value="" />
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
             <div class="input-group">
                 <button id="startEmail" class="btn btn-primary">Turn on Sending Email</button>
             </div>
