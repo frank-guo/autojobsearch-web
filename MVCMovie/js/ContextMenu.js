@@ -1,6 +1,7 @@
 ﻿var doc1 = $("#myframe")[0].contenDocument || $("#myframe")[0].contentWindow.document;
 var targetE;
 var node1, node2, job1Link, parent1, parent2, child, next;
+var nodeListOfJob1 = [];
 var levelNoLinkHigherJob1 = 0;
 var company, others;
 var count = 0;
@@ -162,23 +163,36 @@ $("#itemNext").click(function (e) {
 });
 
 $("#goUp").click(function (e) {
-    //Get the job path
-    /*var listPositions = [];
-    $.ajax({
-        type: "GET",
-        url: "/Browser/GetJobs",
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function (lp) {
-            listPostions = lp;
-        }
-    });*/
-
     if (job1Link != null) {
+        nodeListOfJob1.push(job1Link);
         job1Link = $(job1Link).parent();
         $("#job1link").text($(job1Link).prop('outerHTML'));
 
         levelNoLinkHigherJob1++;
+
+        var levelNo = { "levelNoLinkHigherJob1": levelNoLinkHigherJob1 };
+        var levelNoJson = JSON.stringify(levelNo);
+
+        $.ajax({
+            type: "POST",
+            url: "/Browser/SetLevelNo",
+            data: levelNoJson,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (json) {
+                alert("send listPositions successfully!");
+            }
+        });
+
+    }
+});
+
+$("#goDown").click(function (e) {
+    if (nodeListOfJob1.length != 0) {
+        job1Link = nodeListOfJob1.pop();
+        $("#job1link").text($(job1Link).prop('outerHTML'));
+
+        levelNoLinkHigherJob1--;
 
         var levelNo = { "levelNoLinkHigherJob1": levelNoLinkHigherJob1 };
         var levelNoJson = JSON.stringify(levelNo);
