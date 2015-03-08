@@ -1,6 +1,7 @@
 ﻿var doc1 = $("#myframe")[0].contenDocument || $("#myframe")[0].contentWindow.document;
 var targetE;
-var node1, node2, parent1, parent2, child, next;
+var node1, node2, job1Link, parent1, parent2, child, next;
+var levelNoLinkHigherJob1 = 0;
 var company, others;
 var count = 0;
 $(doc1).bind("contextmenu", function (e) {
@@ -28,7 +29,10 @@ function startFocusOut() {
 $("#itemNode1").click(function (e) {
     //$("#op").text("You have selected " + $(targetE).prop('outerHTML'));
     $("#node1").text($(targetE).prop('outerHTML'));
+    $("#job1link").text($(targetE).prop('outerHTML'));
     node1 = targetE;
+    job1Link = node1;
+    levelNoLinkHigherJob1 = 0;
 });
 
 $("#itemNode2").click(function (e) {
@@ -157,6 +161,42 @@ $("#itemNext").click(function (e) {
 
 });
 
+$("#goUp").click(function (e) {
+    //Get the job path
+    /*var listPositions = [];
+    $.ajax({
+        type: "GET",
+        url: "/Browser/GetJobs",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (lp) {
+            listPostions = lp;
+        }
+    });*/
+
+    if (job1Link != null) {
+        job1Link = $(job1Link).parent();
+        $("#job1link").text($(job1Link).prop('outerHTML'));
+
+        levelNoLinkHigherJob1++;
+
+        var levelNo = { "levelNoLinkHigherJob1": levelNoLinkHigherJob1 };
+        var levelNoJson = JSON.stringify(levelNo);
+
+        $.ajax({
+            type: "POST",
+            url: "/Browser/SetLevelNo",
+            data: levelNoJson,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (json) {
+                alert("send listPositions successfully!");
+            }
+        });
+
+    }
+});
+
 $("#itemHLight").click(function (e) {
     var listOfNodes = [];
 
@@ -177,9 +217,6 @@ $("#itemHLight").click(function (e) {
             count++;
         });
 
-        //child = $(parent1).children(":first");
-        //$('#demo').text($(child).prop('outerHTML'));
-
         pathNode = new Object();
         pathNode.position = count;
         pathNode.hasCommonParent = false;
@@ -188,15 +225,11 @@ $("#itemHLight").click(function (e) {
         $('#op').append("<p></p>");
         $('#op p').last().text(pathNode.hasCommonParent.toLocaleString() + "   " + pathNode.position.toString() + $(node1).prop('tagName'));
 
-        //debugger;
         count = 0;
         node1 = parent1;
         node2 = parent2;
         parent1 = $(node1).parent();
         parent2 = $(node2).parent();
-
-        //$('#op').text($(children).prop('outerHTML'));
-
     }
 
     //All the way get to the root
@@ -240,10 +273,6 @@ $("#itemHLight").click(function (e) {
     for (i = listOfNodes.length-1; i>=0 ; i--) {
         if (!listOfNodes[i].hasCommonParent) {
             node1 = $(parent1).children().eq(listOfNodes[i].position);
-
-            $('#op').append("<p></p>");
-            $('#op p').last().text(listOfNodes[i].hasCommonParent.toLocaleString() + "   " + listOfNodes[i].position.toString() + "    " + $(node1).prop('tagName'));
-
             parent1 = node1;
         }
         else {
@@ -255,14 +284,14 @@ $("#itemHLight").click(function (e) {
     //parent1 is currently at th level of the common ancestor
     //i is currently at the level one lower than the common ancestor
     //Get all the job title nodes
-    debugger;
     startI = --i;
     children = $(parent1).children();
     $(children).each(function () {
         node1 = $(this);
         for (; i >= 0; i--) {
-            $('#op').append("<p></p>");
-            $('#op p').last().text(listOfNodes[i].hasCommonParent.toLocaleString() + "   " + listOfNodes[i].position.toString() + "    " + $(node1).prop('tagName'));
+            //$('#op').append("<p></p>");
+            //$('#op p').last().text(listOfNodes[i].hasCommonParent.toLocaleString() + "   "
+            //    + listOfNodes[i].position.toString() + "    " + $(node1).prop('tagName'));
 
             node1 = $(node1).children().eq(listOfNodes[i].position);
         }

@@ -11,6 +11,7 @@ namespace MVCMovie.Controllers
     public class BrowserController : Controller
     {
         private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
+        private const int defaultSiteID = 1;
 
         [HttpPost]
         public void SetURL(string url)
@@ -231,6 +232,43 @@ namespace MVCMovie.Controllers
                 }
                 db.SaveChanges();
             }
+        }
+
+        //[HttpPost]
+        public void SetLevelNo(int levelNoLinkHigherJob1)
+        {
+            if (ModelState.IsValid)
+            {
+                var qry = from s in db.RecruitingSites
+                          select s;
+                qry = qry.Where(s => s.ID == defaultSiteID);
+                RecruitingSite site = qry.FirstOrDefault();
+
+                site.levelNoLinkHigherJob1 = levelNoLinkHigherJob1;
+                db.SaveChanges();
+            }
+        }
+
+        //ToDo: This method has not be tested
+        public JsonResult GetJobs()
+        {
+
+            var qry = from s in db.RecruitingSites
+                      select s;
+            qry = qry.Where(s => s.ID == 1);
+            RecruitingSite site = qry.FirstOrDefault();
+
+            List<PathNode> jobsPath = new List<PathNode>();
+            foreach (PathNode p in site.JobPath)
+            {
+                PathNode pn = new PathNode();
+                pn.position = p.position;
+                pn.hasCommonParent = p.hasCommonParent;
+                jobsPath.Add(pn);
+            }
+
+            return Json(jobsPath, JsonRequestBehavior.AllowGet);
+
         }
 
         public string Index()

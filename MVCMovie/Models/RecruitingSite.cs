@@ -16,6 +16,8 @@ namespace MVCMovie.Models
         [Required]
         public string url { get; set; }
 
+        public int levelNoLinkHigherJob1 {get; set; }
+
         public virtual IList<NextPosition> ListNextPositions { get; set; }
 
         public virtual IList<PathNode> JobPath { get; set; }

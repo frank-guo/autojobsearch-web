@@ -143,7 +143,17 @@ namespace MVCMovie.Controllers
 
                             //node1 is currently the common ancestor of joba and company
                             body += getJobTitleNode(node1, levelNoCommonAnstr).InnerText + " " + getCompanyNameNode(node1, levelNoCommonAnstr).InnerText
-                                + " " + getOtherInfo(node1, levelNoCommonAnstr).InnerText + "\n\n\n";
+                                + " " + getOtherInfo(node1, levelNoCommonAnstr).InnerText
+                                + "\n" + getBaseUrl(site.url);
+
+                            //Append jobs' links to the email body
+                            HtmlElement jobLink = getJobTitleNode(node1, levelNoCommonAnstr);
+                            //Iterate to the parent link node of this job
+                            for (int l = 0; l < site.levelNoLinkHigherJob1; l++)
+                            {
+                                jobLink = jobLink.Parent;
+                            }
+                            body += jobLink.GetAttribute("href").Substring(6) + "\n\n\n";
                         }
                     }
                     //Some of branches of the common ancestor of Node1 and Node2 might not be the job title,
@@ -162,21 +172,7 @@ namespace MVCMovie.Controllers
 
                 if (!url.StartsWith("http"))
                 {
-                    int count = 0;
-                    int j = 0;
-
-                    for (; j <= site.url.Length - 1 && count < 3; j++)
-                    {
-
-                        if (site.url.ElementAt<char>(j) == '/')
-                        {
-                            count++;
-                        }
-                    }
-
-                    //At this point, j points to the char right after the third '/'
-                    //j-1 represents the length of the substring ahead of the third '/'
-                    string preStr = site.url.Substring(0, j - 1);
+                    string preStr = getBaseUrl(site.url);
                     url = preStr + url;
 
                 }
@@ -191,6 +187,32 @@ namespace MVCMovie.Controllers
             sending:
             sendEmail(address, password, body);
 
+        }
+
+        private string getBaseUrl(string url)
+        {
+            string baseUrl = null;
+
+            if (url != null && url.StartsWith("http"))
+            {
+                int count = 0;
+                int j = 0;
+
+                for (; j <= site.url.Length - 1 && count < 3; j++)
+                {
+
+                    if (site.url.ElementAt<char>(j) == '/')
+                    {
+                        count++;
+                    }
+                }
+
+                //At this point, j points to the char right after the third '/'
+                //j-1 represents the length of the substring ahead of the third '/'
+                baseUrl = site.url.Substring(0, j - 1);
+            }
+
+            return baseUrl;
         }
 
 
