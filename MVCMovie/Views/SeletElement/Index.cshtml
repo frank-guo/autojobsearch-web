@@ -12,7 +12,8 @@
 </script>
 
 <script >
-    //debugger;
+    var titleNo = 1;
+    var locationNo = 1;
     $(document).ready(function () {
         //var d = $("#myframe")[0].contentDocument; // contentWindow works in IE7 and FF
 
@@ -66,6 +67,25 @@
             }
         });
 
+        
+        $('#addOneCond').click(function () {
+            titleNo++;
+            var id = "inputTitle" + titleNo;
+            $("#condRow").append('<div class="col-md-1"><label for="inputTitle">OR</label></div>');
+            var inputNode = '<div class="col-md-2"><input type="text" class="form-control" id="' + id + '" placeholder="Keyword"></div>';
+            $("#condRow").append(inputNode);
+
+        });
+        
+        $('#addLocation').click(function () {
+            locationNo++;
+            var id = "location" + locationNo;
+            $("#locationRow").append('<div class="col-md-1"><label for="inputTitle">OR</label></div>');
+            var locationNode = '<div class="col-md-2"><input type="text" class="form-control" id="' + locationNo + '" placeholder="Vancouver"></div>';
+            $("#locationRow").append(locationNode);
+        });
+
+
     });
 
     function checkIframeLoaded() {
@@ -105,6 +125,7 @@
 <p id="demo">TEST</p>
 
 <div class="container">
+    <h4>Specify Elements for Auto Searching: </h4>
     <form>
         <fieldset disabled="disabled">
             <div class="row">
@@ -173,7 +194,64 @@
         </div>
     </fieldset>
 
+    @*Search Condition Setting*@
     <br />
+    <h4>Search Conditions:</h4>
+    <div class="search">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="inputTitle1">Job Title</label>
+            </div>
+        </div>
+        <div class="row" id="condRow">
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="inputTitle1" placeholder="Keyword">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <button class="btn btn-primary btn-xs" id="addOneCond">Add One</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <label for="location1">Location</label>
+            </div>
+        </div>
+        <div class="row" id="locationRow">
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="location1" placeholder="Keyword">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <button class="btn btn-primary btn-xs" id="addLocation">Add One</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="checkbox">
+                    <label><input type="checkbox"> Today</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="checkbox">
+                    <label><input type="checkbox"> Yesterday </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary">Set Conditions</button>
+            </div>
+        </div>
+    </div>
+
+    @*Email Setting*@
+    <br />
+    <h4>Email Setting:</h4>
     <div class="row">
         <div class="col-md-4">
             <div class="input-group">
