@@ -73,6 +73,57 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
+        public void SetCondition(List<string> titleConds)
+        {
+            if (titleConds == null)
+            {
+                return;
+            }
+
+
+            if (ModelState.IsValid)
+            {
+
+                Condition condition = new Condition();
+                condition.ID = 1;
+                condition.titleConds = new List<TitleCond>();
+
+                var qry = from s in db.Conditions
+                          select s;
+                qry = qry.Where(s => s.ID == 1);
+                Condition cond = qry.FirstOrDefault();
+                
+
+                //The condition of id=1 doesn't exist, and then insert a condition of id=1
+                if (cond == null)
+                {
+                    db.Conditions.Add(condition);
+                }
+                else
+                {
+                    cond.titleConds = new List<TitleCond>(); 
+                }
+                db.SaveChanges();
+
+                //Re-read condition of id =1 
+                qry = qry.Where(s => s.ID == 1);
+                cond = qry.FirstOrDefault();
+
+                for (int i = 0; i < titleConds.Count; i++)
+                {
+                    //If cond.titleConds is null then add titleConds to it
+                    //Or if cond.titleConds is not null but its length is less than titleConds, 
+                    //then the extra part of titleConds is appended to cond.titleConds
+                        TitleCond tc = new TitleCond();
+                        tc.titleCond = titleConds.ElementAt(i);
+                        cond.titleConds.Add(tc);
+                }
+
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPost]
         public void SetCompany(List<int> listCompanyPositions)
         {
             if (listCompanyPositions == null)

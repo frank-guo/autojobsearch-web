@@ -30,6 +30,7 @@ namespace MVCMovie.Models
     public class RecruitingSiteDBContext : DbContext
     {
         public DbSet<RecruitingSite> RecruitingSites { get; set; }
+        public DbSet<Condition> Conditions { get; set; }
     }
 
 }

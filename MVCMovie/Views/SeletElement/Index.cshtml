@@ -85,7 +85,28 @@
             $("#locationRow").append(locationNode);
         });
 
+        $('#setCond').click(function () {
+            debugger;
+            var titleConds = [];
+            for (var i = 1; i <= titleNo; i++) {
+                id = "#inputTitle" + i;
+                var condition = $(id).val();
+                titleConds.push(condition);
+            }
 
+            var titleCondsJson = JSON.stringify(titleConds);
+
+            $.ajax({
+                type: "POST",
+                url: "/Browser/SetCondition",
+                data: titleCondsJson,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    alert(msg);
+                }
+            });
+        });
     });
 
     function checkIframeLoaded() {
@@ -244,7 +265,7 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <button class="btn btn-primary">Set Conditions</button>
+                <button class="btn btn-primary" id="setCond">Set Conditions</button>
             </div>
         </div>
     </div>
