@@ -73,9 +73,12 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
-        public void SetCondition(List<string> titleConds)
+        public void SetCondition(ConditionViewModel condViewModel)
         {
-            if (titleConds == null)
+            List<string> titleConds = condViewModel.titleConds;
+            List<string> locationConds = condViewModel.locationConds;
+
+            if (titleConds == null && locationConds == null)
             {
                 return;
             }
@@ -87,6 +90,7 @@ namespace MVCMovie.Controllers
                 Condition condition = new Condition();
                 condition.ID = 1;
                 condition.titleConds = new List<TitleCond>();
+                condition.locationConds = new List<LocationCond>();
 
                 var qry = from s in db.Conditions
                           select s;
@@ -101,7 +105,8 @@ namespace MVCMovie.Controllers
                 }
                 else
                 {
-                    cond.titleConds = new List<TitleCond>(); 
+                    cond.titleConds = new List<TitleCond>();
+                    cond.locationConds = new List<LocationCond>();
                 }
                 db.SaveChanges();
 
@@ -111,12 +116,16 @@ namespace MVCMovie.Controllers
 
                 for (int i = 0; i < titleConds.Count; i++)
                 {
-                    //If cond.titleConds is null then add titleConds to it
-                    //Or if cond.titleConds is not null but its length is less than titleConds, 
-                    //then the extra part of titleConds is appended to cond.titleConds
                         TitleCond tc = new TitleCond();
                         tc.titleCond = titleConds.ElementAt(i);
                         cond.titleConds.Add(tc);
+                }
+
+                for (int i = 0; i < locationConds.Count; i++)
+                {
+                    LocationCond lc = new LocationCond();
+                    lc.locationCond = locationConds.ElementAt(i);
+                    cond.locationConds.Add(lc);
                 }
 
                 db.SaveChanges();
