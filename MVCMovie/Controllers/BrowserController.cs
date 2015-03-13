@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Net;
@@ -98,15 +99,22 @@ namespace MVCMovie.Controllers
                 Condition cond = qry.FirstOrDefault();
                 
 
+                /*
+                 var qry1 = from s in db.Conditions
+                           where (s.ID == 1)
+                           select s.locationConds;
+                IList<LocationCond> lc1 = qry1.FirstOrDefault();
+                 */
+               
                 //The condition of id=1 doesn't exist, and then insert a condition of id=1
-                if (cond == null)
+                if (cond != null)
                 {
+                    db.Conditions.Remove(cond);
                     db.Conditions.Add(condition);
                 }
                 else
                 {
-                    cond.titleConds = new List<TitleCond>();
-                    cond.locationConds = new List<LocationCond>();
+                    db.Conditions.Add(condition);
                 }
                 db.SaveChanges();
 

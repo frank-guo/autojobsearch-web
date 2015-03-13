@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
@@ -31,6 +32,19 @@ namespace MVCMovie.Models
     {
         public DbSet<RecruitingSite> RecruitingSites { get; set; }
         public DbSet<Condition> Conditions { get; set; }
+
+        
+      protected override void OnModelCreating(DbModelBuilder modelBuilder)
+      {
+        //Specify one-many between Condition and titleConds, and enable cascade delete
+        modelBuilder.Entity<Condition>().HasMany(i => i.titleConds).WithRequired()
+            .WillCascadeOnDelete();
+
+        modelBuilder.Entity<Condition>().HasMany(i => i.locationConds).WithRequired()
+            .WillCascadeOnDelete();
+      }
+
+
     }
 
 }
