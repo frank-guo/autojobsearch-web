@@ -26,6 +26,8 @@ namespace MVCMovie.Controllers
         private RecruitingSite site;
         private HtmlDocument document;
         private HtmlElement htmlElement;
+        private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
+        private const int tmpSiteID = 1;
 
         public EmailProcessor()
         {
@@ -142,18 +144,49 @@ namespace MVCMovie.Controllers
                             }
 
                             //node1 is currently the common ancestor of joba and company
-                            body += getJobTitleNode(node1, levelNoCommonAnstr).InnerText + " " + getCompanyNameNode(node1, levelNoCommonAnstr).InnerText
-                                + " " + getOtherInfo(node1, levelNoCommonAnstr).InnerText
-                                + "\n" + getBaseUrl(site.url);
+                            bool isContainsTitle = false;
+                            bool isContainsLocation = false;
 
-                            //Append jobs' links to the email body
-                            HtmlElement jobLink = getJobTitleNode(node1, levelNoCommonAnstr);
-                            //Iterate to the parent link node of this job
-                            for (int l = 0; l < site.levelNoLinkHigherJob1; l++)
+                            var conds = from s in db.Conditions
+                                            select s;
+                            conds = conds.Where(s => s.ID == tmpSiteID);
+                            Condition cond = conds.FirstOrDefault();
+
+                            //Evaluate title conditions
+                            foreach (var titleCond in cond.titleConds)
                             {
-                                jobLink = jobLink.Parent;
+                                if (getJobTitleNode(node1, levelNoCommonAnstr).InnerText.Contains(titleCond.titleCond))
+                                {
+                                    isContainsTitle = true;
+                                    break;
+                                }
                             }
-                            body += jobLink.GetAttribute("href").Substring(6) + "\n\n\n";
+
+                            //Evaluate location conditions
+                            foreach (var locationCond in cond.locationConds)
+                            {
+                                if ( getOtherInfo(node1, levelNoCommonAnstr).InnerText.Contains(locationCond.locationCond) ) {
+                                    isContainsLocation = true;
+                                    break;
+                                }
+                            }
+
+                            //If this job satisfies the both types of conditions, then concatenate it to the email body
+                            if (isContainsTitle && isContainsLocation)
+                            {
+                                body += getJobTitleNode(node1, levelNoCommonAnstr).InnerText + " " + getCompanyNameNode(node1, levelNoCommonAnstr).InnerText
+                                    + " " + getOtherInfo(node1, levelNoCommonAnstr).InnerText
+                                    + "\n" + getBaseUrl(site.url);
+
+                                //Append jobs' links to the email body
+                                HtmlElement jobLink = getJobTitleNode(node1, levelNoCommonAnstr);
+                                //Iterate to the parent link node of this job
+                                for (int l = 0; l < site.levelNoLinkHigherJob1; l++)
+                                {
+                                    jobLink = jobLink.Parent;
+                                }
+                                body += jobLink.GetAttribute("href").Substring(6) + "\n\n\n";
+                            }
                         }
                     }
                     //Some of branches of the common ancestor of Node1 and Node2 might not be the job title,
