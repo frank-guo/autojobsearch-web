@@ -373,7 +373,7 @@ namespace MVCMovie.Controllers
             }
             string webpageUpdate = webpage;
 
-            if (webpage.Contains("/js/jquery.js"))
+            if (webpage !=null && webpage.Contains("/js/jquery.js"))
             {
 
                 webpageUpdate = webpage.Replace("/js/jquery.js", "http://www.bctechnology.com/js/jquery.js");

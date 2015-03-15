@@ -71,8 +71,8 @@
         $('#addOneCond').click(function () {
             titleNo++;
             var id = "inputTitle" + titleNo;
-            $("#condRow").append('<div class="col-md-1"><label for="inputTitle">OR</label></div>');
-            var inputNode = '<div class="col-md-2"><input type="text" class="form-control" id="' + id + '" placeholder="Keyword"></div>';
+            $("#condRow").append('<div class="myspan btmAlgn"><label class="top5">OR</label></div>');
+            var inputNode = '<div class="col-md-2"><input type="text" class="form-control top5" id="' + id + '" placeholder="Keyword"></div>';
             $("#condRow").append(inputNode);
 
         });
@@ -80,8 +80,8 @@
         $('#addLocation').click(function () {
             locationNo++;
             var id = "location" + locationNo;
-            $("#locationRow").append('<div class="col-md-1"><label for="inputTitle">OR</label></div>');
-            var locationNode = '<div class="col-md-2"><input type="text" class="form-control" id="' + id + '" placeholder="Vancouver"></div>';
+            $("#locationRow").append('<div class="col-md-1"><label class="top5">OR</label></div>');
+            var locationNode = '<div class="col-md-2"><input type="text" class="form-control top5" id="' + id + '" placeholder="City Name"></div>';
             $("#locationRow").append(locationNode);
         });
 
@@ -144,14 +144,55 @@
 
 <style>
     .buttonBox {
-    position: absolute;
-    bottom:0;
-    right:0;
+        position: absolute;     @*relative to the bottom of its container element*@
+        bottom:0;
+        right:0;
     }
 
-    .row {
-    position: relative;
+    .myrow > *
+    {
+        float: none;
+        display: inline-block;   
     }
+
+    .btmAlgn{
+        vertical-align: bottom;
+    }
+
+    .bd{
+        border-style: solid;
+    }
+
+    .btm0{
+        position: absolute;
+        bottom:0;
+    }
+
+    .btmNagtive5{
+        position:relative;  @*relative to normal position*@
+        bottom:-5px;
+    }
+
+    .pad0{
+        padding:0;
+    }
+
+    .top5 { margin-top:5%; }
+
+    .bottom5{
+        margin-bottom: 5px;
+    }
+
+    .fsize50{
+        font-size: 50%;
+    }
+
+    .myspan {
+    width:30px;
+    margin-right:20px;
+}
+
+
 </style>
 
 
@@ -160,149 +201,159 @@
 <p id="demo">TEST</p>
 
 <div class="container">
-    <h4>Specify Elements for Auto Searching: </h4>
-    <form>
-        <fieldset disabled="disabled">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">Job1</span>
-                        <textarea id="node1" class="form-control"></textarea>
+    <div class="panel panel-default">
+        <div class="panel-heading">Specify Elements for Auto Searching: </div>
+        <div class="panel-body">
+            <form>
+                <fieldset disabled="disabled">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Job1</span>
+                                <textarea id="node1" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Job2</span>
+                                <textarea id="node2" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Next<br /> Page</span>
+                                <textarea id="nextPage" class="form-control"></textarea>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">Job2</span>
-                        <textarea id="node2" class="form-control"></textarea>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Company</span>
+                                <textarea id="company" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Others</span>
+                                <textarea id="others" class="form-control"></textarea>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">Next<br /> Page</span>
-                        <textarea id="nextPage" class="form-control"></textarea>
-                    </div>
-                </div>
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">Company</span>
-                        <textarea id="company" class="form-control"></textarea>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">Others</span>
-                        <textarea id="others" class="form-control"></textarea>
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-    </form>
+                </fieldset>
+            </form>
 
-    <br />
-    <div class="row">
-        <div class="col-md-4">
-            <div class="checkbox">
-                <label><input type="checkbox" id="containLinks"> Contain job links in email</label>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="containLinks"> Contain job links in email</label>
+                    </div>
+                </div>
             </div>
+
+            <fieldset disabled="disabled" id="locateJob1Link">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Job1</span>
+                            <textarea id="job1link" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    @*here must be col-md-8, othewise the button will not next the textarea.
+                        The btn-primary will take care of the button width*@
+                    <div class="col-md-8 buttonBox">
+                        <div class="btn-group-vertical">
+                            <button id="goUp" class="btn btn-primary btn-xs">Go up one level</button>
+                            <button id="goDown" class="btn btn-primary btn-xs">Go down one level</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
         </div>
     </div>
 
-    <fieldset disabled="disabled" id="locateJob1Link">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="input-group">
-                    <span class="input-group-addon">Job1</span>
-                    <textarea id="job1link" class="form-control"></textarea>
-                </div>              
-            </div>
-            @*here must be col-md-8, othewise the button will not next the textarea. 
-                The btn-primary will take care of the button width*@
-            <div class="col-md-8 buttonBox">
-                <div class="btn-group-vertical">
-                    <button id="goUp" class="btn btn-primary btn-xs">Go up one level</button>
-                    <button id="goDown" class="btn btn-primary btn-xs">Go down one level</button>
-                </div>
-            </div>
-        </div>
-    </fieldset>
 
     @*Search Condition Setting*@
-    <br />
-    <h4>Search Conditions:</h4>
-    <div class="search">
-        <div class="row">
-            <div class="col-md-2">
-                <label for="inputTitle1">Job Title</label>
-            </div>
-        </div>
-        <div class="row" id="condRow">
-            <div class="col-md-2">
-                <input type="text" class="form-control" id="inputTitle1" placeholder="Keyword">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">
-                <button class="btn btn-primary btn-xs" id="addOneCond">Add One</button>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-2">
-                <label for="location1">Location</label>
-            </div>
-        </div>
-        <div class="row" id="locationRow">
-            <div class="col-md-2">
-                <input type="text" class="form-control" id="location1" placeholder="vancouver">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">
-                <button class="btn btn-primary btn-xs" id="addLocation">Add One</button>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4">
-                <div class="checkbox">
-                    <label><input type="checkbox"> Today</label>
+    <div class="panel panel-default">
+        <div class="panel-heading">Search Conditions:</div>
+        <div class="panel-body">
+            <div class="search">
+                <div class="row">
+                    <div class="col-md-12 btmNagtive5">
+                        <label for="inputTitle1">Job Title</label>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="checkbox">
-                    <label><input type="checkbox"> Yesterday </label>
+                <div class="row myrow" id="condRow">
+                    <div class="col-md-2">
+                        <input type="text" class="form-control top5" id="inputTitle1" placeholder="Keyword">
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <button class="btn btn-primary" id="setCond">Set Conditions</button>
+                <div class="row">
+                    <div class="col-md-2">
+                        <button class="btn btn-primary btn-xs top5 bottom5" id="addOneCond">Add One</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 btmNagtive5">
+                        <label for="location1">Location</label>
+                    </div>
+                </div>
+                <div class="row" id="locationRow">
+                    <div class="col-md-2">
+                        <input type="text" class="form-control top5" id="location1" placeholder="City Name">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <button class="btn btn-primary btn-xs top5" id="addLocation">Add One</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="checkbox">
+                            <label><input type="checkbox"> Today</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="checkbox">
+                            <label><input type="checkbox"> Yesterday </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" id="setCond">Set Conditions</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     @*Email Setting*@
-    <br />
-    <h4>Email Setting:</h4>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="input-group">
-                <span class="input-group-addon">Email</span>
-                <input id="email" class="form-control" value="" />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="input-group">
-                <span class="input-group-addon">Password</span>
-                <input id="password" type="password" class="form-control" value="" />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="input-group">
-                <button id="startEmail" class="btn btn-primary">Turn on Sending Email</button>
+    <div class="panel panel-default">
+        <div class="panel-heading">Email Setting:</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Email</span>
+                        <input id="email" class="form-control" value="" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Password</span>
+                        <input id="password" type="password" class="form-control" value="" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <button id="startEmail" class="btn btn-primary">Turn on Sending Email</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
