@@ -69,18 +69,22 @@
 
         
         $('#addOneCond').click(function () {
+            var lastOrId = "#titleOr" + titleNo;
             titleNo++;
-            var id = "inputTitle" + titleNo;
-            $("#condRow").append('<div class="myspan btmAlgn"><label class="top5">OR</label></div>');
-            var inputNode = '<div class="col-md-2"><input type="text" class="form-control top5" id="' + id + '" placeholder="Keyword"></div>';
-            $("#condRow").append(inputNode);
-
+            var div1 = '<div class="col-md-3 myrow btmAlgn">';
+            var titleDiv = '<div class="col-md-9 left0"><input type="text" class="form-control top5" id="inputTitle'
+                + titleNo + '" placeholder="Keyword" /></div>';
+            var orDiv = '<div class="col-md-3" id="titleOr' + titleNo + '" style="display:none">OR</div>';
+            var endDiv1 = '</div>';
+            var condDiv = div1 + titleDiv + orDiv + endDiv1;
+            $(lastOrId).show();
+            $("#condRow").append(condDiv);
         });
         
         $('#addLocation').click(function () {
             locationNo++;
             var id = "location" + locationNo;
-            $("#locationRow").append('<div class="col-md-1"><label class="top5">OR</label></div>');
+            $("#locationRow").append('<div class="myspan btmAlgn"><label class="top5">OR</label></div>');
             var locationNode = '<div class="col-md-2"><input type="text" class="form-control top5" id="' + id + '" placeholder="City Name"></div>';
             $("#locationRow").append(locationNode);
         });
@@ -152,18 +156,24 @@
     .myrow > *
     {
         float: none;
-        display: inline-block;   
+        position: relative;
+        display: inline-block;   @*Displays an element as an inline-level block container. The inside of this block is 
+                                 formatted as block-level box, and the element itself is formatted as an inline-level box *@
     }
 
-    .btmAlgn{
+    .btmAlgn > *{
         vertical-align: bottom;
+    }
+
+    .middleAlgn > *{
+        vertical-align: middle;
     }
 
     .bd{
         border-style: solid;
     }
 
-    .btm0{
+    .btm0{      @*This works for align OR with title textbox at bottom too, but this is worse than the combination of .myrow and .btmAlgn*@
         position: absolute;
         bottom:0;
     }
@@ -177,7 +187,22 @@
         padding:0;
     }
 
-    .top5 { margin-top:5%; }
+    .top5 
+    { 
+        margin-top:5%; 
+    }
+    .top10 
+    { 
+        margin-top:10%; 
+    }
+    .top20 
+    { 
+        margin-top:20%; 
+    }
+    .top50 
+    { 
+        margin-top:50%; 
+    }
 
     .bottom5{
         margin-bottom: 5px;
@@ -190,7 +215,22 @@
     .myspan {
     width:30px;
     margin-right:20px;
-}
+    }
+
+    .left0{
+        padding-left:0      @*Note: margin-left:0 doesn't work here since margin-left is already 0
+                               alwary try this two when it's not working*@
+    }
+
+    .padBottm0{
+        padding-bottom:0;
+        margin-bottom:-20px;
+    }
+
+      .row 
+      {
+        position: relative;
+      }
 
 
 </style>
@@ -284,9 +324,23 @@
                         <label for="inputTitle1">Job Title</label>
                     </div>
                 </div>
-                <div class="row myrow" id="condRow">
-                    <div class="col-md-2">
-                        <input type="text" class="form-control top5" id="inputTitle1" placeholder="Keyword">
+                <div class="row " id="condRow">
+                    <div class="col-md-3 myrow btmAlgn">
+                        <div class="col-md-9 left0">
+                            <input type="text" class="form-control top5" id="inputTitle1" placeholder="Keyword" />
+                            @*Note: 
+                                1. The inline-block strategy used allows positioning of the div columns to stay in the flow of the document, 
+                                while also allowing the use of vertical-align styling. I've included a style for bottom alignment and middle 
+                                alignment for convenience.
+                                2. The previous line must not have any whitespace between </div> and <div>
+                                because This is because inline-block gives 'space' to any character (including a space character). Essentially, 
+                                it is because a space character has a given font-size, which ends up pushing the respective right most columns 
+                                underneath the left most columns. There are hacks to overcome this, but they are note cross-browser compatible, 
+                                so this solution is hack-free, and works with multiple columns.
+                                Refer to http://stackoverflow.com/questions/21630413/bootstrap-3-bottom-align-column-within-row*@
+                        </div><div class="col-md-3" id="titleOr1" style="display:none">
+                            OR
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -300,7 +354,7 @@
                         <label for="location1">Location</label>
                     </div>
                 </div>
-                <div class="row" id="locationRow">
+                <div class="row myrow" id="locationRow">
                     <div class="col-md-2">
                         <input type="text" class="form-control top5" id="location1" placeholder="City Name">
                     </div>
