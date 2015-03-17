@@ -266,6 +266,21 @@ namespace MVCMovie.Controllers
 
         }
 
+        public JsonResult GetUrls()
+        {
+
+            var result = from s in db.RecruitingSites
+                            select new WebsiteViewModel 
+                            { 
+                                ID = s.ID,
+                                url = s.url
+                            };
+            List<WebsiteViewModel> sites = result.ToList();
+
+            return Json(sites, JsonRequestBehavior.AllowGet);
+
+        }
+
         [HttpPost]
         public void SetJobs(List<PathNode> listPathNodes)
         {

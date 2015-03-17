@@ -15,8 +15,8 @@
 
     $(document).ready(function () {
 
-        $("#buttontest").on("click", function (event) {
-            var url = { "url": $("#SearchString").val() };
+        $("#urlbutton").on("click", function (event) {
+            var url = { "url": $("#url").val() };
 
             var json = JSON.stringify(url);
 
@@ -44,30 +44,58 @@
             });
         });
 
+        //Get all the websites
+        var websites = [];
+        $.ajax({
+            type: "GET",
+            url: "/Browser/GetUrls",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (urls) {
+                $(urls).each(function () {
+                    var url = this.url;
+                    var value = '<option>' + url + '</option>';
+                    $('#website').append(value);
+                });
+            }
+        });
+
+        $('#website').click(function () {
+            $('#url').val(this.value);
+        });
+
     });
 
 </script>
 
+<style>
+    .top2{
+        margin-top:2%;
+    }
 
+</style>
 
-<h2>Index</h2>
+<br />
+<br />
+<div class="h4"><strong>Your Favorite Job Seraching Websites:</strong></div>
+<div class="row">
+    <div class="col-xs-6">
+        <div class="input-group">
+            <span class="input-group-addon">URL</span>
+            <input id="url" class="form-control input-sm" />
+        </div>
+    </div>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-    @*    @using (Html.BeginForm("Index","Movies",FormMethod.Get))
-        {
-        <p>
-            Genre: @Html.DropDownList("movieGenre", "All")
-            Title: @Html.TextBox("SearchString") <br />
-            <input type="submit" value="Filter" />
-        </p>
-        }*@
+<div class="row">
+    <div class="col-xs-6">
+        <select class="form-control top2" id="website" size="5"></select>
+        <button class="btn btn-primary btn-sm top2" id="urlbutton">OpenBrowser</button>
+    </div>
+</div>
 
-<p>
-    URL: @Html.TextBox("SearchString") <br />
-    <button type="button" id="buttontest" >OpenBrowser</button>
-</p>
-    
+<br />
+<br />    
 <table class="table">
     <tr>
         <th>
