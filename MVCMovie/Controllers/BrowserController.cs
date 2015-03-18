@@ -15,7 +15,7 @@ namespace MVCMovie.Controllers
         private const int defaultSiteID = 1;
 
         [HttpPost]
-        public void SetURL(string url)
+        public void SetURL(int id, string url)
         {
             if (url == null || url == "")
             {

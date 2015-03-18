@@ -16,9 +16,11 @@
     $(document).ready(function () {
 
         $("#urlbutton").on("click", function (event) {
-            var url = { "url": $("#url").val() };
+            debugger;
+            var siteId = $('#url').data('siteId');
+            var idUrl = { "id":siteId, "url": $("#url").val() };
 
-            var json = JSON.stringify(url);
+            var json = JSON.stringify(idUrl);
 
             $.ajax({
                 url: '/Browser/SetURL',
@@ -54,14 +56,22 @@
             success: function (urls) {
                 $(urls).each(function () {
                     var url = this.url;
-                    var value = '<option>' + url + '</option>';
-                    $('#website').append(value);
+                    var opt = '<option>' + url + '</option>';
+                    $('#website').append(opt);
+                    $('#website option').last().attr("value", this.ID);
                 });
             }
         });
 
-        $('#website').click(function () {
-            $('#url').val(this.value);
+        $('#website').change(function () {
+            $('#url').text($('#website :selected').text());
+            //can not set the siteId to the value of textarea becasue the value of textarea is actually changing the its text()
+            $('#url').data('siteId', $(this).children(':selected').val());
+        });
+
+        $('#url').click(function () {
+            $('#website').val(null);
+            $(this).data('siteId', 0);
         });
 
     });
@@ -82,7 +92,7 @@
     <div class="col-xs-6">
         <div class="input-group">
             <span class="input-group-addon">URL</span>
-            <input id="url" class="form-control input-sm" />
+            <textarea id="url" class="form-control input-sm"></textarea>
         </div>
     </div>
 </div>
