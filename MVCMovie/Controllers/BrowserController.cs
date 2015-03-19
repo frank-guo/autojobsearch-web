@@ -13,13 +13,14 @@ namespace MVCMovie.Controllers
     {
         private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
         private const int defaultSiteID = 1;
+        private const int InvalidSiteID = 0;
 
         [HttpPost]
-        public void SetURL(int id, string url)
+        public int SetURL(int id, string url)
         {
             if (url == null || url == "")
             {
-                return;
+                return InvalidSiteID;
             }
 
             RecruitingSite site = new RecruitingSite();
@@ -27,17 +28,24 @@ namespace MVCMovie.Controllers
 
             if (ModelState.IsValid)
             {
-                var siteUrls = new List<string>();
+                var sites = new List<RecruitingSite>();
                 var qry = from s in db.RecruitingSites
-                          select s.url;
-                qry = qry.Where(u => u == url);
-                siteUrls.AddRange(qry.Distinct());
-                if (siteUrls.Count == 0)    //check if the t-net url exists already
+                          select s;
+                qry = qry.Where(u => u.url == url);
+                sites.AddRange(qry.Distinct());
+                if (sites.Count == 0)    //check if the url site does not exists already
                 {
-                    db.RecruitingSites.Add(site);
+                    RecruitingSite returnedSite = db.RecruitingSites.Add(site);
                     db.SaveChanges();
+                    return returnedSite.ID;
+                }
+                else
+                {
+                    return sites[0].ID;     //If the url exists, return its ID
                 }
             }
+
+            return InvalidSiteID;
         }
 
         [HttpPost]
@@ -354,7 +362,10 @@ namespace MVCMovie.Controllers
 
         }
 
-        public string Index()
+        //? represent siteId 
+        //the parameter name has to be id which is matching the name of id in the routeconfig.cs
+        //Otherwise, MVC would not know which parameter the third segment of url should match if there are multiple parameters 
+        public string Index(int? id)
         {
             
             string webaddress = null;
@@ -365,6 +376,7 @@ namespace MVCMovie.Controllers
             //get the first site url
             var siteUrls = new List<string>();
             var qry = from s in db.RecruitingSites
+                      where(s.ID == id)
                        select s.url;
             siteUrls.AddRange(qry.Distinct());
 

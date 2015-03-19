@@ -8,9 +8,11 @@ namespace MVCMovie.Controllers
 {
     public class SeletElementController : Controller
     {
-        // GET: SeletElement
-        public ActionResult Index()
+        // Post: SeletElement
+        [HttpPost]
+        public ActionResult Index(int siteId)
         {
+            ViewBag.siteId = siteId;
             return View();
         }
     }

@@ -16,7 +16,7 @@
     $(document).ready(function () {
 
         $("#urlbutton").on("click", function (event) {
-            debugger;
+            //debugger;
             var siteId = $('#url').data('siteId');
             var idUrl = { "id":siteId, "url": $("#url").val() };
 
@@ -27,15 +27,19 @@
                 data: json,
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
-                success: function (data) {
+                success: function (id) {
                     // get the result and do some magic with it
                     //debugger;
                     $.ajax({
                         url: '/SeletElement',
-                        type: 'GET',
-                        //contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({"siteId": id}),
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
                         success: function (data) {
                             // get the result and do some magic with it
+                            //SelectElment will return a view which contains the iframe that will request Browser/Index.
+                            //Browser/Index acutally returns the content of job searching sites.
+                            //So the content inside the iframe will be thought of as safety
                             var w = window.open();
                             w.document.open(data);
                             w.document.write(data);
@@ -90,9 +94,9 @@
 <div class="h4"><strong>Your Favorite Job Seraching Websites:</strong></div>
 <div class="row">
     <div class="col-xs-6">
-        <div class="input-group">
+        <div class="input-group input-group-sm">
             <span class="input-group-addon">URL</span>
-            <textarea id="url" class="form-control input-sm"></textarea>
+            <textarea id="url" class="form-control"></textarea>
         </div>
     </div>
 </div>
