@@ -367,6 +367,11 @@ namespace MVCMovie.Controllers
         //Otherwise, MVC would not know which parameter the third segment of url should match if there are multiple parameters 
         public string Index(int? id)
         {
+
+            if (id == null || id == 0)
+            {
+                return null;
+            }
             
             string webaddress = null;
             WebClient client = new WebClient();

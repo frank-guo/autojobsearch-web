@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<MvcMovie.Models.Movie>
 
+@foreach (var item in Model) {
+        @Html.DisplayFor(T=>item.Title)
+}
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
