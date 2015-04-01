@@ -6,9 +6,209 @@ using System.Web;
 using System.Web.Mvc;
 using System.Net;
 using MVCMovie.Models;
+using System.IO;
+using System.Text;
+using System.Windows.Forms;
+using System.Threading;
+using WatiN.Core;  
+
 
 namespace MVCMovie.Controllers
 {
+    //This is to enhance the Watin Framework to have a children method for an element
+    public static class WatinExtensions
+    {
+        public static ElementCollection Children(this Element self)
+        {
+            return self.DomContainer.Elements.Filter(e => self.Equals(e.Parent));
+        }
+    }
+
+    public class URLTransformer : System.Windows.Forms.Form
+    {
+        private string url;
+        private string baseUrl;
+
+        public URLTransformer(string url)
+        {
+            this.url = url;
+            this.baseUrl = getBaseUrl(url);
+        }
+
+        public void transformUrl(ref string webpage)
+        {
+            if (url == null)
+            {
+                return;
+            }
+            
+            WebBrowser browser = new WebBrowser();
+            WebClient client = new WebClient();
+            browser.ScriptErrorsSuppressed = true;
+            browser.Url = new Uri("about:blank");
+
+            string html;
+            html = client.DownloadString(url);
+            HtmlDocument document = browser.Document.OpenNew(true);
+            document.Write(html);
+            HtmlElement htmlElement = document.GetElementsByTagName("html")[0];
+
+            /*
+            Browser browserInstance;
+            browserInstance = new IE(url);
+            browserInstance.WaitForComplete();
+            Element body = browserInstance.Body;
+            Element htmlElmt = body.Parent;
+            
+            Element root = browserInstance.DomContainer.Elements[0];
+             * */
+
+
+
+            tranverse(htmlElement);
+
+            /*
+            HtmlElementCollection headChildren = htmlElement.GetElementsByTagName("head")[0].Children;
+            foreach (HtmlElement e in headChildren)
+            {
+                string urlOfElement = null;
+                string baseUrl = getBaseUrl(url);
+                string attrName = null;
+
+                if (e.TagName == "SCRIPT")
+                {
+                    urlOfElement = e.GetAttribute("src");
+                    attrName = "src";
+                }
+                if (e.TagName == "LINK")
+                {
+                    urlOfElement = e.GetAttribute("href");
+                    attrName = "href";
+                }
+
+                if(urlOfElement != null && urlOfElement!="" && !urlOfElement.StartsWith("http"))
+                {
+                    urlOfElement = baseUrl + urlOfElement;
+                    e.SetAttribute(attrName,urlOfElement);
+                }                             
+            }
+            */
+
+            webpage = htmlElement.InnerHtml;
+            //webpage = body.Parent.OuterHtml;
+
+        }
+
+
+
+        private void tranverse(HtmlElement root)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            //ElementCollection children = root.Children();
+
+            //foreach (Element e in children)
+            HtmlElementCollection elmts = root.Children;
+            // ToDo: elements[0] is root, [1] is head, [2] is title....
+            //DomContainer has child method. Could take a look at the source code of child
+
+            HtmlElement e = null;
+            if (elmts.Count != 0) 
+            {
+                e = elmts[0];
+            }
+
+            while(e != null)
+            {
+                tranverse(e);
+                e = e.NextSibling;
+            }
+
+            transformUrl(ref root);
+
+        }
+
+
+        //Transform any attr with a relative url of this element to the absolute url
+        private void transformUrl(ref HtmlElement e)
+        {
+            string urlOfElement = null;
+            string baseUrl = getBaseUrl(url);
+            string attrName = null;            
+            
+            if (e.TagName == "SCRIPT")
+            {
+                urlOfElement = e.GetAttribute("src");
+                attrName = "src";
+            }
+            if (e.TagName == "LINK")
+            {
+                urlOfElement = e.GetAttribute("href");
+                attrName = "href";
+            }
+
+            if (e.TagName == "A")
+            {
+                urlOfElement = e.GetAttribute("href");
+                attrName = "href";
+            }
+
+            if (e.TagName == "IMG")
+            {
+                urlOfElement = e.GetAttribute("src");
+                attrName = "src";
+            }
+
+            if (e.TagName == "IFRAME")
+            {
+                urlOfElement = e.GetAttribute("src");
+                attrName = "src";
+            }
+
+            if (urlOfElement!=null && urlOfElement.StartsWith("about:/"))
+            {
+                urlOfElement = urlOfElement.Substring(6);
+            }
+
+            //the attr of src or href could be "" even though the element doesn't have the attr
+            if (urlOfElement != null && urlOfElement != "" && !urlOfElement.StartsWith("http") 
+                && !urlOfElement.StartsWith("//") && !urlOfElement.StartsWith("https"))
+            {
+                urlOfElement = baseUrl + urlOfElement;
+                e.SetAttribute(attrName, urlOfElement);
+            }                             
+        }
+
+        private string getBaseUrl(string url)
+        {
+            string baseUrl = null;
+
+            if (url != null && url.StartsWith("http"))
+            {
+                int count = 0;
+                int j = 0;
+
+                for (; j <= url.Length - 1 && count < 3; j++)
+                {
+
+                    if (url.ElementAt<char>(j) == '/')
+                    {
+                        count++;
+                    }
+                }
+
+                //At this point, j points to the char right after the third '/' or j = url.length
+                //j-1 represents the length of the substring ahead of the third '/'
+                baseUrl = url.Substring(0, j - 1);
+            }
+
+            return baseUrl;
+        }
+    }
+
     public class BrowserController : Controller
     {
         private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
@@ -362,7 +562,7 @@ namespace MVCMovie.Controllers
 
         }
 
-        //? represent siteId 
+        //? represent id could be null 
         //the parameter name has to be id which is matching the name of id in the routeconfig.cs
         //Otherwise, MVC would not know which parameter the third segment of url should match if there are multiple parameters 
         public string Index(int? id)
@@ -388,12 +588,29 @@ namespace MVCMovie.Controllers
             //ToDo: To make things simple, the first row of query result is always used to open the browser window.
             //ToDo: Make it use the selected website to open the browser window in the future.
             webaddress = siteUrls[0];
+            string webpageUpdate = null;
+
+            URLTransformer urlTranformer = new URLTransformer(webaddress);
+
+            //In order to get htmlDocument to navigate easily on the webpage, use WebBrowser class
+            //Therefore, an sepearate thread is created to build up a WebBrowser
+            var t = new Thread(() => urlTranformer.transformUrl(ref webpageUpdate));
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+
+            /*
 
             if (webaddress != null)
             {
                 try
                 {
-                    webpage = client.DownloadString(webaddress);
+                    //webpage = client.DownloadString(webaddress);
+
+                    using(var stream = client.OpenRead(webaddress))
+
+                    using( var textReader = new StreamReader(stream, Encoding.UTF8, true)){
+                        webpage = textReader.ReadToEnd();
+                    }
                 }
                 catch { 
                     
@@ -403,8 +620,10 @@ namespace MVCMovie.Controllers
             {
                 return null;
             }
+
             string webpageUpdate = webpage;
 
+            
             if (webpage !=null && webpage.Contains("/js/jquery.js"))
             {
 
@@ -426,9 +645,17 @@ namespace MVCMovie.Controllers
 
                 webpageUpdate = webpageUpdate.Replace("/js/tnet.utils.js", "http://www.bctechnology.com/js/tnet.utils.js");
             }
+            */
 
+            while (t.IsAlive)
+            {
+                Thread.Sleep(1000);
+            }
             return webpageUpdate;
 
         }
+
     }
+
+
 }

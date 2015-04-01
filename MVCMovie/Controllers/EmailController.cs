@@ -15,6 +15,7 @@ using System.Threading;
 
 
 
+
 namespace MVCMovie.Controllers
 {
 
@@ -34,6 +35,17 @@ namespace MVCMovie.Controllers
             site = Getsite(1);
         }
 
+        //Tried to open url directly in the browser, but failed - could not fire an DocumentCompleted event 
+        /*
+        public void WebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+
+            MessageBox.Show(((WebBrowser)sender).Url.ToString());
+            HtmlDocument document1 = ((WebBrowser)sender).Document;
+
+        }
+         */
+
         // This method that will be called when the thread is started
         public void sendAllJobs(string address, string password)
         {
@@ -46,7 +58,6 @@ namespace MVCMovie.Controllers
             //ToDo: Subscribe to the webBrowser.DocumentCompleted event so document could be loaded.
             //Refer to http://stackoverflow.com/questions/9925022/webbrowser-document-is-always-null
             browser.Url = new Uri("about:blank");
-            
 
             string html;
             
@@ -67,6 +78,14 @@ namespace MVCMovie.Controllers
 
                 html = client.DownloadString(url);
                 document = browser.Document.OpenNew(true);
+
+                //WebBrowser browser1 = new WebBrowser();              
+                //browser1.DocumentCompleted += WebBrowser_DocumentCompleted;
+                //browser1.Navigate(url);
+                //browser1.Visible = true;
+
+                //Thread.Sleep(10000);
+                //document = browser.Document;
                 document.Write(html);
                 htmlElement = document.GetElementsByTagName("html")[0];
 

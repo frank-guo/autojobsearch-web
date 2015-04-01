@@ -1,8 +1,5 @@
 ﻿@model IEnumerable<MvcMovie.Models.Movie>
 
-@foreach (var item in Model) {
-        @Html.DisplayFor(T=>item.Title)
-}
 
 @{
     ViewBag.Title = "Index";
@@ -97,7 +94,7 @@
 <br />
 <div class="h4"><strong>Your Favorite Job Seraching Websites:</strong></div>
 <div class="row">
-    <div class="col-xs-6">
+    <div class="col-xs-12">
         <div class="input-group input-group-sm">
             <span class="input-group-addon">URL</span>
             <textarea id="url" class="form-control"></textarea>
@@ -106,7 +103,7 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-6">
+    <div class="col-xs-12">
         <select class="form-control top2" id="website" size="5"></select>
         <button class="btn btn-primary btn-sm top2" id="urlbutton">OpenBrowser</button>
     </div>
