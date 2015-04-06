@@ -284,6 +284,12 @@ namespace MVCMovie.Controllers
         [HttpPost]
         public void SetCondition(ConditionViewModel condViewModel)
         {
+            if (condViewModel == null)
+            {
+                return;
+            }
+
+            int condID = condViewModel.ID;
             List<string> titleConds = condViewModel.titleConds;
             List<string> locationConds = condViewModel.locationConds;
 
@@ -297,13 +303,13 @@ namespace MVCMovie.Controllers
             {
 
                 Condition condition = new Condition();
-                condition.ID = 1;
+                condition.ID = condID;
                 condition.titleConds = new List<TitleCond>();
                 condition.locationConds = new List<LocationCond>();
 
                 var qry = from s in db.Conditions
                           select s;
-                qry = qry.Where(s => s.ID == 1);
+                qry = qry.Where(s => s.ID == condID);
                 Condition cond = qry.FirstOrDefault();
                 
 
@@ -313,8 +319,9 @@ namespace MVCMovie.Controllers
                            select s.locationConds;
                 IList<LocationCond> lc1 = qry1.FirstOrDefault();
                  */
-               
-                //The condition of id=1 doesn't exist, and then insert a condition of id=1
+
+                //The condition of condID doesn't exist, and then insert the new condition with the condID
+                //Othewise, remove the original one and insert the new condition with the condID
                 if (cond != null)
                 {
                     db.Conditions.Remove(cond);
@@ -326,8 +333,8 @@ namespace MVCMovie.Controllers
                 }
                 db.SaveChanges();
 
-                //Re-read condition of id =1 
-                qry = qry.Where(s => s.ID == 1);
+                //Re-read the condition of the condID and then set its titleConds and locationConds
+                qry = qry.Where(s => s.ID == condID);
                 cond = qry.FirstOrDefault();
 
                 for (int i = 0; i < titleConds.Count; i++)

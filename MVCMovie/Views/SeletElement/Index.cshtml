@@ -1,6 +1,11 @@
-﻿@{
+﻿@* Note: Use MVCMovie but not MvcMovie at the line below. Otherwise, RecruitingSite can not be found*@
+@model MVCMovie.Models.RecruitingSite
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
 
 
 <script>
@@ -67,26 +72,35 @@
             }
         });
 
-        
+
         $('#addOneCond').click(function () {
             var lastOrId = "#titleOr" + titleNo;
             titleNo++;
             var div1 = '<div class="col-md-3 myrow btmAlgn">';
-            var titleDiv = '<div class="col-md-9 left0"><input type="text" class="form-control top5" id="inputTitle'
+            var titleDiv = '<div class="col-md-8 left0"><input type="text" class="form-control top5" id="inputTitle'
                 + titleNo + '" placeholder="Keyword" /></div>';
-            var orDiv = '<div class="col-md-3" id="titleOr' + titleNo + '" style="display:none">OR</div>';
+            var orDiv = '<div class="col-md-4" id="titleOr' + titleNo + '" style="display:none">OR</div>';
             var endDiv1 = '</div>';
             var condDiv = div1 + titleDiv + orDiv + endDiv1;
             $(lastOrId).show();
             $("#condRow").append(condDiv);
         });
-        
+
         $('#addLocation').click(function () {
+            var lastOrId = "#locationOr" + locationNo;
             locationNo++;
-            var id = "location" + locationNo;
-            $("#locationRow").append('<div class="myspan btmAlgn"><label class="top5">OR</label></div>');
-            var locationNode = '<div class="col-md-2"><input type="text" class="form-control top5" id="' + id + '" placeholder="City Name"></div>';
-            $("#locationRow").append(locationNode);
+            //var id = "location" + locationNo;
+            //$("#locationRow").append('<div class="col-md-1 btmAlgn"><label class="top5">OR</label></div>');
+            //var locationNode = '<div class="col-md-2"><input type="text" class="form-control top5" id="' + id + '" placeholder="City Name"></div>';
+            //$("#locationRow").append(locationNode);
+            var div1 = '<div class="col-md-3 myrow btmAlgn">';
+            var locationDiv = '<div class="col-md-8 left0"><input type="text" class="form-control top5" id="location'
+                + locationNo + '" placeholder="City Name" /></div>';
+            var orDiv = '<div class="col-md-4" id="locationOr' + locationNo + '" style="display:none">OR</div>';
+            var endDiv1 = '</div>';
+            var locationDiv = div1 + locationDiv + orDiv + endDiv1;
+            $(lastOrId).show();
+            $("#locationRow").append(locationDiv);
         });
 
         $('#setCond').click(function () {
@@ -110,6 +124,7 @@
             var locationCondsJson = JSON.stringify(locationConds);
 
             var data = JSON.stringify({
+                ID: @ViewBag.siteId,
                 titleConds: titleConds,
                 locationConds: locationConds
             });
@@ -327,19 +342,19 @@
                 </div>
                 <div class="row " id="condRow">
                     <div class="col-md-3 myrow btmAlgn">
-                        <div class="col-md-9 left0">
+                        <div class="col-md-8 left0">
                             <input type="text" class="form-control top5" id="inputTitle1" placeholder="Keyword" />
                             @*Note: 
                                 1. The inline-block strategy used allows positioning of the div columns to stay in the flow of the document, 
                                 while also allowing the use of vertical-align styling. I've included a style for bottom alignment and middle 
                                 alignment for convenience.
-                                2. The previous line must not have any whitespace between </div> and <div>
+                                2. The following line must not have any whitespace between </div> and <div>
                                 because This is because inline-block gives 'space' to any character (including a space character). Essentially, 
                                 it is because a space character has a given font-size, which ends up pushing the respective right most columns 
                                 underneath the left most columns. There are hacks to overcome this, but they are note cross-browser compatible, 
                                 so this solution is hack-free, and works with multiple columns.
                                 Refer to http://stackoverflow.com/questions/21630413/bootstrap-3-bottom-align-column-within-row*@
-                        </div><div class="col-md-3" id="titleOr1" style="display:none">
+                        </div><div class="col-md-4" id="titleOr1" style="display:none">
                             OR
                         </div>
                     </div>
@@ -355,14 +370,18 @@
                         <label for="location1">Location</label>
                     </div>
                 </div>
-                <div class="row myrow" id="locationRow">
-                    <div class="col-md-2">
-                        <input type="text" class="form-control top5" id="location1" placeholder="City Name">
+                <div class="row" id="locationRow">
+                    <div class="col-md-3 myrow btmAlgn">
+                        <div class="col-md-8 left0">
+                            <input type="text" class="form-control top5" id="location1" placeholder="City Name">
+                        </div><div class="col-md-4" id="locationOr1" style="display:none">
+                            OR
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2">
-                        <button class="btn btn-primary btn-xs top5" id="addLocation">Add One</button>
+                        <button class="btn btn-primary btn-xs top5 bottom5" id="addLocation">Add One</button>
                     </div>
                 </div>
 

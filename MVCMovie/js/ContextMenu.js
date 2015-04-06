@@ -212,11 +212,16 @@ $("#goDown").click(function (e) {
 });
 
 $("#itemHLight").click(function (e) {
+    //In general, the function first caculate the job1's path with the mark of the common parent of job1 and job2
+    //Next, use the path to find all job nodes to highlight
+    //At last, it putshes the path, i.e.listOfNodes, to the website for store. 
+
     var listOfNodes = [];
 
     parent1 = $(node1).parent();
     parent2 = $(node2).parent();
 
+    //First get to the common parent
     while ($(parent1)[0] != $(parent2)[0]) {
         if (parent1 == null || parent2 == null) {
             alert("Can not determin all nodes!");
@@ -236,9 +241,8 @@ $("#itemHLight").click(function (e) {
         pathNode.hasCommonParent = false;
         listOfNodes.push(pathNode);
 
-        $('#op').append("<p></p>");
-        $('#op p').last().text(pathNode.hasCommonParent.toLocaleString() + "   " + pathNode.position.toString() + $(node1).prop('tagName'));
-
+        //$('#op').append("<p></p>");
+        //$('#op p').last().text(pathNode.hasCommonParent.toLocaleString() + "   " + pathNode.position.toString() + $(node1).prop('tagName'));
         count = 0;
         node1 = parent1;
         node2 = parent2;
@@ -246,7 +250,7 @@ $("#itemHLight").click(function (e) {
         parent2 = $(node2).parent();
     }
 
-    //All the way get to the root
+    //All the way get to the root from the common parent
     while ($(parent1)[0] != null) {
         children = $(parent1).children();
         $(children).each(function () {
@@ -267,8 +271,8 @@ $("#itemHLight").click(function (e) {
 
         listOfNodes.push(pathNode);
 
-        $('#op').append("<p></p>");
-        $('#op p').last().text(pathNode.hasCommonParent.toLocaleString() + "   " + pathNode.position.toString() + "    " + $(node1).prop('tagName'));
+        //$('#op').append("<p></p>");
+        //$('#op p').last().text(pathNode.hasCommonParent.toLocaleString() + "   " + pathNode.position.toString() + "    " + $(node1).prop('tagName'));
 
         //Go up one level
 
@@ -277,7 +281,7 @@ $("#itemHLight").click(function (e) {
         parent1 = $(node1).parent();
     }
 
-    $('#op').append("<br>");
+    //$('#op').append("<br>");
 
     //Highlight all the job title nodes
     var i;
@@ -294,7 +298,7 @@ $("#itemHLight").click(function (e) {
         }
     }
 
-    $('#op').append("<br>");
+    //$('#op').append("<br>");
     //parent1 is currently at th level of the common ancestor
     //i is currently at the level one lower than the common ancestor
     //Get all the job title nodes
