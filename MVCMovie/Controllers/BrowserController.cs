@@ -388,7 +388,7 @@ namespace MVCMovie.Controllers
             }
         }
 
-        public JsonResult GeCompany()
+        public JsonResult GetCompany()
         {
 
             var qry = from s in db.RecruitingSites
@@ -547,7 +547,6 @@ namespace MVCMovie.Controllers
             }
         }
 
-        //ToDo: This method has not be tested
         public JsonResult GetJobs()
         {
 
