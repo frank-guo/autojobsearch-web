@@ -162,19 +162,26 @@
             var listOfNodes = [];
             var pathNode = new Object();
             var listPostions = [];
+
+            var siteId = { "siteId": @ViewBag.siteId };
+            var siteIdJson = JSON.stringify(siteId);
+
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/Browser/GetJobs",
+                data: siteIdJson,
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (lp) {
                     listOfNodes = lp;
+
                     if ( listOfNodes!=null ) {
                         //Get the job1 node
                         var i;
                         var parent1 = doc1;
                         var node1;
 
+                        /*
                         //Get to the common ancestor
                         for (i = listOfNodes.length-1; i>=0 ; i--) {
                             if (!listOfNodes[i].hasCommonParent) {
@@ -186,22 +193,44 @@
                             }
                         }
 
-                        //Get the joba title node
+                        //Get the job title node
                         startI = --i;
                         children = $(parent1).children();
-                        //for( j=0; j<children.length; j++ ){
-                            node1 = $(children)[1];
+                        node1 = $(children)[1];
 
-                            for (; i >= 0; i--) {
-                                node1 = $(node1).children().eq(listOfNodes[i].position);
-                            }
-                            i = startI;
+                        for (; i >= 0; i--) {
+                            node1 = $(node1).children().eq(listOfNodes[i].position);
+                        }
+                        i = startI;
+                        */
 
-                            //if( node1!=null ){
-                             //   break;
-                            //}
-                        //}
+                        //Get to the job1
+                        for (i = listOfNodes.length-1; i>=0 ; i--) {
+                            node1 = $(parent1).children().eq(listOfNodes[i].position);
+                            parent1 = node1;
+                        }
+
                         $("#node1").text($(node1).prop('outerHTML'));
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/Browser/GetLevelNo",
+                            data: siteIdJson,
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (result) {
+                                if(result!=null){
+                                    var levelNo = result.levelNoLinkHigherJob1;
+                                }
+
+                                var linkOfJob1 = node1;
+                                for(i = 0; i<=levelNoLinkHigherJob1;i++){
+                                    linkOfJob1 = $(linkOfJob1).parent();
+                                }
+                                $("#job1link").text($(linkOfJob1).prop('outerHTML'));
+                            }
+
+                        });
                     }
                 }
             });

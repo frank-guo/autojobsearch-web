@@ -532,7 +532,7 @@ namespace MVCMovie.Controllers
             }
         }
 
-        //[HttpPost]
+        [HttpPost]
         public void SetLevelNo(int levelNoLinkHigherJob1)
         {
             if (ModelState.IsValid)
@@ -547,12 +547,28 @@ namespace MVCMovie.Controllers
             }
         }
 
-        public JsonResult GetJobs()
+        //ToDo: this method has not been finished yet
+        public JsonResult GetLevelNo(int siteId)
+        {
+            if (ModelState.IsValid)
+            {
+                var qry = from s in db.RecruitingSites
+                          where (s.ID == siteId)
+                          select s.levelNoLinkHigherJob1;
+                int levelNoLinkHigherJob1 = qry.FirstOrDefault();
+                return Json(levelNoLinkHigherJob1);
+            }
+
+            return null;
+        }
+
+        [HttpPost]
+        public JsonResult GetJobs(int siteId)
         {
 
             var qry = from s in db.RecruitingSites
                       select s;
-            qry = qry.Where(s => s.ID == 1);
+            qry = qry.Where(s => s.ID == siteId);
             RecruitingSite site = qry.FirstOrDefault();
 
             List<PathNode> jobsPath = new List<PathNode>();

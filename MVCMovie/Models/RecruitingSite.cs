@@ -5,6 +5,7 @@ using System.Data.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
+using System.ComponentModel;
 
 namespace MVCMovie.Models
 {
@@ -17,6 +18,7 @@ namespace MVCMovie.Models
         [Required]
         public string url { get; set; }
 
+        [DefaultValue(0)]
         public int levelNoLinkHigherJob1 {get; set; }
 
         public virtual IList<NextPosition> ListNextPositions { get; set; }
