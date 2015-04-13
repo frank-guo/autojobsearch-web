@@ -18,12 +18,17 @@ namespace MVCMovie.Models
         [Required]
         public string url { get; set; }
 
+        [DefaultValue(false)]
+        public bool isContainJobLink { get; set; }
+
         [DefaultValue(0)]
         public int levelNoLinkHigherJob1 {get; set; }
 
         public virtual IList<NextPosition> ListNextPositions { get; set; }
 
         public virtual IList<PathNode> JobPath { get; set; }
+
+        public virtual IList<Job2Position> Job2Path { get; set; }
 
         public virtual IList<Company> companyPath { get; set; }
 

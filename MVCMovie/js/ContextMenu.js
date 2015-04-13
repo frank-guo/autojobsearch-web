@@ -39,6 +39,24 @@ $("#itemNode1").click(function (e) {
 $("#itemNode2").click(function (e) {
     $("#node2").text($(targetE).prop('outerHTML'));
     node2 = targetE;
+    /*
+    var listPositions = getNodePath(node2);
+    var job2Path = JSON.stringify(listPositions);
+    var data = JSON.stringify({
+        ID: @ViewBag.siteId,
+        Job2Path: listPositions
+    });
+    $.ajax({
+        type: "POST",
+        url: "/Browser/SetJob2",
+        data: data,
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (json) {
+            alert("send listPositions successfully!");
+        }
+    });
+    */
 });
 
 $("#itemCompany").click(function (e) {

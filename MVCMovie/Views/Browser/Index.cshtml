@@ -1,28 +1,9 @@
-﻿
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model MVCMovie.Models.IframViewModel
+
+@Html.Raw(@Model.webpageUpdate)
 
 
 
-<iframe id="mybrowser"   width="1200" height="400"></iframe>
-<label id="label">
-    label test
-</label>
-<p id="demo"></p>
-
-<script>
-    /*
-    document.getElementById("label").innerHTML = "Paragraph changed!";
-    var myIFrame = document.getElementById("mybrowser");
-    myIFrame = (myIFrame.contentWindow) ? myIFrame.contentWindow : (myIFrame.contentDocument.document) ? myIFrame.contentDocument.document : myIFrame.contentDocument;
-    myIFrame.document.open('text/html', 'replace');
-
-    myIFrame.document.write("TEST");
-    myIFrame.document.close();
-    */
-
-</script>
 
 
 

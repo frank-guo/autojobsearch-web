@@ -233,6 +233,8 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Condition.cs" />
     <Compile Include="Models\ConditonViewModel.cs" />
+    <Compile Include="Models\IframeViewModel.cs" />
+    <Compile Include="Models\Job2Position.cs" />
     <Compile Include="Models\LocationCond.cs" />
     <Compile Include="Models\Others.cs" />
     <Compile Include="Models\PathNode.cs" />

@@ -212,6 +212,7 @@
 
                         $("#node1").text($(node1).prop('outerHTML'));
 
+                        //Get the link elment of job1
                         $.ajax({
                             type: "POST",
                             url: "/Browser/GetLevelNo",
@@ -220,11 +221,11 @@
                             contentType: "application/json; charset=utf-8",
                             success: function (result) {
                                 if(result!=null){
-                                    var levelNo = result.levelNoLinkHigherJob1;
+                                    var levelNo = result;
                                 }
 
                                 var linkOfJob1 = node1;
-                                for(i = 0; i<=levelNoLinkHigherJob1;i++){
+                                for(i = 0; i<levelNo;i++){
                                     linkOfJob1 = $(linkOfJob1).parent();
                                 }
                                 $("#job1link").text($(linkOfJob1).prop('outerHTML'));

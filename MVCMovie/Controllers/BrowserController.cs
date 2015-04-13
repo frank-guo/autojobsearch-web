@@ -533,6 +533,39 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
+        public void SetJob2(List<int> listJob2Positions, int siteId)
+        {
+            if (listJob2Positions == null)
+            {
+                return;
+            }
+
+            if (ModelState.IsValid)
+            {
+                var qry = from s in db.RecruitingSites
+                          where (s.ID == siteId)
+                          select s;
+                RecruitingSite site = qry.FirstOrDefault();
+
+                for (int i = 0; i < listJob2Positions.Count; i++)
+                {
+                    //If Job2Path is null  or the current Job2Path is already shorter than i
+                    if (site.Job2Path == null || site.Job2Path.Count - 1 < i)
+                    {
+                        Job2Position j2p = new Job2Position();
+                        j2p.position = listJob2Positions.ElementAt(i);
+                        site.Job2Path.Add(j2p);
+                    }
+                    else
+                    {
+                        site.Job2Path.ElementAt(i).position = listJob2Positions.ElementAt(i);
+                    }
+                }
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPost]
         public void SetLevelNo(int levelNoLinkHigherJob1)
         {
             if (ModelState.IsValid)
@@ -587,7 +620,7 @@ namespace MVCMovie.Controllers
         //? represent id could be null 
         //the parameter name has to be id which is matching the name of id in the routeconfig.cs
         //Otherwise, MVC would not know which parameter the third segment of url should match if there are multiple parameters 
-        public string Index(int? id)
+        public ActionResult Index(int? id)
         {
 
             if (id == null || id == 0)
@@ -598,8 +631,6 @@ namespace MVCMovie.Controllers
             string webaddress = null;
             WebClient client = new WebClient();
 
-            string webpage = null;
-
             //get the first site url
             var siteUrls = new List<string>();
             var qry = from s in db.RecruitingSites
@@ -607,8 +638,6 @@ namespace MVCMovie.Controllers
                        select s.url;
             siteUrls.AddRange(qry.Distinct());
 
-            //ToDo: To make things simple, the first row of query result is always used to open the browser window.
-            //ToDo: Make it use the selected website to open the browser window in the future.
             webaddress = siteUrls[0];
             string webpageUpdate = null;
 
@@ -620,60 +649,16 @@ namespace MVCMovie.Controllers
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
 
-            /*
-
-            if (webaddress != null)
-            {
-                try
-                {
-                    //webpage = client.DownloadString(webaddress);
-
-                    using(var stream = client.OpenRead(webaddress))
-
-                    using( var textReader = new StreamReader(stream, Encoding.UTF8, true)){
-                        webpage = textReader.ReadToEnd();
-                    }
-                }
-                catch { 
-                    
-                }
-            }
-            else
-            {
-                return null;
-            }
-
-            string webpageUpdate = webpage;
-
-            
-            if (webpage !=null && webpage.Contains("/js/jquery.js"))
-            {
-
-                webpageUpdate = webpage.Replace("/js/jquery.js", "http://www.bctechnology.com/js/jquery.js");
-
-                webpageUpdate = webpageUpdate.Replace("/js/ui.core.js", "http://www.bctechnology.com/js/ui.core.js");
-
-                webpageUpdate = webpageUpdate.Replace("/js/ui.dropdownchecklist.js", "http://www.bctechnology.com/js/ui.dropdownchecklist.js");
-
-                webpageUpdate = webpageUpdate.Replace("/js/anylinkmenu.js", "http://www.bctechnology.com/js/anylinkmenu.js");
-
-                webpageUpdate = webpageUpdate.Replace("/styles/tnet.css", "http://www.bctechnology.com/styles/tnet.css");
-
-                webpageUpdate = webpageUpdate.Replace("/styles/tnet-footer.css", "http://www.bctechnology.com/styles/tnet-footer.css");
-
-                webpageUpdate = webpageUpdate.Replace("/styles/ui.dropdownchecklist.css", "http://www.bctechnology.com/styles/ui.dropdownchecklist.css");
-
-                webpageUpdate = webpageUpdate.Replace("/styles/anylinkmenu.css", "http://www.bctechnology.com/styles/anylinkmenu.css");
-
-                webpageUpdate = webpageUpdate.Replace("/js/tnet.utils.js", "http://www.bctechnology.com/js/tnet.utils.js");
-            }
-            */
-
             while (t.IsAlive)
             {
                 Thread.Sleep(1000);
             }
-            return webpageUpdate;
+
+            IframViewModel iframe = new IframViewModel();
+            iframe.webpageUpdate = webpageUpdate;
+            iframe.ID = (int)id;
+
+            return View(iframe);
 
         }
 
