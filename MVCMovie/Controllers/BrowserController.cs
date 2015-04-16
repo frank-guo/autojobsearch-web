@@ -565,6 +565,25 @@ namespace MVCMovie.Controllers
             }
         }
 
+        public JsonResult GetJob2(int siteId)
+        {
+
+            var qry = from s in db.RecruitingSites
+                      select s;
+            qry = qry.Where(s => s.ID == siteId);
+            RecruitingSite site = qry.FirstOrDefault();
+
+            List<int> listPositions = new List<int>();
+            foreach (Job2Position p in site.Job2Path)
+            {
+
+                listPositions.Add(p.position);
+            }
+
+            return Json(listPositions, JsonRequestBehavior.AllowGet);
+
+        }
+
         [HttpPost]
         public void SetLevelNo(int levelNoLinkHigherJob1)
         {
@@ -580,7 +599,6 @@ namespace MVCMovie.Controllers
             }
         }
 
-        //ToDo: this method has not been finished yet
         public JsonResult GetLevelNo(int siteId)
         {
             if (ModelState.IsValid)
@@ -656,6 +674,11 @@ namespace MVCMovie.Controllers
 
             IframViewModel iframe = new IframViewModel();
             iframe.webpageUpdate = webpageUpdate;
+            //IframViewModel is originally created to pass the siteId, ie. id, to the view file of iframe
+            //but the simple approach to get this id in javascript code of ContextMenu.js has not been come up with.
+            //The way to put script tags encolsing the code to get this id directly in the view file probably
+            //because @Html.Raw(@Model.webpageUpdate) contains <html> already.
+            //Eventually use a workaround to get this id from the source of <myframe>
             iframe.ID = (int)id;
 
             return View(iframe);

@@ -39,12 +39,15 @@ $("#itemNode1").click(function (e) {
 $("#itemNode2").click(function (e) {
     $("#node2").text($(targetE).prop('outerHTML'));
     node2 = targetE;
-    /*
+    debugger;
+    var url = $("#myframe")[0].src;
+    var IdxOfsiteId = url.lastIndexOf("/");
+    var siteId = url.substring(IdxOfsiteId + 1, url.length);
     var listPositions = getNodePath(node2);
     var job2Path = JSON.stringify(listPositions);
     var data = JSON.stringify({
-        ID: @ViewBag.siteId,
-        Job2Path: listPositions
+        siteId: siteId,
+        listJob2Positions: listPositions
     });
     $.ajax({
         type: "POST",
@@ -56,7 +59,7 @@ $("#itemNode2").click(function (e) {
             alert("send listPositions successfully!");
         }
     });
-    */
+
 });
 
 $("#itemCompany").click(function (e) {

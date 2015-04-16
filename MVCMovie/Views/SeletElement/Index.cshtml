@@ -156,7 +156,6 @@
             $("head", d).append(scriptTag);
 
             //Get the values for all the input textarea from the website and set their values
-            debugger;
             //First set job1 and job2
             var doc1 = $("#myframe")[0].contenDocument || $("#myframe")[0].contentWindow.document;
             var listOfNodes = [];
@@ -180,29 +179,6 @@
                         var i;
                         var parent1 = doc1;
                         var node1;
-
-                        /*
-                        //Get to the common ancestor
-                        for (i = listOfNodes.length-1; i>=0 ; i--) {
-                            if (!listOfNodes[i].hasCommonParent) {
-                                node1 = $(parent1).children().eq(listOfNodes[i].position);
-                                parent1 = node1;
-                            }
-                            else {
-                                break;
-                            }
-                        }
-
-                        //Get the job title node
-                        startI = --i;
-                        children = $(parent1).children();
-                        node1 = $(children)[1];
-
-                        for (; i >= 0; i--) {
-                            node1 = $(node1).children().eq(listOfNodes[i].position);
-                        }
-                        i = startI;
-                        */
 
                         //Get to the job1
                         for (i = listOfNodes.length-1; i>=0 ; i--) {
@@ -236,12 +212,43 @@
                 }
             });
 
+            debugger;
+            //Get and set Job2 input area
+            $.ajax({
+                type: "POST",
+                url: "/Browser/GetJob2",
+                data: siteIdJson,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (lp) {
+                    listOfNodes = lp;
+                    var node1 = getNode(lp);
+                    $("#node2").text($(node1).prop('outerHTML'));
+                }
+            });
             return;
         }
 
         window.setTimeout('checkIframeLoaded();', 100);
 
     }
+
+    function getNode(listOfNodes){
+        var i;
+        var parent1 = doc1;
+        var node1;
+
+        if ( listOfNodes!=null ) {
+            //Get to the job1
+            for (i = listOfNodes.length-1; i>=0 ; i--) {
+                node1 = $(parent1).children().eq(listOfNodes[i].position);
+                parent1 = node1;
+            }
+        }
+
+        return node1;
+    }
+
 </script >
 
 <style>
