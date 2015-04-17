@@ -5,6 +5,10 @@ var nodeListOfJob1 = [];
 var levelNoLinkHigherJob1 = 0;
 var company, others;
 var count = 0;
+var url = $("#myframe")[0].src;
+var IdxOfsiteId = url.lastIndexOf("/");
+var siteId = url.substring(IdxOfsiteId + 1, url.length);
+
 $(doc1).bind("contextmenu", function (e) {
     e.preventDefault();// To prevent the default context menu.
     //getBoundingClientRect() also works and  will return an object containing the coordinates of the element top-left and bottom-right
@@ -39,10 +43,6 @@ $("#itemNode1").click(function (e) {
 $("#itemNode2").click(function (e) {
     $("#node2").text($(targetE).prop('outerHTML'));
     node2 = targetE;
-    debugger;
-    var url = $("#myframe")[0].src;
-    var IdxOfsiteId = url.lastIndexOf("/");
-    var siteId = url.substring(IdxOfsiteId + 1, url.length);
     var listPositions = getNodePath(node2);
     var job2Path = JSON.stringify(listPositions);
     var data = JSON.stringify({
@@ -184,6 +184,9 @@ $("#itemNext").click(function (e) {
 });
 
 $("#goUp").click(function (e) {
+    //ToDo: get job1Link by ajax call since it will be null if job1 is set by the value in database when the page is just open
+    //instead of by manually choose the item in the context menu so that up button will not work
+    debugger;
     if (job1Link != null) {
         nodeListOfJob1.push(job1Link);
         job1Link = $(job1Link).parent();
@@ -191,13 +194,13 @@ $("#goUp").click(function (e) {
 
         levelNoLinkHigherJob1++;
 
-        var levelNo = { "levelNoLinkHigherJob1": levelNoLinkHigherJob1 };
-        var levelNoJson = JSON.stringify(levelNo);
+        var data = {levelNoLinkHigherJob1: levelNoLinkHigherJob1, siteId:siteId};
+        var dataJson = JSON.stringify(data);
 
         $.ajax({
             type: "POST",
             url: "/Browser/SetLevelNo",
-            data: levelNoJson,
+            data: data,
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (json) {
@@ -262,8 +265,6 @@ $("#itemHLight").click(function (e) {
         pathNode.hasCommonParent = false;
         listOfNodes.push(pathNode);
 
-        //$('#op').append("<p></p>");
-        //$('#op p').last().text(pathNode.hasCommonParent.toLocaleString() + "   " + pathNode.position.toString() + $(node1).prop('tagName'));
         count = 0;
         node1 = parent1;
         node2 = parent2;
@@ -292,17 +293,12 @@ $("#itemHLight").click(function (e) {
 
         listOfNodes.push(pathNode);
 
-        //$('#op').append("<p></p>");
-        //$('#op p').last().text(pathNode.hasCommonParent.toLocaleString() + "   " + pathNode.position.toString() + "    " + $(node1).prop('tagName'));
-
         //Go up one level
 
         count = 0;
         node1 = parent1;
         parent1 = $(node1).parent();
     }
-
-    //$('#op').append("<br>");
 
     //Highlight all the job title nodes
     var i;
@@ -328,10 +324,6 @@ $("#itemHLight").click(function (e) {
     $(children).each(function () {
         node1 = $(this);
         for (; i >= 0; i--) {
-            //$('#op').append("<p></p>");
-            //$('#op p').last().text(listOfNodes[i].hasCommonParent.toLocaleString() + "   "
-            //    + listOfNodes[i].position.toString() + "    " + $(node1).prop('tagName'));
-
             node1 = $(node1).children().eq(listOfNodes[i].position);
         }
         i = startI;

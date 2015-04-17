@@ -388,12 +388,12 @@ namespace MVCMovie.Controllers
             }
         }
 
-        public JsonResult GetCompany()
+        public JsonResult GetCompany(int siteId)
         {
 
             var qry = from s in db.RecruitingSites
                       select s;
-            qry = qry.Where(s => s.ID == 1);
+            qry = qry.Where(s => s.ID == siteId);
             RecruitingSite site = qry.FirstOrDefault();
 
             List<int> listCompanyPositions = new List<int>();
@@ -443,12 +443,12 @@ namespace MVCMovie.Controllers
             }
         }
 
-        public JsonResult GetOthers()
+        public JsonResult GetOthers(int siteId)
         {
 
             var qry = from s in db.RecruitingSites
                       select s;
-            qry = qry.Where(s => s.ID == 1);
+            qry = qry.Where(s => s.ID == siteId);
             RecruitingSite site = qry.FirstOrDefault();
 
             List<int> listOthersPositions = new List<int>();
@@ -462,12 +462,12 @@ namespace MVCMovie.Controllers
 
         }
 
-        public JsonResult GetNext()
+        public JsonResult GetNext(int siteId)
         {
 
             var qry = from s in db.RecruitingSites
                         select s;
-            qry = qry.Where(s => s.ID == 1);
+            qry = qry.Where(s => s.ID == siteId);
             RecruitingSite site = qry.FirstOrDefault();
 
             List<int> listNextPositions = new List<int>();
@@ -585,13 +585,13 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
-        public void SetLevelNo(int levelNoLinkHigherJob1)
+        public void SetLevelNo(int levelNoLinkHigherJob1, int siteId)
         {
             if (ModelState.IsValid)
             {
                 var qry = from s in db.RecruitingSites
                           select s;
-                qry = qry.Where(s => s.ID == defaultSiteID);
+                qry = qry.Where(s => s.ID == siteId);
                 RecruitingSite site = qry.FirstOrDefault();
 
                 site.levelNoLinkHigherJob1 = levelNoLinkHigherJob1;
@@ -608,6 +608,35 @@ namespace MVCMovie.Controllers
                           select s.levelNoLinkHigherJob1;
                 int levelNoLinkHigherJob1 = qry.FirstOrDefault();
                 return Json(levelNoLinkHigherJob1);
+            }
+
+            return null;
+        }
+
+        [HttpPost]
+        public void SetIsContainJobLink(int levelNoLinkHigherJob1)
+        {
+            if (ModelState.IsValid)
+            {
+                var qry = from s in db.RecruitingSites
+                          select s;
+                qry = qry.Where(s => s.ID == defaultSiteID);
+                RecruitingSite site = qry.FirstOrDefault();
+
+                site.levelNoLinkHigherJob1 = levelNoLinkHigherJob1;
+                db.SaveChanges();
+            }
+        }
+
+        public JsonResult GetIsContainJobLink(int siteId)
+        {
+            if (ModelState.IsValid)
+            {
+                var qry = from s in db.RecruitingSites
+                          where (s.ID == siteId)
+                          select s.isContainJobLink;
+                bool isContainJobLink = qry.FirstOrDefault();
+                return Json(isContainJobLink);
             }
 
             return null;

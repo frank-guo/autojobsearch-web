@@ -121,8 +121,8 @@
                 locationConds.push(condition);
             }
 
-            var titleCondsJson = JSON.stringify(titleConds);
-            var locationCondsJson = JSON.stringify(locationConds);
+            //var titleCondsJson = JSON.stringify(titleConds);
+            //var locationCondsJson = JSON.stringify(locationConds);
 
             var data = JSON.stringify({
                 ID: @ViewBag.siteId,
@@ -212,7 +212,6 @@
                 }
             });
 
-            debugger;
             //Get and set Job2 input area
             $.ajax({
                 type: "POST",
@@ -226,6 +225,68 @@
                     $("#node2").text($(node1).prop('outerHTML'));
                 }
             });
+
+            //Get and set Next input area
+            $.ajax({
+                type: "POST",
+                url: "/Browser/GetNext",
+                data: siteIdJson,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (lp) {
+                    listOfNodes = lp;
+                    var node = getNode(lp);
+                    $("#nextPage").text($(node).prop('outerHTML'));
+                }
+            });
+
+            //Get and set Company input area
+            $.ajax({
+                type: "POST",
+                url: "/Browser/GetCompany",
+                data: siteIdJson,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (lp) {
+                    listOfNodes = lp;
+                    var node = getNode(lp);
+                    $("#company").text($(node).prop('outerHTML'));
+                }
+            });
+
+            //Get and set Company input area
+            $.ajax({
+                type: "POST",
+                url: "/Browser/GetOthers",
+                data: siteIdJson,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (lp) {
+                    listOfNodes = lp;
+                    var node = getNode(lp);
+                    $("#others").text($(node).prop('outerHTML'));
+                }
+            });
+
+            //Get and set Check box for whether it contains job links
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: "/Browser/GetIsContainJobLink",
+                data: siteIdJson,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (rv) {
+                    var isContainJobLink = rv;
+                    if (isContainJobLink){
+                        $("#containLinks")[0].checked = true;
+                    }
+                    else{
+                        $("#containLinks")[0].checked = false;
+                    }
+                }
+            });
+
             return;
         }
 
@@ -239,9 +300,8 @@
         var node1;
 
         if ( listOfNodes!=null ) {
-            //Get to the job1
             for (i = listOfNodes.length-1; i>=0 ; i--) {
-                node1 = $(parent1).children().eq(listOfNodes[i].position);
+                node1 = $(parent1).children().eq(listOfNodes[i]);
                 parent1 = node1;
             }
         }
