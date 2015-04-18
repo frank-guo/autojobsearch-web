@@ -21,29 +21,7 @@
     var locationNo = 1;
     $(document).ready(function () {
         //var d = $("#myframe")[0].contentDocument; // contentWindow works in IE7 and FF
-
-        //d.open(); d.close(); // must open and close document object to start using it!
-
-        // now start doing normal jQuery:
-        //$("body", d).append("<div>A</div><div>B</div><div>C</div>")
-
         checkIframeLoaded();
-
-
-
-        /*var myVar = setTimeout(function () {
-            var d = window.frames["myframename"].document;
-            $("#demo").html($(d).contents().find("title").html());
-            var script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = "/js/ContextMenu.js";
-            $("head", d).append(script);
-
-            //var doc1 = $("#myframe")[0].contenDocument || $("#myframe")[0].contentWindow.document;
-        }, 5000);*/
-
-        //Send email to the stipulated email address
-        //debugger;
 
         $('#startEmail').click(function () {
             //Send credential to the website to store
@@ -66,10 +44,34 @@
             //show the text box to help find job1's link
             if (this.checked) {
                 $("#locateJob1Link").removeAttr("disabled");
+
+                //Set isContainJobLink
+                $.ajax({
+                    type: "POST",
+                    url: "/Browser/SetIsContainJobLink",
+                    data: JSON.stringify({isContainJobLink:true}),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        alert("send listOfNodes successfully!");
+                    }
+                });
             }
 
             if (!this.checked) {
                 $("#locateJob1Link").attr("disabled", "disabled")
+
+                //Reset isContainJobLink
+                $.ajax({
+                    type: "POST",
+                    url: "/Browser/SetIsContainJobLink",
+                    data: JSON.stringify({isContainJobLink:false}),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        alert("send listOfNodes successfully!");
+                    }
+                });
             }
         });
 
@@ -268,21 +270,22 @@
                 }
             });
 
-            //Get and set Check box for whether it contains job links
-            debugger;
+            //Get and set the Check box for whether it contains job links
             $.ajax({
                 type: "POST",
                 url: "/Browser/GetIsContainJobLink",
                 data: siteIdJson,
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                success: function (rv) {
-                    var isContainJobLink = rv;
+                success: function (retValue) {
+                    var isContainJobLink = retValue;
                     if (isContainJobLink){
                         $("#containLinks")[0].checked = true;
+                        $("#locateJob1Link").removeAttr("disabled");
                     }
                     else{
                         $("#containLinks")[0].checked = false;
+                        $("#locateJob1Link").attr("disabled", "disabled")
                     }
                 }
             });

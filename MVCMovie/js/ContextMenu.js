@@ -186,7 +186,8 @@ $("#itemNext").click(function (e) {
 $("#goUp").click(function (e) {
     //ToDo: get job1Link by ajax call since it will be null if job1 is set by the value in database when the page is just open
     //instead of by manually choose the item in the context menu so that up button will not work
-    debugger;
+
+    //Get Job1Link
     if (job1Link != null) {
         nodeListOfJob1.push(job1Link);
         job1Link = $(job1Link).parent();
@@ -194,43 +195,35 @@ $("#goUp").click(function (e) {
 
         levelNoLinkHigherJob1++;
 
-        var data = {levelNoLinkHigherJob1: levelNoLinkHigherJob1, siteId:siteId};
-        var dataJson = JSON.stringify(data);
-
-        $.ajax({
-            type: "POST",
-            url: "/Browser/SetLevelNo",
-            data: data,
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (json) {
-                alert("send listPositions successfully!");
-            }
-        });
-
+        setLevelNo(levelNoLinkHigherJob1);
     }
 });
+
+function setLevelNo(levelNoLinkHigherJob1){
+    var data = { levelNoLinkHigherJob1: levelNoLinkHigherJob1, siteId:siteId };
+    var dataJson = JSON.stringify(data);
+
+    $.ajax({
+        type: "POST",
+        url: "/Browser/SetLevelNo",
+        data: dataJson,
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (json) {
+            alert("send listPositions successfully!");
+        }
+    });
+}
 
 $("#goDown").click(function (e) {
     if (nodeListOfJob1.length != 0) {
         job1Link = nodeListOfJob1.pop();
         $("#job1link").text($(job1Link).prop('outerHTML'));
 
+        debugger;
         levelNoLinkHigherJob1--;
 
-        var levelNo = { "levelNoLinkHigherJob1": levelNoLinkHigherJob1 };
-        var levelNoJson = JSON.stringify(levelNo);
-
-        $.ajax({
-            type: "POST",
-            url: "/Browser/SetLevelNo",
-            data: levelNoJson,
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (json) {
-                alert("send listPositions successfully!");
-            }
-        });
+        setLevelNo(levelNoLinkHigherJob1);
 
     }
 });
@@ -315,7 +308,6 @@ $("#itemHLight").click(function (e) {
         }
     }
 
-    //$('#op').append("<br>");
     //parent1 is currently at th level of the common ancestor
     //i is currently at the level one lower than the common ancestor
     //Get all the job title nodes

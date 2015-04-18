@@ -614,7 +614,7 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
-        public void SetIsContainJobLink(int levelNoLinkHigherJob1)
+        public void SetIsContainJobLink(bool isContainJobLink)
         {
             if (ModelState.IsValid)
             {
@@ -623,7 +623,7 @@ namespace MVCMovie.Controllers
                 qry = qry.Where(s => s.ID == defaultSiteID);
                 RecruitingSite site = qry.FirstOrDefault();
 
-                site.levelNoLinkHigherJob1 = levelNoLinkHigherJob1;
+                site.isContainJobLink = isContainJobLink;
                 db.SaveChanges();
             }
         }
