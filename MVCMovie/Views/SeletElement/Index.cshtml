@@ -205,6 +205,11 @@
                                 var linkOfJob1 = node1;
                                 for(i = 0; i<levelNo;i++){
                                     linkOfJob1 = $(linkOfJob1).parent();
+                                    //In case i is too large so that linkOfJob1 has reached at HTML element
+                                    //and parent() will return null 
+                                    if($(linkOfJob1).prop("tagName") == "HTML"){
+                                        break;
+                                    }
                                 }
                                 $("#job1link").text($(linkOfJob1).prop('outerHTML'));
                             }
@@ -299,7 +304,7 @@
 
     function getNode(listOfNodes){
         var i;
-        var parent1 = doc1;
+        var parent1 = $("#myframe")[0].contenDocument || $("#myframe")[0].contentWindow.document;
         var node1;
 
         if ( listOfNodes!=null ) {

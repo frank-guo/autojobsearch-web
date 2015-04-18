@@ -184,20 +184,88 @@ $("#itemNext").click(function (e) {
 });
 
 $("#goUp").click(function (e) {
-    //ToDo: get job1Link by ajax call since it will be null if job1 is set by the value in database when the page is just open
+    //Get job1Link by ajax call since it will be null if job1 is set by the value in database when the page is just open
     //instead of by manually choose the item in the context menu so that up button will not work
+    if (job1Link == null) {
+        $.ajax({
+            type: "POST",
+            url: "/Browser/GetJobs",
+            data: JSON.stringify({ siteId: siteId }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (lp) {
+                if (lp == null || lp.length == 0) {
+                    return;
+                }
+                var jobPath = lp;
+                var job1Path = [];
+                //Convert jobpath to an usual path format
+                for (i = 0; i < jobPath.length; i++) {
+                    job1Path[i] = jobPath[i].position;
+                }
+                var job1Node = getNode(job1Path);
+                var text = $(job1Node).prop('outerHTML');
 
-    //Get Job1Link
-    if (job1Link != null) {
-        nodeListOfJob1.push(job1Link);
-        job1Link = $(job1Link).parent();
-        $("#job1link").text($(job1Link).prop('outerHTML'));
+                //Get levelNoLinkHigherJob1
+                $.ajax({
+                    type: "POST",
+                    url: "/Browser/GetLevelNo",
+                    data: JSON.stringify({ siteId: siteId }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (levelNo) {
+                        levelNoLinkHigherJob1 = levelNo;
+                        for (i = 0; i < levelNo; i++) {
+                            job1Node = $(job1Node).parent();
+                        }
 
+                        job1Link = job1Node;
+
+                        //Display the one-level higher node and store levelNoLinkHigherJob1 in database
+                        if (job1Link != null && $(job1Link).prop("tagName") != "HTML") {
+                            DisplayHigherJob1Link();
+                            levelNoLinkHigherJob1++;
+
+                            setLevelNo(levelNoLinkHigherJob1);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    //Display the one-level higher node and store levelNoLinkHigherJob1 in database
+    if (job1Link != null && $(job1Link).prop("tagName") != "HTML") {
+        DisplayHigherJob1Link();
         levelNoLinkHigherJob1++;
-
         setLevelNo(levelNoLinkHigherJob1);
     }
+
 });
+
+function DisplayHigherJob1Link() {
+    //push the last job1Link for Godown to easily get job1Link by pop()
+    //ToDo: Need to restore the nodeListOfJob1 corresponding the current job1Link when just openg the page
+    //or else Godown can not go down lower than the stored job1Link
+    nodeListOfJob1.push(job1Link);
+    job1Link = $(job1Link).parent();
+    $("#job1link").text($(job1Link).prop('outerHTML'));
+}
+
+function getNode(listOfPositions) {
+    var i;
+    var parent1 = doc1;
+    var node1;
+
+    if (listOfPositions != null) {
+        for (i = listOfPositions.length - 1; i >= 0 ; i--) {
+            node1 = $(parent1).children().eq(listOfPositions[i]);
+            parent1 = node1;
+        }
+    }
+
+    return node1;
+}
 
 function setLevelNo(levelNoLinkHigherJob1){
     var data = { levelNoLinkHigherJob1: levelNoLinkHigherJob1, siteId:siteId };
@@ -216,11 +284,12 @@ function setLevelNo(levelNoLinkHigherJob1){
 }
 
 $("#goDown").click(function (e) {
+    //ToDo: Need to restore the nodeListOfJob1 corresponding the current job1Link when just openg the page
+    //or else Godown can not work
     if (nodeListOfJob1.length != 0) {
         job1Link = nodeListOfJob1.pop();
         $("#job1link").text($(job1Link).prop('outerHTML'));
 
-        debugger;
         levelNoLinkHigherJob1--;
 
         setLevelNo(levelNoLinkHigherJob1);
