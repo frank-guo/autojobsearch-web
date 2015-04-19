@@ -203,9 +203,8 @@ $("#goUp").click(function (e) {
                 for (i = 0; i < jobPath.length; i++) {
                     job1Path[i] = jobPath[i].position;
                 }
-                var job1Node = getNode(job1Path);
-                var text = $(job1Node).prop('outerHTML');
-
+                var node = getNode(job1Path);
+                var job1Node = node;
                 //Get levelNoLinkHigherJob1
                 $.ajax({
                     type: "POST",
@@ -215,7 +214,11 @@ $("#goUp").click(function (e) {
                     contentType: "application/json; charset=utf-8",
                     success: function (levelNo) {
                         levelNoLinkHigherJob1 = levelNo;
+                        nodeListOfJob1 = [];
                         for (i = 0; i < levelNo; i++) {
+                            //Restore nodeListOfJob1 for Godown
+                            nodeListOfJob1.push(job1Node);
+
                             job1Node = $(job1Node).parent();
                         }
 
@@ -245,8 +248,6 @@ $("#goUp").click(function (e) {
 
 function DisplayHigherJob1Link() {
     //push the last job1Link for Godown to easily get job1Link by pop()
-    //ToDo: Need to restore the nodeListOfJob1 corresponding the current job1Link when just openg the page
-    //or else Godown can not go down lower than the stored job1Link
     nodeListOfJob1.push(job1Link);
     job1Link = $(job1Link).parent();
     $("#job1link").text($(job1Link).prop('outerHTML'));
@@ -286,6 +287,56 @@ function setLevelNo(levelNoLinkHigherJob1){
 $("#goDown").click(function (e) {
     //ToDo: Need to restore the nodeListOfJob1 corresponding the current job1Link when just openg the page
     //or else Godown can not work
+    debugger;
+    //Restore  nodeListOfJob1 since it is null when the page is just loaded
+    if (nodeListOfJob1.length == 0) {
+        $.ajax({
+            type: "POST",
+            url: "/Browser/GetJobs",
+            data: JSON.stringify({ siteId: siteId }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (lp) {
+                if (lp == null || lp.length == 0) {
+                    return;
+                }
+                var jobPath = lp;
+                var job1Path = [];
+                //Convert jobpath to an usual path format
+                for (i = 0; i < jobPath.length; i++) {
+                    job1Path[i] = jobPath[i].position;
+                }
+                var node = getNode(job1Path);
+                var job1Node = node;
+                //Get levelNoLinkHigherJob1
+                $.ajax({
+                    type: "POST",
+                    url: "/Browser/GetLevelNo",
+                    data: JSON.stringify({ siteId: siteId }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (levelNo) {
+                        levelNoLinkHigherJob1 = levelNo;
+                        nodeListOfJob1 = [];
+                        for (i = 0; i < levelNo; i++) {
+                            nodeListOfJob1.push(job1Node);
+                        }
+
+                        if (nodeListOfJob1.length != 0) {
+                            job1Link = nodeListOfJob1.pop();
+                            $("#job1link").text($(job1Link).prop('outerHTML'));
+
+                            levelNoLinkHigherJob1--;
+
+                            setLevelNo(levelNoLinkHigherJob1);
+                        }
+
+                    }
+                });
+            }
+        });
+    }
+
     if (nodeListOfJob1.length != 0) {
         job1Link = nodeListOfJob1.pop();
         $("#job1link").text($(job1Link).prop('outerHTML'));
@@ -293,9 +344,9 @@ $("#goDown").click(function (e) {
         levelNoLinkHigherJob1--;
 
         setLevelNo(levelNoLinkHigherJob1);
-
     }
 });
+
 
 $("#itemHLight").click(function (e) {
     //In general, the function first caculate the job1's path with the mark of the common parent of job1 and job2

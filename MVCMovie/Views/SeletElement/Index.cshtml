@@ -205,7 +205,7 @@
                                 var linkOfJob1 = node1;
                                 for(i = 0; i<levelNo;i++){
                                     linkOfJob1 = $(linkOfJob1).parent();
-                                    //In case i is too large so that linkOfJob1 has reached at HTML element
+                                    //In case i is too large, linkOfJob1 has reached at HTML element
                                     //and parent() will return null 
                                     if($(linkOfJob1).prop("tagName") == "HTML"){
                                         break;
