@@ -311,14 +311,6 @@ namespace MVCMovie.Controllers
                           select s;
                 qry = qry.Where(s => s.ID == condID);
                 Condition cond = qry.FirstOrDefault();
-                
-
-                /*
-                 var qry1 = from s in db.Conditions
-                           where (s.ID == 1)
-                           select s.locationConds;
-                IList<LocationCond> lc1 = qry1.FirstOrDefault();
-                 */
 
                 //The condition of condID doesn't exist, and then insert the new condition with the condID
                 //Othewise, remove the original one and insert the new condition with the condID
@@ -337,18 +329,24 @@ namespace MVCMovie.Controllers
                 qry = qry.Where(s => s.ID == condID);
                 cond = qry.FirstOrDefault();
 
-                for (int i = 0; i < titleConds.Count; i++)
+                if (titleConds != null)
                 {
+                    for (int i = 0; i < titleConds.Count; i++)
+                    {
                         TitleCond tc = new TitleCond();
                         tc.titleCond = titleConds.ElementAt(i);
                         cond.titleConds.Add(tc);
+                    }
                 }
 
-                for (int i = 0; i < locationConds.Count; i++)
+                if (locationConds != null)
                 {
-                    LocationCond lc = new LocationCond();
-                    lc.locationCond = locationConds.ElementAt(i);
-                    cond.locationConds.Add(lc);
+                    for (int i = 0; i < locationConds.Count; i++)
+                    {
+                        LocationCond lc = new LocationCond();
+                        lc.locationCond = locationConds.ElementAt(i);
+                        cond.locationConds.Add(lc);
+                    }
                 }
 
                 db.SaveChanges();
@@ -493,6 +491,41 @@ namespace MVCMovie.Controllers
             List<WebsiteViewModel> sites = result.ToList();
 
             return Json(sites, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetCondition(int siteId)
+        {
+
+            var qry = from s in db.Conditions
+                      select s;
+            qry = qry.Where(s => s.ID == siteId);
+            Condition cond = qry.FirstOrDefault();
+
+            if (cond == null)
+            {
+                return null;
+            }
+
+            List<TitleCond> titleConds = new List<TitleCond>();
+            List<LocationCond> locationConds = new List<LocationCond>();
+            foreach (TitleCond tc in cond.titleConds)
+            {
+
+                titleConds.Add(tc);
+            }
+
+            foreach (LocationCond lc in cond.locationConds)
+            {
+
+                locationConds.Add(lc);
+            }
+
+            Condition condition = new Condition();
+            condition.titleConds = titleConds;
+            condition.locationConds = locationConds;
+
+            return Json(condition, JsonRequestBehavior.AllowGet);
 
         }
 

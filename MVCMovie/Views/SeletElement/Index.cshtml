@@ -77,16 +77,7 @@
 
 
         $('#addOneCond').click(function () {
-            var lastOrId = "#titleOr" + titleNo;
-            titleNo++;
-            var div1 = '<div class="col-md-3 myrow btmAlgn">';
-            var titleDiv = '<div class="col-md-8 left0"><input type="text" class="form-control top5" id="inputTitle'
-                + titleNo + '" placeholder="Keyword" /></div>';
-            var orDiv = '<div class="col-md-4" id="titleOr' + titleNo + '" style="display:none">OR</div>';
-            var endDiv1 = '</div>';
-            var condDiv = div1 + titleDiv + orDiv + endDiv1;
-            $(lastOrId).show();
-            $("#condRow").append(condDiv);
+            AddOneTitleCondInput();
         });
 
         $('#addLocation').click(function () {
@@ -107,24 +98,24 @@
         });
 
         $('#setCond').click(function () {
-            debugger;
             var titleConds = [];
             var locationConds = [];
 
             for (var i = 1; i <= titleNo; i++) {
                 id = "#inputTitle" + i;
                 var condition = $(id).val();
-                titleConds.push(condition);
+                if(condition!=null && condition!=""){
+                    titleConds.push(condition);
+                }
             }
 
             for (var i = 1; i <= locationNo; i++) {
                 id = "#location" + i;
                 var condition = $(id).val();
-                locationConds.push(condition);
+                if(condition!=null && condition!=""){
+                    locationConds.push(condition);
+                }
             }
-
-            //var titleCondsJson = JSON.stringify(titleConds);
-            //var locationCondsJson = JSON.stringify(locationConds);
 
             var data = JSON.stringify({
                 ID: @ViewBag.siteId,
@@ -295,11 +286,53 @@
                 }
             });
 
+            //Get and set conditions
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: "/Browser/GetCondition",
+                data: siteIdJson,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (condition) {
+                    if(condition==null){
+                        return;
+                    }
+
+                    //Set titleConds
+                    for(i=0;i<condition.titleConds.length;i++){
+                        //Set titleCond with titleNo
+                        titleId = "#inputTitle" + titleNo;
+                        var title = condition.titleConds[i].titleCond;
+                        $(titleId).val(title);
+
+                        if(i==condition.titleConds.length - 1){
+                            break;
+                        }
+
+                        AddOneTitleCondInput();
+
+                    }
+                }
+            });
             return;
         }
 
         window.setTimeout('checkIframeLoaded();', 100);
 
+    }
+
+    function AddOneTitleCondInput(){
+        var lastOrId = "#titleOr" + titleNo;
+        titleNo++;
+        var div1 = '<div class="col-md-3 myrow btmAlgn">';
+        var titleDiv = '<div class="col-md-8 left0"><input type="text" class="form-control top5" id="inputTitle'
+            + titleNo + '" placeholder="Keyword" /></div>';
+        var orDiv = '<div class="col-md-4" id="titleOr' + titleNo + '" style="display:none">OR</div>';
+        var endDiv1 = '</div>';
+        var condDiv = div1 + titleDiv + orDiv + endDiv1;
+        $(lastOrId).show();
+        $("#condRow").append(condDiv);
     }
 
     function getNode(listOfNodes){
@@ -604,5 +637,4 @@
     </ul>
 </div>
 
-<span id="op">TEST</span>
 
