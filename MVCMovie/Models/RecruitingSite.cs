@@ -24,14 +24,19 @@ namespace MVCMovie.Models
         [DefaultValue(0)]
         public int levelNoLinkHigherJob1 {get; set; }
 
+        [Display(Name = "Next Page")]
         public virtual IList<NextPosition> ListNextPositions { get; set; }
 
+        [Display(Name = "Job1")]
         public virtual IList<PathNode> JobPath { get; set; }
 
+        [Display(Name = "Job2")]
         public virtual IList<Job2Position> Job2Path { get; set; }
 
+        [Display(Name = "Company")]
         public virtual IList<Company> companyPath { get; set; }
 
+        [Display(Name = "Others")]
         public virtual IList<Others> othersPath { get; set; }
     }
 

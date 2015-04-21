@@ -12,7 +12,8 @@ namespace MVCMovie.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
-        
+
+        [Display(Name = "Job Title")]
         public virtual IList<TitleCond> titleConds { get; set; }
 
         public virtual IList<LocationCond> locationConds { get; set; }

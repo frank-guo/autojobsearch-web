@@ -81,20 +81,7 @@
         });
 
         $('#addLocation').click(function () {
-            var lastOrId = "#locationOr" + locationNo;
-            locationNo++;
-            //var id = "location" + locationNo;
-            //$("#locationRow").append('<div class="col-md-1 btmAlgn"><label class="top5">OR</label></div>');
-            //var locationNode = '<div class="col-md-2"><input type="text" class="form-control top5" id="' + id + '" placeholder="City Name"></div>';
-            //$("#locationRow").append(locationNode);
-            var div1 = '<div class="col-md-3 myrow btmAlgn">';
-            var locationDiv = '<div class="col-md-8 left0"><input type="text" class="form-control top5" id="location'
-                + locationNo + '" placeholder="City Name" /></div>';
-            var orDiv = '<div class="col-md-4" id="locationOr' + locationNo + '" style="display:none">OR</div>';
-            var endDiv1 = '</div>';
-            var locationDiv = div1 + locationDiv + orDiv + endDiv1;
-            $(lastOrId).show();
-            $("#locationRow").append(locationDiv);
+            AddOneLocationCondInput();
         });
 
         $('#setCond').click(function () {
@@ -286,8 +273,7 @@
                 }
             });
 
-            //Get and set conditions
-            debugger;
+            //Get and set title conditions
             $.ajax({
                 type: "POST",
                 url: "/Browser/GetCondition",
@@ -311,15 +297,45 @@
                         }
 
                         AddOneTitleCondInput();
+                    }
 
+                    //Set locationConds
+                    for(i=0;i<condition.locationConds.length;i++){
+                        //Set locationConds with locationNo
+                        locationId = "#location" + locationNo;
+                        var location = condition.locationConds[i].locationCond;
+                        $(locationId).val(location);
+
+                        if(i==condition.locationConds.length - 1){
+                            break;
+                        }
+
+                        AddOneLocationCondInput();
                     }
                 }
             });
+
+            //Get and set 
+
             return;
         }
 
         window.setTimeout('checkIframeLoaded();', 100);
 
+    }
+
+    function AddOneLocationCondInput(){
+        var lastOrId = "#locationOr" + locationNo;
+        locationNo++;
+
+        var div1 = '<div class="col-md-3 myrow btmAlgn">';
+        var locationDiv = '<div class="col-md-8 left0"><input type="text" class="form-control top5" id="location'
+            + locationNo + '" placeholder="City Name" /></div>';
+        var orDiv = '<div class="col-md-4" id="locationOr' + locationNo + '" style="display:none">OR</div>';
+        var endDiv1 = '</div>';
+        var locationDiv = div1 + locationDiv + orDiv + endDiv1;
+        $(lastOrId).show();
+        $("#locationRow").append(locationDiv);
     }
 
     function AddOneTitleCondInput(){
@@ -445,7 +461,6 @@
 @*iframe requests /browser/Index and gets the recruiting site content from the controller which 
     can be considered as an internal and secured content so that users are able to get information from the iframe*@
 <iframe id="myframe" name="myframename" src="/browser/Index/@ViewBag.siteId" width="1200" height="400"></iframe>
-<p id="demo">TEST</p>
 
 <div class="container">
     <div class="panel panel-default">
@@ -456,19 +471,19 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="input-group">
-                                <span class="input-group-addon">Job1</span>
+                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.JobPath)</span>
                                 <textarea id="node1" class="form-control"></textarea>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <span class="input-group-addon">Job2</span>
+                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.Job2Path)</span>
                                 <textarea id="node2" class="form-control"></textarea>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <span class="input-group-addon">Next<br /> Page</span>
+                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.ListNextPositions)</span>
                                 <textarea id="nextPage" class="form-control"></textarea>
                             </div>
                         </div>
@@ -477,7 +492,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="input-group">
-                                <span class="input-group-addon">Company</span>
+                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.companyPath)</span>
                                 <textarea id="company" class="form-control"></textarea>
                             </div>
                         </div>
