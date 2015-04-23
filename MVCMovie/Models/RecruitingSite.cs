@@ -4,6 +4,8 @@ using System.Linq;
 using System.Data.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 using System.Data.Entity;
 using System.ComponentModel;
 
@@ -11,7 +13,6 @@ namespace MVCMovie.Models
 {
     public class RecruitingSite
     {
-
         public int ID { get; set; }
 
         [StringLength(256)]
@@ -38,6 +39,8 @@ namespace MVCMovie.Models
 
         [Display(Name = "Others")]
         public virtual IList<Others> othersPath { get; set; }
+
+        public virtual Condition condition { get; set; }
     }
 
     public class RecruitingSiteDBContext : DbContext
