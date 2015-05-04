@@ -266,6 +266,8 @@
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="js\ContextMenu.css" />
     <Content Include="js\ContextMenu.js" />
+    <Content Include="js\SelectElement.css" />
+    <Content Include="js\SelectElement.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
