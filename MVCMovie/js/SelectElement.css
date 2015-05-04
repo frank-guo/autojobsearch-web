@@ -1,0 +1,86 @@
+﻿ 
+    .buttonBox {
+        position: absolute;     /*relative to the bottom of its container element*/
+        bottom:0;
+        right:0;
+    }
+
+    .myrow > *
+    {
+        float: none;
+        position: relative;
+        display: inline-block;   /*Displays an element as an inline-level block container. The inside of this block is 
+                                 formatted as block-level box, and the element itself is formatted as an inline-level box */
+    }
+
+    .btmAlgn > *{
+        vertical-align: bottom;
+    }
+
+    .middleAlgn > *{
+        vertical-align: middle;
+    }
+
+    .bd{
+        border-style: solid;
+    }
+
+    .btm0{      /*This works for align OR with title textbox at bottom too, but this is worse than the combination of .myrow and .btmAlgn*/
+        position: absolute;
+        bottom:0;
+    }
+
+    .btmNagtive5{
+        position:relative;  /*relative to normal position*/
+        bottom:-5px;
+    }
+
+    .pad0{
+        padding:0;
+    }
+
+    .top5 
+    { 
+        margin-top:5%; 
+    }
+    .top10 
+    { 
+        margin-top:10%; 
+    }
+    .top20 
+    { 
+        margin-top:20%; 
+    }
+    .top50 
+    { 
+        margin-top:50%; 
+    }
+
+    .bottom5{
+        margin-bottom: 5px;
+    }
+
+    .fsize50{
+        font-size: 50%;
+    }
+
+    .myspan {
+    width:30px;
+    margin-right:20px;
+    }
+
+    .left0{
+        padding-left:0      /*Note: margin-left:0 doesn't work here since margin-left is already 0
+                               alwary try this two when it's not working*/
+    }
+
+    .padBottm0{
+        padding-bottom:0;
+        margin-bottom:-20px;
+    }
+
+    .row 
+    {
+    position: relative;
+    }
+
