@@ -287,7 +287,7 @@ function setLevelNo(levelNoLinkHigherJob1){
 $("#goDown").click(function (e) {
     //ToDo: Need to restore the nodeListOfJob1 corresponding the current job1Link when just openg the page
     //or else Godown can not work
-    debugger;
+
     //Restore  nodeListOfJob1 since it is null when the page is just loaded
     if (nodeListOfJob1.length == 0) {
         $.ajax({
@@ -320,6 +320,7 @@ $("#goDown").click(function (e) {
                         nodeListOfJob1 = [];
                         for (i = 0; i < levelNo; i++) {
                             nodeListOfJob1.push(job1Node);
+                            job1Node = $(job1Node).parent();
                         }
 
                         if (nodeListOfJob1.length != 0) {

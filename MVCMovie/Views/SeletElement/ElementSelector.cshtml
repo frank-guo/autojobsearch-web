@@ -1,0 +1,75 @@
+﻿@model MVCMovie.Models.RecruitingSite
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">Specify Elements for Auto Searching: </div>
+        <div class="panel-body">
+            <form>
+                <fieldset disabled="disabled">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.JobPath)</span>
+                                <textarea id="node1" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.Job2Path)</span>
+                                <textarea id="node2" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.ListNextPositions)</span>
+                                <textarea id="nextPage" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.companyPath)</span>
+                                <textarea id="company" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.othersPath)</span>
+                                <textarea id="others" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="containLinks"> Contain job links in email</label>
+                    </div>
+                </div>
+            </div>
+
+            <fieldset disabled="disabled" id="locateJob1Link">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Job1</span>
+                            <textarea id="job1link" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    @*here must be col-md-8, othewise the button will not next the textarea.
+                        The btn-primary will take care of the button width*@
+                    <div class="col-md-8 buttonBox">
+                        <div class="btn-group-vertical">
+                            <button id="goUp" class="btn btn-primary btn-xs">Go up one level</button>
+                            <button id="goDown" class="btn btn-primary btn-xs">Go down one level</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
