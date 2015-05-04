@@ -48,7 +48,14 @@ namespace MVCMovie.Controllers
             browser.Url = new Uri("about:blank");
 
             string html;
-            html = client.DownloadString(url);
+
+            try { 
+                html = client.DownloadString(url);
+            }
+            catch
+            {
+                html = null;
+            }
             HtmlDocument document = browser.Document.OpenNew(true);
             document.Write(html);
             HtmlElement htmlElement = document.GetElementsByTagName("html")[0];

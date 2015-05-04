@@ -335,6 +335,8 @@
     <Content Include="Views\Movies\Index.cshtml" />
     <Content Include="Views\Browser\Index.cshtml" />
     <Content Include="Views\SeletElement\Index.cshtml" />
+    <Content Include="Views\SeletElement\Condition.cshtml" />
+    <Content Include="Views\SeletElement\ElementSelector.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
