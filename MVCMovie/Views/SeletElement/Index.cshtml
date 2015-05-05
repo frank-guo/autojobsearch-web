@@ -8,7 +8,7 @@
 
 
 
-@Scripts.Render("js/SelectElement.js");
+@Scripts.Render("js/SelectElement.js")
 
 @section Styles{
     @Styles.Render("js/SelectElement.css")
@@ -17,187 +17,12 @@
 @*iframe requests /browser/Index and gets the recruiting site content from the controller which 
     can be considered as an internal and secured content so that users are able to get information from the iframe*@
 <iframe id="myframe" name="myframename" src="/browser/Index/@ViewBag.siteId" width="1200" height="400"></iframe>
-
-
 <br/>
 <br />
-
 <div class="container">
-    <div class="panel panel-default">
-        <div class="panel-heading">Specify Elements for Auto Searching: </div>
-        <div class="panel-body">
-            <form>
-                <fieldset disabled="disabled">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.JobPath)</span>
-                                <textarea id="node1" class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.Job2Path)</span>
-                                <textarea id="node2" class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.ListNextPositions)</span>
-                                <textarea id="nextPage" class="form-control"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.companyPath)</span>
-                                <textarea id="company" class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.othersPath)</span>
-                                <textarea id="others" class="form-control"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="checkbox">
-                        <label><input type="checkbox" id="containLinks"> Contain job links in email</label>
-                    </div>
-                </div>
-            </div>
-
-            <fieldset disabled="disabled" id="locateJob1Link">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">Job1</span>
-                            <textarea id="job1link" class="form-control"></textarea>
-                        </div>
-                    </div>
-                    @*here must be col-md-8, othewise the button will not next the textarea.
-                        The btn-primary will take care of the button width*@
-                    <div class="col-md-8 buttonBox">
-                        <div class="btn-group-vertical">
-                            <button id="goUp" class="btn btn-primary btn-xs">Go up one level</button>
-                            <button id="goDown" class="btn btn-primary btn-xs">Go down one level</button>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-    </div>
-
-
-    @*Search Condition Setting*@
-    <div class="panel panel-default">
-        <div class="panel-heading">Search Conditions:</div>
-        <div class="panel-body">
-            <div class="search">
-                <div class="row">
-                    <div class="col-md-12 btmNagtive5">
-                        <label for="inputTitle1">@Html.DisplayNameFor(model => model.condition.titleConds)</label>
-                    </div>
-                </div>
-                <div class="row " id="condRow">
-                    <div class="col-md-3 myrow btmAlgn">
-                        <div class="col-md-8 left0">
-                            <input type="text" class="form-control top5" id="inputTitle1" placeholder="Keyword" />
-                            @*Note: 
-                                1. The inline-block strategy used allows positioning of the div columns to stay in the flow of the document, 
-                                while also allowing the use of vertical-align styling. I've included a style for bottom alignment and middle 
-                                alignment for convenience.
-                                2. The following line must not have any whitespace between </div> and <div>
-                                because This is because inline-block gives 'space' to any character (including a space character). Essentially, 
-                                it is because a space character has a given font-size, which ends up pushing the respective right most columns 
-                                underneath the left most columns. There are hacks to overcome this, but they are note cross-browser compatible, 
-                                so this solution is hack-free, and works with multiple columns.
-                                Refer to http://stackoverflow.com/questions/21630413/bootstrap-3-bottom-align-column-within-row*@
-                        </div><div class="col-md-4" id="titleOr1" style="display:none">
-                            OR
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <button class="btn btn-primary btn-xs top5 bottom5" id="addOneCond">Add One</button>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-2 btmNagtive5">
-                        <label for="location1">@Html.DisplayNameFor(model => model.condition.locationConds)</label>
-                    </div>
-                </div>
-                <div class="row" id="locationRow">
-                    <div class="col-md-3 myrow btmAlgn">
-                        <div class="col-md-8 left0">
-                            <input type="text" class="form-control top5" id="location1" placeholder="City Name">
-                        </div><div class="col-md-4" id="locationOr1" style="display:none">
-                            OR
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <button class="btn btn-primary btn-xs top5 bottom5" id="addLocation">Add One</button>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="checkbox">
-                            <label><input type="checkbox"> Today</label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="checkbox">
-                            <label><input type="checkbox"> Yesterday </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <button class="btn btn-primary" id="setCond">Set Conditions</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @*Email Setting*@
-    <div class="panel panel-default">
-        <div class="panel-heading">Email Setting:</div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">Email</span>
-                        <input id="email" class="form-control" value="" />
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">Password</span>
-                        <input id="password" type="password" class="form-control" value="" />
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <button id="startEmail" class="btn btn-primary">Turn on Sending Email</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    @Html.Partial("ElementSelector", Model)
+    @Html.Partial("Condition", Model.condition)
+    @Html.Partial("Email")
 </div>
 
 <div id="cntnr" class="dropdown clearfix">
