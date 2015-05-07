@@ -6,8 +6,9 @@ cssLink.type = "text/css";
 $('head',document).append(cssLink);
 
 
-    var titleNo = 1;
+var titleNo = 1;
 var locationNo = 1;
+
 $(document).ready(function () {
     //var d = $("#myframe")[0].contentDocument; // contentWindow works in IE7 and FF
     checkIframeLoaded();
@@ -65,12 +66,28 @@ $(document).ready(function () {
     });
 
 
-    $('#addOneCond').click(function () {
+    $('#addTitle').click(function () {
         AddOneTitleCondInput();
     });
 
     $('#addLocation').click(function () {
         AddOneLocationCondInput();
+    });
+
+    $('#removTitle').click(function () {
+        if (titleNo == 1) {
+            return;
+        }
+
+        RemoveOneTitleCondInput();
+    });
+
+    $('#removeLocation').click(function () {
+        if (locationNo == 1) {
+            return;
+        }
+
+        RemoveOneLocationCondInput();
     });
 
     $('#setCond').click(function () {
@@ -315,11 +332,30 @@ function checkIframeLoaded() {
 
 }
 
+function RemoveOneTitleCondInput() {
+    var divId = "#inputTitleDiv" + titleNo;
+    $(divId).remove();
+
+    titleNo--;
+    var lastOrId = "#titleOr" + titleNo;
+    $(lastOrId).hide();
+
+}
+
+function RemoveOneLocationCondInput() {
+    var divId = "#locationDiv" + locationNo;
+    $(divId).remove();
+
+    locationNo--;
+    var lastOrId = "#locationOr" + locationNo;
+    $(lastOrId).hide();
+}
+
 function AddOneLocationCondInput(){
     var lastOrId = "#locationOr" + locationNo;
     locationNo++;
 
-    var div1 = '<div class="col-md-3 myrow btmAlgn">';
+    var div1 = '<div class="col-md-3 myrow btmAlgn" id="locationDiv' + locationNo + '">';
     var locationDiv = '<div class="col-md-8 left0"><input type="text" class="form-control top5" id="location'
         + locationNo + '" placeholder="City Name" /></div>';
     var orDiv = '<div class="col-md-4" id="locationOr' + locationNo + '" style="display:none">OR</div>';
@@ -329,10 +365,10 @@ function AddOneLocationCondInput(){
     $("#locationRow").append(locationDiv);
 }
 
-function AddOneTitleCondInput(){
+function AddOneTitleCondInput() {
     var lastOrId = "#titleOr" + titleNo;
     titleNo++;
-    var div1 = '<div class="col-md-3 myrow btmAlgn">';
+    var div1 = '<div class="col-md-3 myrow btmAlgn" id="inputTitleDiv' + titleNo + '">';
     var titleDiv = '<div class="col-md-8 left0"><input type="text" class="form-control top5" id="inputTitle'
         + titleNo + '" placeholder="Keyword" /></div>';
     var orDiv = '<div class="col-md-4" id="titleOr' + titleNo + '" style="display:none">OR</div>';

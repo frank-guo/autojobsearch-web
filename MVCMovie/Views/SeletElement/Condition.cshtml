@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="row " id="condRow">
-                <div class="col-md-3 myrow btmAlgn">
+                <div class="col-md-3 myrow btmAlgn" id="inputTitleDiv1">
                     <div class="col-md-8 left0">
                         <input type="text" class="form-control top5" id="inputTitle1" placeholder="Keyword" />
                         @*Note:
@@ -32,8 +32,8 @@
             <div class="row">
                 <div class="col-md-2">
                     <div class="btn-group-justified top5 bottom5">
-                        <button class="btn btn-primary btn-xs top5 bottom5" id="addOneCond">Add One</button>
-                        <button class="btn btn-primary btn-xs top5 bottom5" id="addOneCond">Remove One</button>
+                        <button class="btn btn-primary btn-xs top5 bottom5" id="addTitle">Add</button>
+                        <button class="btn btn-primary btn-xs top5 bottom5" id="removTitle">Remove</button>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="row" id="locationRow">
-                <div class="col-md-3 myrow btmAlgn">
+                <div class="col-md-3 myrow btmAlgn" id="locationDiv1">
                     <div class="col-md-8 left0">
                         <input type="text" class="form-control top5" id="location1" placeholder="City Name">
                     </div><div class="col-md-4" id="locationOr1" style="display:none">
@@ -54,7 +54,10 @@
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <button class="btn btn-primary btn-xs top5 bottom5" id="addLocation">Add One</button>
+                    <div class="btn-group-justified top5 bottom5">
+                        <button class="btn btn-primary btn-xs top5 bottom5" id="addLocation">Add</button>
+                        <button class="btn btn-primary btn-xs top5 bottom5" id="removeLocation">Remove</button>
+                    </div>
                 </div>
             </div>
 
