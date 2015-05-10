@@ -15,12 +15,20 @@
     @Styles.Render("js/SelectElement.css")
 }
 
-@*iframe requests /browser/Index and gets the recruiting site content from the controller which 
-    can be considered as an internal and secured content so that users are able to get information from the iframe*@
-<iframe id="myframe" name="myframename" src="/browser/Index/@ViewBag.siteId" width="1200" height="400"></iframe>
-<br/>
-<br />
+
 <div class="container">
+    @*iframe requests /browser/Index and gets the recruiting site content from the controller which
+        can be considered as an internal and secured content so that users are able to get information from the iframe
+        Note: border:0 eliminates a very little bit of rest margin between the iframe and the panel border*@
+    <div class="panel panel-default" style="border:0">
+        <div class="panel-body" style="padding:0">
+            <div class="col-md-12" style="padding:0">
+                <iframe id="myframe" name="myframename" src="/browser/Index/@ViewBag.siteId"
+                        style="position: relative; width: 100%;" height="400"></iframe>
+            </div>
+        </div>
+    </div>
+
     @Html.Partial("ElementSelector", Model)
     @Html.Partial("Condition", Model.condition)
     @Html.Partial("Email")
