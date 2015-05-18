@@ -1,0 +1,42 @@
+﻿@model MVCMovie.Models.Condition
+
+@section Scripts{
+    @Scripts.Render("/js/Condition.js")
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="h3"><strong>Search Conditions</strong></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="col-md-4">
+                @Html.Label("Titles")
+            </div>
+            <div class="col-md-4">
+                @Html.Label("New Title")
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="col-md-4">
+                <select class="form-control" id="titles" size="12"></select>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group input-group-sm">
+                    <textarea id="title" class="form-control"></textarea><br /><br />
+                    <div class="btn-group-vertical">
+                        <button class="btn btn-primary btn-xs" id="addTitle">Add</button><br />
+                        <button class="btn btn-primary btn-xs" id="removTitle">Remove</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
