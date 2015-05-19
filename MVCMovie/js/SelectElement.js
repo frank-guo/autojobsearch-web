@@ -150,7 +150,7 @@ function checkIframeLoaded() {
         var pathNode = new Object();
         var listPostions = [];
 
-        var siteId = { "siteId": 1 };
+        var siteId = { "siteId": $('#selectPanel').attr('data-id') };
         var siteIdJson = JSON.stringify(siteId);
 
         $.ajax({

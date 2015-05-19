@@ -14,8 +14,8 @@ $(doc1).bind("contextmenu", function (e) {
     //getBoundingClientRect() also works and  will return an object containing the coordinates of the element top-left and bottom-right
     //Then offset top-left could be got by object.left and object.top 
     targetE = e.target;
-    var offsetLeft = $("#myframe")[0].offsetLeft;
-    var offsetTop = $("#myframe")[0].offsetTop;
+    var offsetLeft = $("#iframePanel")[0].offsetLeft;
+    var offsetTop = $("#iframePanel")[0].offsetTop;
     var absLeft = e.pageX + offsetLeft;
     //IE gets scrollTop from documentElement, ie<html> when DOCTYPE is set, or from body when DOCTYPE not set
     //Other browser use window.pageYOffset

@@ -14,6 +14,7 @@ namespace MVCMovie.Controllers
         // GET: Condition
         public ActionResult Index()
         {
+            ViewBag.siteId = 1;
             return View();
         }
 
