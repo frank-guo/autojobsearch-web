@@ -14,10 +14,18 @@
     <div class="row">
         <div class="col-md-6">
             <div class="col-md-4">
-                @Html.Label("Titles")
+                @Html.LabelFor(Model=>Model.titleConds)
             </div>
             <div class="col-md-4">
                 @Html.Label("New Title")
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-4">
+                @Html.LabelFor(Model => Model.locationConds)
+            </div>
+            <div class="col-md-4">
+                @Html.Label("New Location")
             </div>
         </div>
     </div>
@@ -25,7 +33,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="col-md-4">
-                <select class="form-control" id="titles" size="12"></select>
+                <select class="form-control" id="titleConds" size="12"></select>
             </div>
             <div class="col-md-4">
                 <div class="input-group input-group-sm">
@@ -34,9 +42,53 @@
                         <button class="btn btn-primary btn-xs" id="addTitle">Add</button><br />
                         <button class="btn btn-primary btn-xs" id="removTitle">Remove</button>
                     </div>
-
                 </div>
             </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="col-md-4">
+                <select class="form-control" id="locationConds" size="12"></select>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group input-group-sm">
+                    <textarea id="location" class="form-control"></textarea><br /><br />
+                    <div class="btn-group-vertical">
+                        <button class="btn btn-primary btn-xs" id="addLocation">Add</button><br />
+                        <button class="btn btn-primary btn-xs" id="removLocation">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div><strong>Posting Time</strong></div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="checkbox">
+                <label><input type="checkbox" disabled="disabled" checked="checked">Today</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="checkbox">
+                <label><input type="checkbox"> Yesterday </label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="checkbox">
+                <label><input type="checkbox"> Last Week </label>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+            <button class="btn btn-primary btn-sm" >Save Conditions</button>
         </div>
     </div>
 </div>

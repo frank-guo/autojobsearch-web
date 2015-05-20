@@ -14,10 +14,10 @@ namespace MVCMovie.Models
         [ForeignKey("site")]
         public int ID { get; set; }
 
-        [Display(Name = "Job Title")]
+        [Display(Name = "Titles")]
         public virtual IList<TitleCond> titleConds { get; set; }
 
-        [Display(Name = "Location")]
+        [Display(Name = "Locations")]
         public virtual IList<LocationCond> locationConds { get; set; }
 
         public virtual RecruitingSite site { get; set; }

@@ -1,4 +1,5 @@
 ﻿var titleNo = 1;
+var locationNo = 1;
 
 
 $(document).ready(function () {
@@ -21,21 +22,31 @@ $(document).ready(function () {
                 return;
             }
 
-            //Set titleConds
+            //Intialize titleConds
             for (i = 0; i < condition.titleConds.length; i++) {
                 //Set titleCond with  the value of titleNo
-                $("#titles").append($('<option>', {
+                $("#titleConds").append($('<option>', {
                     value: titleNo,
                     text: condition.titleConds[i].titleCond
                 }));
                 titleNo++;
+            }
+
+            //Intialize locationConds
+            for (i = 0; i < condition.locationConds.length; i++) {
+                //Set locationCond with  the value of locationNo
+                $("#locationConds").append($('<option>', {
+                    value: locationNo,
+                    text: condition.locationConds[i].locationCond
+                }));
+                locationNo++;
             }
         }
     });
 
     $('#addTitle').click(function (e) {
         if ($("#title").val() != "") {
-            $("#titles").append($('<option>', {
+            $("#titleConds").append($('<option>', {
                 value: titleNo,
                 text: $("#title").val()
             }));
@@ -44,19 +55,19 @@ $(document).ready(function () {
     });
 
     $('#removTitle').click(function (e) {
-        if ($('#titles :selected').length) {
-            $('#titles :selected').remove();
+        if ($('#titleConds :selected').length) {
+            $('#titleConds :selected').remove();
             $('#title').text('');
         }
     });
 
-    $('#titles').change(function () {
-        $('#title').text($('#titles :selected').text());
+    $('#titleConds').change(function () {
+        $('#title').text($('#titleConds :selected').text());
     });
 
     function addOneTitle(){
         if ($("#title").val() != null) {
-            $("#titles").append($('<option>', {
+            $("#titleConds").append($('<option>', {
                 value: titleNo,
                 text: $("#title").val()
             }));
