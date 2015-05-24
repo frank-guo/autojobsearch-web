@@ -9,7 +9,13 @@ $('head',document).append(cssLink);
 var titleNo = 1;
 var locationNo = 1;
 
+
 $(document).ready(function () {
+    //Add contion link in navigation bar
+    var siteId = $('#selectPanel').attr('data-id');
+    $("#home").after($("<li>").append($("<a>").attr("href", "/Condition/Index/" + siteId).append("Set Conditions")));
+
+
     //var d = $("#myframe")[0].contentDocument; // contentWindow works in IE7 and FF
     checkIframeLoaded();
 
@@ -110,7 +116,7 @@ $(document).ready(function () {
             }
         }
 
-        siteId = $(this).attr('data-id');
+        //siteId = $(this).attr('data-id');
         var data = JSON.stringify({
             ID: siteId,
             titleConds: titleConds,
@@ -150,8 +156,8 @@ function checkIframeLoaded() {
         var pathNode = new Object();
         var listPostions = [];
 
-        var siteId = { "siteId": $('#selectPanel').attr('data-id') };
-        var siteIdJson = JSON.stringify(siteId);
+        var siteIdObj = { "siteId": siteId };
+        var siteIdJson = JSON.stringify(siteIdObj);
 
         $.ajax({
             type: "POST",

@@ -23,8 +23,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Condition", "Index", "Condition")</li>
+                    <li id="home">@Html.ActionLink("Home", "Index", "Home")</li>
+                    @*<li>@Html.ActionLink("Condition", "Index", "Condition", new { disabled = "disabled"})</li>*@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>

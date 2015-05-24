@@ -12,9 +12,9 @@ namespace MVCMovie.Controllers
         private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
 
         // GET: Condition
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            ViewBag.siteId = 1;
+            ViewBag.siteId = id;
             return View();
         }
 
