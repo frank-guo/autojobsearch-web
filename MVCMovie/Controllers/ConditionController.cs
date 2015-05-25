@@ -54,6 +54,7 @@ namespace MVCMovie.Controllers
                 if (cond != null)
                 {
                     db.Conditions.Remove(cond);
+                    db.SaveChanges();           //Have to save change after remove. Otherwise, remove option will most likely be lost
                     db.Conditions.Add(condition);
                 }
                 else
