@@ -5,16 +5,17 @@ cssLink.rel = "stylesheet";
 cssLink.type = "text/css";
 $('head',document).append(cssLink);
 
-
+/*
 var titleNo = 1;
 var locationNo = 1;
+*/
 
 
 $(document).ready(function () {
-    //Add contion link in navigation bar
-    var siteId = $('#selectPanel').attr('data-id');
-    $("#home").after($("<li>").append($("<a>").attr("href", "/Condition/Index/" + siteId).append("Set Conditions")));
-
+    //Add set list in navigation bar
+    var dataId = $('#selectPanel').attr('data-id');
+    $('#setting').show();
+    $("#conditionLi").attr("href", "/Condition/Index/" + dataId);
 
     //var d = $("#myframe")[0].contentDocument; // contentWindow works in IE7 and FF
     checkIframeLoaded();
@@ -71,7 +72,7 @@ $(document).ready(function () {
         }
     });
 
-
+    /*
     $('#addTitle').click(function () {
         AddOneTitleCondInput();
     });
@@ -134,6 +135,7 @@ $(document).ready(function () {
             }
         });
     });
+    */
 });
 
 function checkIframeLoaded() {
@@ -287,6 +289,7 @@ function checkIframeLoaded() {
             }
         });
 
+        /*
         //Get and set title conditions
         $.ajax({
             type: "POST",
@@ -329,7 +332,7 @@ function checkIframeLoaded() {
             }
         });
 
-        //Get and set 
+        */
 
         return;
     }
@@ -338,6 +341,7 @@ function checkIframeLoaded() {
 
 }
 
+/*
 function RemoveOneTitleCondInput() {
     var divId = "#inputTitleDiv" + titleNo;
     $(divId).remove();
@@ -383,6 +387,7 @@ function AddOneTitleCondInput() {
     $(lastOrId).show();
     $("#condRow").append(condDiv);
 }
+*/
 
 function getNode(listOfNodes){
     var i;

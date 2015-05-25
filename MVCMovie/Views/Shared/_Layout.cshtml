@@ -24,7 +24,13 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li id="home">@Html.ActionLink("Home", "Index", "Home")</li>
-                    @*<li>@Html.ActionLink("Condition", "Index", "Condition", new { disabled = "disabled"})</li>*@
+                    <li class="dropdown" id="setting" style="display:none">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Setting <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" id="conditionLi">Conditions</a></li>
+                            <li><a href="#" id="emailLi">Email</a></li>
+                        </ul>
+                    </li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>

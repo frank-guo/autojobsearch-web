@@ -3,11 +3,13 @@ var locationNo = 1;
 
 
 $(document).ready(function () {
+    //Add set list in navigation bar
+    var dataId = $('#setCondition').attr('data-id');
+    $('#setting').show();
+    $("#conditionLi").attr("href", "/Condition/Index/" + dataId);
 
     //Initialize conditions
     //Get and set title conditions
-
-    var dataId = $('#setCondition').attr('data-id');
     var siteId = { "siteId": dataId };
     var siteIdJson = JSON.stringify(siteId);
 
