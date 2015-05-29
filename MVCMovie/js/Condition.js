@@ -46,6 +46,11 @@ $(document).ready(function () {
         }
     });
 
+    $('#setCondForm').submit(function(event) {
+        setCond();
+        event.preventDefault();
+    });
+
     $('#addTitle').click(function (e) {
         if ($("#title").val() != "") {
             $("#titleConds").append($('<option>', {
@@ -89,7 +94,7 @@ $(document).ready(function () {
     });
 
 
-    $('#setCond').click(function () {
+    function setCond() {
         var titleConds = [];
         var locationConds = [];
 
@@ -124,5 +129,5 @@ $(document).ready(function () {
                 alert(msg);
             }
         });
-    });
+    }
 })

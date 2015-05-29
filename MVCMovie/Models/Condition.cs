@@ -14,8 +14,16 @@ namespace MVCMovie.Models
         [ForeignKey("site")]
         public int ID { get; set; }
 
+        [Display(Name = "Title")]
+        [StringLength(60, MinimumLength = 3)]
+        public TitleCond title { get; set; }
+
         [Display(Name = "Titles")]
         public virtual IList<TitleCond> titleConds { get; set; }
+
+        [Display(Name = "Location")]
+        [StringLength(60, MinimumLength = 3)]
+        public LocationCond location { get; set; }
 
         [Display(Name = "Locations")]
         public virtual IList<LocationCond> locationConds { get; set; }

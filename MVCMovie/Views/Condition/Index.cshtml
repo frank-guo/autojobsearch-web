@@ -1,94 +1,106 @@
-﻿@model MVCMovie.Models.Condition
+﻿@using System.Web.Mvc.Html
+@using MVCMovie.Models
+@model MVCMovie.Models.Condition
 
 @section Scripts{
     @Scripts.Render("/js/Condition.js")
+    @Scripts.Render("~/bundles/jqueryval")
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="h3" id="setCondition" data-id="@ViewBag.siteId"><strong>Search Conditions</strong></div>
+@using (Html.BeginForm(null, null, FormMethod.Post, new{@id="setCondForm"}))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="h3" id="setCondition" data-id="@ViewBag.siteId"><strong>Search Conditions</strong></div>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="col-md-4">
-                @Html.LabelFor(Model=>Model.titleConds)
+        <div class="row">
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    @Html.LabelFor(condition => condition.titleConds)
+                </div>
+                <div class="col-md-4">
+                    @Html.LabelFor(condition => condition.title)
+                </div>
             </div>
-            <div class="col-md-4">
-                @Html.Label("New Title")
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="col-md-4">
-                @Html.LabelFor(Model => Model.locationConds)
-            </div>
-            <div class="col-md-4">
-                @Html.Label("New Location")
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="col-md-4">
-                <select class="form-control" id="titleConds" size="12"></select>
-            </div>
-            <div class="col-md-4">
-                <div class="input-group input-group-sm">
-                    <textarea id="title" class="form-control"></textarea><br /><br />
-                    <div class="btn-group-vertical">
-                        <button class="btn btn-primary btn-xs" id="addTitle">Add</button><br />
-                        <button class="btn btn-primary btn-xs" id="removTitle">Remove</button>
-                    </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    @Html.LabelFor(condition => condition.locationConds)
+                </div>
+                <div class="col-md-4">
+                    @Html.LabelFor(condition => condition.location)
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="col-md-4">
-                <select class="form-control" id="locationConds" size="12"></select>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <select class="form-control" id="titleConds" size="12"></select>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group input-group-sm">
+                        @Html.EditorFor(model => model.title.titleCond, new { htmlAttributes = new { @class = "form-control", id = "title" } })
+                        @Html.ValidationMessageFor(model => model.title.titleCond, "", new { @class = "text-danger" })
+                        <br /><br />
+                        <div class="btn-group-vertical">
+                            <button class="btn btn-primary btn-xs" id="addTitle">Add</button><br />
+                            <button class="btn btn-primary btn-xs" id="removTitle">Remove</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4">
-                <div class="input-group input-group-sm">
-                    <textarea id="location" class="form-control"></textarea><br /><br />
-                    <div class="btn-group-vertical">
-                        <button class="btn btn-primary btn-xs" id="addLocation">Add</button><br />
-                        <button class="btn btn-primary btn-xs" id="removLocation">Remove</button>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <select class="form-control" id="locationConds" size="12"></select>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group input-group-sm">
+                        @Html.EditorFor(model => model.location.locationCond, new { htmlAttributes = new { @class = "form-control", id = "location" } })
+                        @Html.ValidationMessageFor(model => model.location.locationCond, "", new { @class = "text-danger" })
+                        <br /><br />
+                        <div class="btn-group-vertical">
+                            <button class="btn btn-primary btn-xs" id="addLocation">Add</button><br />
+                            <button class="btn btn-primary btn-xs" id="removLocation">Remove</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-md-12">
-            <div><strong>Posting Time</strong></div>
-        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div><strong>Posting Time</strong></div>
+            </div>
 
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="checkbox">
-                <label><input type="checkbox" checked="checked">Today</label>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="checkbox">
+                    <label><input type="checkbox" checked="checked">Today</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox">
+                    <label><input type="checkbox"> Yesterday </label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox">
+                    <label><input type="checkbox"> Last Week </label>
+                </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="checkbox">
-                <label><input type="checkbox"> Yesterday </label>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="checkbox">
-                <label><input type="checkbox"> Last Week </label>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <input type="submit" class="btn btn-primary btn-sm" id="setCond" value="Save Conditions" />
             </div>
         </div>
     </div>
-    <br />
-    <div class="row">
-        <div class="col-md-4">
-            <button class="btn btn-primary btn-sm" id="setCond">Save Conditions</button>
-        </div>
-    </div>
-</div>
+}
