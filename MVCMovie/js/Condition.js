@@ -46,7 +46,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#setCondForm').submit(function(event) {
+    $('#setCondForm').submit(function (event) {
         setCond();
         event.preventDefault();
     });
@@ -123,7 +123,7 @@ $(document).ready(function () {
             type: "POST",
             url: "/Condition/SetCondition",
             data: data,
-            dataType: "json",
+            //dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (msg) {
                 alert(msg);

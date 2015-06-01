@@ -19,11 +19,15 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
-        public void SetCondition(ConditionViewModel condViewModel)
+        public ActionResult SetCondition(ConditionViewModel condViewModel)
         {
+            var successMsg = "Success!";
+            var nullModelMsg = "Null condition model!";
+            var invalidModelMsg = "Invalid condition model!";
+
             if (condViewModel == null)
             {
-                return;
+                return Content(nullModelMsg);
             }
 
             int condID = condViewModel.ID;
@@ -32,7 +36,7 @@ namespace MVCMovie.Controllers
 
             if (titleConds == null && locationConds == null)
             {
-                return;
+                return Content(nullModelMsg);
             }
 
 
@@ -88,6 +92,12 @@ namespace MVCMovie.Controllers
                 }
 
                 db.SaveChanges();
+
+                return Content(successMsg);
+            }
+            else
+            {
+                return Content(invalidModelMsg);
             }
         }
 
