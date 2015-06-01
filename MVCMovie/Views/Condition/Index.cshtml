@@ -7,6 +7,14 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
+<style>
+    .alert{
+		height: 25px;
+        padding-top: 2px;
+        padding-bottom: 2px;       
+	}    
+</style>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new{@id="setCondForm"}))
 {
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -48,7 +56,7 @@
                         <br /><br />
                         <div class="btn-group-vertical">
                             <button class="btn btn-primary btn-xs" id="addTitle">Add</button><br />
-                            <button class="btn btn-primary btn-xs" id="removTitle">Remove</button>
+                            <button class="btn btn-primary btn-xs" id="removTitle" type="button">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -66,8 +74,8 @@
                         @Html.EditorFor(model => model.location.locationCond, new { htmlAttributes = new { @class = "form-control", id = "location" } })                        
                         <br /><br />
                         <div class="btn-group-vertical">
-                            <button class="btn btn-primary btn-xs" id="addLocation">Add</button><br />
-                            <button class="btn btn-primary btn-xs" id="removLocation">Remove</button>
+                            <button class="btn btn-primary btn-xs" id="addLocation" type="button">Add</button><br />
+                            <button class="btn btn-primary btn-xs" id="removLocation" type="button">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -86,24 +94,28 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="checkbox">
-                    <label><input type="checkbox" checked="checked">Today</label>
+                    <label><input type="checkbox" checked="checked" >Today</label>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="checkbox">
-                    <label><input type="checkbox"> Yesterday </label>
+                    <label><input type="checkbox" > Yesterday </label>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="checkbox">
-                    <label><input type="checkbox"> Last Week </label>
+                    <label><input type="checkbox" > Last Week </label>
                 </div>
             </div>
         </div>
         <br />
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <input type="submit" class="btn btn-primary btn-sm" id="setCond" value="Save Conditions" />
+            </div>
+            <div class="col-md-2">
+                <div class="alert" id="alertMsg" style="display: none">
+                </div>
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using MVCMovie.Models;
 
 namespace MVCMovie.Controllers
@@ -21,29 +22,26 @@ namespace MVCMovie.Controllers
         [HttpPost]
         public ActionResult SetCondition(ConditionViewModel condViewModel)
         {
-            var successMsg = "Success!";
-            var nullModelMsg = "Null condition model!";
-            var invalidModelMsg = "Invalid condition model!";
+            const string successMsg = "Success!";
+            const string wrongIdMsg = "Invalid condition ID!";
+            const string invalidModelMsg = "Invalid condition model!";
 
-            if (condViewModel == null)
+            if (condViewModel != null && condViewModel.ID <= 0)
             {
-                return Content(nullModelMsg);
+                var nullModelError = new Dictionary<string, object>();
+                nullModelError.Add("ErrorCode", -1);
+                nullModelError.Add("ErrorMsg", wrongIdMsg);
+                return Json(nullModelError);
             }
 
-            int condID = condViewModel.ID;
-            List<string> titleConds = condViewModel.titleConds;
-            List<string> locationConds = condViewModel.locationConds;
-
-            if (titleConds == null && locationConds == null)
-            {
-                return Content(nullModelMsg);
-            }
-
+            var condID = condViewModel.ID;
+            var titleConds = condViewModel.titleConds;
+            var locationConds = condViewModel.locationConds;
 
             if (ModelState.IsValid)
             {
 
-                Condition condition = new Condition();
+                var condition = new Condition();
                 condition.ID = condID;
                 condition.titleConds = new List<TitleCond>();
                 condition.locationConds = new List<LocationCond>();
@@ -51,7 +49,7 @@ namespace MVCMovie.Controllers
                 var qry = from s in db.Conditions
                           select s;
                 qry = qry.Where(s => s.ID == condID);
-                Condition cond = qry.FirstOrDefault();
+                var cond = qry.FirstOrDefault();
 
                 //The condition of condID doesn't exist, and then insert the new condition with the condID
                 //Othewise, remove the original one and insert the new condition with the condID
@@ -75,9 +73,12 @@ namespace MVCMovie.Controllers
                 {
                     for (int i = 0; i < titleConds.Count; i++)
                     {
-                        TitleCond tc = new TitleCond();
-                        tc.titleCond = titleConds.ElementAt(i);
-                        cond.titleConds.Add(tc);
+                        var tc = new TitleCond
+                        {
+                            titleCond = titleConds.ElementAt(i)
+                        };
+                        if (cond != null) 
+                            cond.titleConds.Add(tc);
                     }
                 }
 
@@ -85,19 +86,27 @@ namespace MVCMovie.Controllers
                 {
                     for (int i = 0; i < locationConds.Count; i++)
                     {
-                        LocationCond lc = new LocationCond();
-                        lc.locationCond = locationConds.ElementAt(i);
-                        cond.locationConds.Add(lc);
+                        var lc = new LocationCond
+                        {
+                            locationCond = locationConds.ElementAt(i)
+                        };
+                        if (cond != null) cond.locationConds.Add(lc);
                     }
                 }
 
                 db.SaveChanges();
 
-                return Content(successMsg);
+                var nullModelError = new Dictionary<string, object>();
+                nullModelError.Add("ErrorCode", 0);
+                nullModelError.Add("ErrorMsg", successMsg);
+                return Json(nullModelError);
             }
             else
             {
-                return Content(invalidModelMsg);
+                var nullModelError = new Dictionary<string, object>();
+                nullModelError.Add("ErrorCode", -2);
+                nullModelError.Add("ErrorMsg", invalidModelMsg);
+                return Json(nullModelError);
             }
         }
 

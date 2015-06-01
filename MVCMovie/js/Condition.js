@@ -25,7 +25,7 @@ $(document).ready(function () {
             }
 
             //Intialize titleConds
-            for (i = 0; i < condition.titleConds.length; i++) {
+            for (var i = 0; i < condition.titleConds.length; i++) {
                 //Set titleCond with  the value of titleNo
                 $("#titleConds").append($('<option>', {
                     value: titleNo,
@@ -52,6 +52,7 @@ $(document).ready(function () {
     });
 
     $('#addTitle').click(function (e) {
+        e.preventDefault();
         if ($("#title").val() != "") {
             $("#titleConds").append($('<option>', {
                 value: titleNo,
@@ -69,7 +70,7 @@ $(document).ready(function () {
     });
 
     $('#titleConds').change(function () {
-        $('#title').text($('#titleConds :selected').text());
+        $('#title').val($('#titleConds :selected').text());
     });
 
     $('#addLocation').click(function (e) {
@@ -90,8 +91,16 @@ $(document).ready(function () {
     });
 
     $('#locationConds').change(function () {
-        $('#location').text($('#locationConds :selected').text());
+        $('#location').val($('#locationConds :selected').text());
     });
+
+    /*
+    //Prevent submit event being triggerred.
+    $('[name="timeRange"]').click(function(event) {
+        this.click();
+    });
+    */
+    
 
 
     function setCond() {
@@ -112,7 +121,6 @@ $(document).ready(function () {
             }
         });
 
-        //siteId = $(this).attr('data-id');
         var data = JSON.stringify({
             ID: dataId,
             titleConds: titleConds,
@@ -123,10 +131,26 @@ $(document).ready(function () {
             type: "POST",
             url: "/Condition/SetCondition",
             data: data,
-            //dataType: "json",
+            dataType: "json",
             contentType: "application/json; charset=utf-8",
-            success: function (msg) {
-                alert(msg);
+            success: function (error) {
+                switch (error.ErrorCode) {
+                    case 0:
+                        $('#alertMsg').attr("class", "alert alert-success");
+                        $('#alertMsg').text(error.ErrorMsg);
+                        break;
+                    case -1:
+                        $('#alertMsg').attr("class", "alert alert-danger");
+                        $('#alertMsg').text(error.ErrorMsg);
+                        break;
+                    case -2:
+                        $('#alertMsg').attr("class", "alert alert-danger");
+                        $('#alertMsg').text(error.ErrorMsg);
+                        break;
+                }
+                
+                $('#alertMsg').fadeIn(1000);
+                $('#alertMsg').fadeOut(3000);
             }
         });
     }
