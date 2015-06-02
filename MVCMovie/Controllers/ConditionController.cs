@@ -28,10 +28,10 @@ namespace MVCMovie.Controllers
 
             if (condViewModel != null && condViewModel.ID <= 0)
             {
-                var nullModelError = new Dictionary<string, object>();
-                nullModelError.Add("ErrorCode", -1);
-                nullModelError.Add("ErrorMsg", wrongIdMsg);
-                return Json(nullModelError);
+                var response = new Dictionary<string, object>();
+                response.Add("ErrorCode", -1);
+                response.Add("ErrorMsg", wrongIdMsg);
+                return Json(response);
             }
 
             var condID = condViewModel.ID;
@@ -96,17 +96,17 @@ namespace MVCMovie.Controllers
 
                 db.SaveChanges();
 
-                var nullModelError = new Dictionary<string, object>();
-                nullModelError.Add("ErrorCode", 0);
-                nullModelError.Add("ErrorMsg", successMsg);
-                return Json(nullModelError);
+                var response = new Dictionary<string, object>();
+                response.Add("ErrorCode", 0);
+                response.Add("ErrorMsg", successMsg);
+                return Json(response);
             }
             else
             {
-                var nullModelError = new Dictionary<string, object>();
-                nullModelError.Add("ErrorCode", -2);
-                nullModelError.Add("ErrorMsg", invalidModelMsg);
-                return Json(nullModelError);
+                var response = new Dictionary<string, object>();
+                response.Add("ErrorCode", -2);
+                response.Add("ErrorMsg", invalidModelMsg);
+                return Json(response);
             }
         }
 
