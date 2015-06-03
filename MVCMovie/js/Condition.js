@@ -53,7 +53,7 @@ $(document).ready(function () {
 
     $('#addTitle').click(function (e) {
         e.preventDefault();
-        if ($("#title").val() != "") {
+        if ($("#title").val() != "" && !isExist($("#title").val())) {
             $("#titleConds").append($('<option>', {
                 value: titleNo,
                 text: $("#title").val()
@@ -61,6 +61,23 @@ $(document).ready(function () {
             titleNo++;
         }
     });
+
+    function isExist(title) {
+        if (title == null) {
+            return false;
+        }
+
+        var exist = false;
+        $('#titleConds option').each(function () {
+            var condition = $(this).text();
+            if (condition == title) {
+                exist = true;
+                return false;
+            }
+        });
+
+        return exist;
+    }
 
     $('#removTitle').click(function (e) {
         if ($('#titleConds :selected').length) {
