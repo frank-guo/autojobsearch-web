@@ -22,9 +22,9 @@ namespace MVCMovie.Controllers
         [HttpPost]
         public ActionResult SetCondition(ConditionViewModel condViewModel)
         {
-            const string successMsg = "Success!";
-            const string wrongIdMsg = "Invalid condition ID!";
-            const string invalidModelMsg = "Invalid condition model!";
+            const string successMsg = "Success! The condtions has been saved.";
+            const string wrongIdMsg = "Error! Invalid condition ID.";
+            const string invalidModelMsg = "Error! Invalid condition model.";
 
             if (condViewModel != null && condViewModel.ID <= 0)
             {
@@ -123,8 +123,8 @@ namespace MVCMovie.Controllers
                 return null;
             }
 
-            List<TitleCond> titleConds = new List<TitleCond>();
-            List<LocationCond> locationConds = new List<LocationCond>();
+            var titleConds = new List<TitleCond>();
+            var locationConds = new List<LocationCond>();
             foreach (TitleCond tc in cond.titleConds)
             {
 
@@ -137,7 +137,7 @@ namespace MVCMovie.Controllers
                 locationConds.Add(lc);
             }
 
-            Condition condition = new Condition();
+            var condition = new Condition();
             condition.titleConds = titleConds;
             condition.locationConds = locationConds;
 

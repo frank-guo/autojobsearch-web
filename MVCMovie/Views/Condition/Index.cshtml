@@ -8,11 +8,15 @@
 }
 
 <style>
-    .alert{
-		height: 25px;
+    .alert {
+        height: 28px;
+        padding-bottom: 2px;
         padding-top: 2px;
-        padding-bottom: 2px;       
-	}    
+    }   
+
+    .rowMinHeight {
+        min-height: 55px
+}
 </style>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new{@id="setCondForm"}))
@@ -117,13 +121,12 @@
             </div>
         </div>
         <br />
-        <div class="row">
+        <div class="row rowMinHeight">
             <div class="col-md-2">
                 <input type="submit" class="btn btn-primary btn-sm" id="setCond" value="Save Conditions" />
             </div>
-            <div class="col-md-2">
-                <div class="alert" id="alertMsg" style="display: none">
-                </div>
+            <div class="col-md-4">
+                <div class="alert" id="alertMsg" style="display:none">Test</div>
             </div>
         </div>
     </div>
