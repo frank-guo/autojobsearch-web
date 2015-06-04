@@ -48,7 +48,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="col-md-4">
-                    <select class="form-control" id="titleConds" size="12"></select>
+                    <select class="form-control" id="titleConds" size="12" multiple></select>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group input-group-sm">
@@ -61,13 +61,17 @@
                     </div>
                 </div>
                 <div class="col-md-4">
+                    <div class="alert" id="titleInputAlert" style="display: none">
+                    </div>
+                </div>
+                <div class="col-md-4">
                     @Html.ValidationMessageFor(model => model.title.titleCond, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="col-md-4">
-                    <select class="form-control" id="locationConds" size="12"></select>
+                    <select class="form-control" id="locationConds" size="12" multiple></select>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group input-group-sm">
@@ -77,6 +81,10 @@
                             <button class="btn btn-primary btn-xs" id="addLocation" type="button">Add</button><br />
                             <button class="btn btn-primary btn-xs" id="removLocation" type="button">Remove</button>
                         </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="alert" id="locationInputAlert" style="display: none">
                     </div>
                 </div>
                 <div class="col-md-4">

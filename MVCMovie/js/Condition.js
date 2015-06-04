@@ -53,27 +53,41 @@ $(document).ready(function () {
 
     $('#addTitle').click(function (e) {
         e.preventDefault();
-        if ($("#title").val() != "" && !isExist($("#title").val())) {
+        if ($("#title").val() == "") {
+            return;
+        }
+        if (!isExist($("#title").val(), "titleConds")) {
             $("#titleConds").append($('<option>', {
                 value: titleNo,
-                text: $("#title").val()
+                text: $("#title").val().capFirstLetter()
             }));
             titleNo++;
         }
+        else {
+            $('#titleInputAlert').attr("class", "alert alert-warning");
+            $('#titleInputAlert').text("Duplicate condition!");
+            $('#titleInputAlert').fadeIn(1000);
+            $('#titleInputAlert').fadeOut(3000);
+        }
     });
 
-    function isExist(title) {
-        if (title == null) {
+    String.prototype.capFirstLetter = function() {
+        return this.charAt(0).toUpperCase() + this.substr(1);
+    }
+
+    function isExist(input, selectBox) {
+        if (input == null) {
             return false;
         }
 
         var exist = false;
-        $('#titleConds option').each(function () {
+        $('#' + selectBox +' option').each(function () {
             var condition = $(this).text();
-            if (condition.match(new RegExp(title, "i"))) {
+            if (condition.match(new RegExp(input, "i")) && condition.length == input.length) {
                 exist = true;
                 return false;
             }
+            return true;
         });
 
         return exist;
@@ -91,12 +105,21 @@ $(document).ready(function () {
     });
 
     $('#addLocation').click(function (e) {
-        if ($("#location").val() != "") {
+        if ($("#location").val() == "") {
+            return;
+        }
+
+        if (!isExist($("#location").val(), "locationConds")) {
             $("#locationConds").append($('<option>', {
                 value: locationNo,
-                text: $("#location").val()
+                text: $("#location").val().capFirstLetter()
             }));
             locationNo++;
+        } else {
+            $('#locationInputAlert').attr("class", "alert alert-warning");
+            $('#locationInputAlert').text("Duplicate condition!");
+            $('#locationInputAlert').fadeIn(1000);
+            $('#locationInputAlert').fadeOut(3000);
         }
     });
 

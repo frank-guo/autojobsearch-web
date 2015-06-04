@@ -14,13 +14,13 @@ namespace MVCMovie.Models
         [ForeignKey("site")]
         public int ID { get; set; }
 
-        [Display(Name = "Title")]
+        [Display(Name = "Title(Case insensitive)")]
         public TitleCond title { get; set; }
 
         [Display(Name = "Titles")]
         public virtual IList<TitleCond> titleConds { get; set; }
 
-        [Display(Name = "Location")]
+        [Display(Name = "Location(Case insensitive)")]
         public LocationCond location { get; set; }
 
         [Display(Name = "Locations")]
