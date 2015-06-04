@@ -70,7 +70,7 @@ $(document).ready(function () {
         var exist = false;
         $('#titleConds option').each(function () {
             var condition = $(this).text();
-            if (condition == title) {
+            if (condition.match(new RegExp(title, "i"))) {
                 exist = true;
                 return false;
             }
