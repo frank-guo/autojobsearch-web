@@ -6,40 +6,34 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
 using MvcMovie.Models;
+using MVCMovie.Models;
 
 namespace MVCMovie.Controllers
 {
     public class MoviesController : Controller
     {
         private MovieDBContext db = new MovieDBContext();
+        private RecruitingSiteDBContext siteDb = new RecruitingSiteDBContext();
 
-        // GET: Movies
+        class option
+        {
+            private string url;
+            private int ID;
+        }
+
+        // GET: Sites
         public ActionResult Index(string movieGenre, string searchString)
         {
-            var GenreLst = new List<string>();
-
-            var GenreQry = from d in db.Movies
-                           orderby d.Genre
-                           select d.Genre;
-
-            GenreLst.AddRange(GenreQry.Distinct());
-            ViewBag.movieGenre = new SelectList(GenreLst);
-            
-            var movies = from m in db.Movies
-                         select m;
-
-            if (!String.IsNullOrEmpty(searchString))
+            var options = siteDb.RecruitingSites.Select(s => new
             {
-                movies = movies.Where(s => s.Title.Contains(searchString));
-            }
+               s.url, s.ID
+            }).ToList();
 
-            if (!string.IsNullOrEmpty(movieGenre))
-            {
-                movies = movies.Where(x => x.Genre == movieGenre);
-            }
+            ViewBag.options = new SelectList(options, "ID", "url");
 
-            return View(movies); 
+            return View(); 
         }
 
 

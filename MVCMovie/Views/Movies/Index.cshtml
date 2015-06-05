@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MvcMovie.Models.Movie>
+﻿@*@model IEnumerable<MvcMovie.Models.Movie>*@
+@model MVCMovie.Models.RecruitingSite
 
 
 <script type="text/javascript">
@@ -12,7 +13,6 @@
     $(document).ready(function () {
 
         $("#urlbutton").on("click", function (event) {
-            //debugger;
             var siteId = $('#url').data('siteId');
             var idUrl = { "id":siteId, "url": $("#url").val() };
 
@@ -25,7 +25,6 @@
                 contentType: 'application/json; charset=utf-8',
                 success: function (id) {
                     // get the result and do some magic with it
-                    //debugger;
                     $.ajax({
                         url: '/SeletElement',
                         data: JSON.stringify({"siteId": id}),
@@ -47,7 +46,7 @@
         });
 
         //Get all the websites
-        var websites = [];
+        /*
         $.ajax({
             type: "GET",
             url: "/Browser/GetUrls",
@@ -62,6 +61,8 @@
                 });
             }
         });
+        */
+
 
         $('#website').change(function () {
             $('#url').text($('#website :selected').text());
@@ -85,72 +86,75 @@
 
 </style>
 
-<br />
-<br />
-<div class="h4"><strong>Your Favorite Job Seraching Websites:</strong></div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="input-group input-group-sm">
-            <span class="input-group-addon">URL</span>
-            <textarea id="url" class="form-control"></textarea>
+@using (Html.BeginForm(null, null, FormMethod.Post, new {@id = "sitesForm"}))
+{
+    <div class="h3"><strong>Favorite Job Hunting Websites:</strong></div>
+    <div class="row">
+        <div class="col-xs-8">
+            <div class="input-group input-group-sm">
+                <span class="input-group-addon">@Html.DisplayNameFor(model=>model.url)</span>
+                @Html.TextAreaFor(model=>model.url, new { @class="form-control", id="url" })
+            </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-xs-12">
-        <select class="form-control top2" id="website" size="5"></select>
-        <button class="btn btn-primary btn-sm top2" id="urlbutton">OpenBrowser</button>
+    <div class="row">
+        <div class="col-xs-8">
+            @Html.DropDownList("urls", (SelectList)@ViewBag.options, new{ @class="form-control top2", id="website", size="8" })
+            <button class="btn btn-primary btn-sm top2" id="urlbutton">OpenBrowser</button>
+        </div>
     </div>
-</div>
+    @*
+    <br />
+    <br />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
 
-<br />
-<br />    
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Genre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rating)
-        </th>
+            <th></th>
+        </tr>
 
-        <th></th>
-    </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReleaseDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Genre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rating)
-        </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.ID}) |
+                    @Html.ActionLink("Details", "Details", new {id = item.ID}) |
+                    @Html.ActionLink("Delete", "Delete", new {id = item.ID})
+                </td>
+            </tr>
+        }
 
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
+    </table>
+    *@
 }
-
-</table>

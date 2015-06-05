@@ -17,6 +17,7 @@ namespace MVCMovie.Models
 
         [StringLength(256)]
         [Required]
+        [Display(Name = "URL")]
         public string url { get; set; }
 
         [DefaultValue(false)]
