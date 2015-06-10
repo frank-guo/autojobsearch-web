@@ -12,7 +12,8 @@
 
     $(document).ready(function () {
 
-        $("#urlbutton").on("click", function (event) {
+        // $("#urlbutton").on("click", function (event) {
+        function openBrower(){
             var siteId = $('#url').data('siteId');
             var idUrl = { "id":siteId, "url": $("#url").val() };
 
@@ -43,7 +44,7 @@
                     });
                 }
             });
-        });
+        }
 
         //Get all the websites
         /*
@@ -73,6 +74,11 @@
         $('#url').click(function () {
             $('#website').val(null);
             $(this).data('siteId', 0);
+        });
+
+        $('#sitesForm').submit(function (event) {
+            openBrower();
+            event.preventDefault();
         });
 
     });
