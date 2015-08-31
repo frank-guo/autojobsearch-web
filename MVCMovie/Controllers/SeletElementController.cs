@@ -12,15 +12,13 @@ namespace MVCMovie.Controllers
 
         private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
 
-        // Post: SeletElement
-        [HttpPost]
-        public ActionResult Index(int siteId)
+        public ActionResult Index(int id)
         {
-            ViewBag.siteId = siteId;
+            ViewBag.siteId = id;
 
             RecruitingSite site = null;
             IQueryable<RecruitingSite> query = from s in db.RecruitingSites
-                                 where (s.ID == siteId)
+                                 where (s.ID == id)
                                 select s;
 
             if ( query  != null )

@@ -9,7 +9,10 @@ using System.Net;
 using System.Text;
 using System.Timers;
 using MVCMovie.Models;
-//using HtmlAgilityPack;
+using System.ComponentModel;
+using MVCMovie.Models.Enum;
+using MVCMovie.Common;
+
 using System.Windows.Forms;
 using System.Threading;
 
@@ -34,17 +37,6 @@ namespace MVCMovie.Controllers
         {
             site = Getsite(1);
         }
-
-        //Tried to open url directly in the browser, but failed - could not fire an DocumentCompleted event 
-        /*
-        public void WebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-
-            MessageBox.Show(((WebBrowser)sender).Url.ToString());
-            HtmlDocument document1 = ((WebBrowser)sender).Document;
-
-        }
-         */
 
         // This method that will be called when the thread is started
         public void sendAllJobs(string address, string password)
@@ -495,8 +487,19 @@ namespace MVCMovie.Controllers
         private string dateFormat = "MM/dd/yy";
 
         // GET: Email
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
+            var values = Enum.GetValues(typeof(SendingFrequency));
+            int i = 0;
+            string[] descriptions = new string[values.Length];
+
+            foreach (SendingFrequency value in values)
+            {
+                descriptions[i] = value.ToName();
+                i++;
+             }
+            ViewBag.SendingFrequencies = descriptions;
+
             return View();
         }
 

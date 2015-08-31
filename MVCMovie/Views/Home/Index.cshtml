@@ -1,53 +1,88 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model MVCMovie.Models.RecruitingSite
+
+<script type="text/javascript">
+
+    window.onerror = function (message, url, lineNo) {
+        console.log('Error: ' + message + '\n' + 'Line Number: ' + lineNo);
+
+        return true;
+    }
+
+    $(document).ready(function () {
+        function openBrower() {
+            var siteId = $('#url').data('siteId');
+            var idUrl = { "id":siteId, "url": $("#url").val() };
+
+            var json = JSON.stringify(idUrl);
+
+            $.ajax({
+                url: '/Browser/SetURL',
+                data: json,
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (id) {
+                    // get the result and do some magic with it
+                    $.ajax({
+                        url: '/SeletElement/Index/' + siteId,
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            // get the result and do some magic with it
+                            //SelectElment will return a view which contains the iframe that will request Browser/Index/siteId.
+                            //Browser/Index/siteId acutally returns the content of job searching sites.
+                            //So the content inside the iframe will be thought of as safety
+                            var w = window.open();
+                            w.document.open(data);
+                            w.document.write(data);
+                            w.document.close();
+                        }
+                    });
+                }
+            });
+        }
+
+        $('#website').change(function () {
+            $('#url').text($('#website :selected').text());
+            //can not set the siteId to the value of textarea becasue the value of textarea is actually changing the its text()
+            $('#url').data('siteId', $(this).children(':selected').val());
+        });
+
+        $('#url').click(function () {
+            $('#website').val(null);
+            $(this).data('siteId', 0);
+        });
+
+        $('#sitesForm').submit(function (event) {
+            openBrower();
+            event.preventDefault();
+        });
+
+    });
+
+</script>
+
+<style>
+    .top2{
+        margin-top:2%;
+    }
+
+</style>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new {@id = "sitesForm"}))
+{
+    <div class="h3"><strong>Favorite Job Hunting Websites:</strong></div>
+    <div class="row">
+        <div class="col-xs-8">
+            <div class="input-group input-group-sm">
+                <span class="input-group-addon">@Html.DisplayNameFor(model=>model.url)</span>
+                @Html.TextAreaFor(model=>model.url, new { @class="form-control", id="url" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-8">
+            @Html.DropDownList("urls", (SelectList)@ViewBag.options, new{ @class="form-control top2", id="website", size="8" })
+            <button class="btn btn-primary btn-sm top2" id="urlbutton">OpenBrowser</button>
+        </div>
+    </div>
 }
-
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>

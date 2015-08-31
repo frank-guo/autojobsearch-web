@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+
 <html>
 <head>
     <meta charset="utf-8" />
@@ -7,9 +8,12 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/kendo")
     @RenderSection("Styles", required: false)
     @RenderSection("Scripts", required: false)
 </head>
+
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -19,25 +23,32 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Job Searching", "Index", "Movies", new { area = "" }, new { @class = "navbar-brand" })
+                @*The id refers to the id in route definition*@
+                @Html.ActionLink("Home", "Index", "Home", new {@id=""}, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li id="home">@Html.ActionLink("Home", "Index", "Home")</li>
                     <li class="dropdown" id="setting" style="display:none">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle">Setting <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" id="conditionLi">Conditions</a></li>
-                            <li><a href="#" id="emailLi">Email</a></li>
+                            <li>
+                                <a id="jobFeatures" data-bind='attr: {href: jobFeaturesUrl}'>job Features</a>
+                            </li>
+
+                            <li><a id="conditionLi" data-bind='attr: {href: conditionUrl}'>Conditions</a></li>
+                            <li><a id="emailLi" data-bind='attr: {href: emailUrl}'>Email</a></li>
                         </ul>
                     </li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "OriginalHome")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "OriginalHome")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
+
+    <div id="siteId" style="display: none">@ViewBag.siteId</div>
+ 
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -48,6 +59,7 @@
 
 
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/js/SettingMenu.js")
     
 </body>
 </html>

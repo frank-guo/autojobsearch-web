@@ -3,14 +3,11 @@ var locationNo = 1;
 
 
 $(document).ready(function () {
-    //Add set list in navigation bar
-    var dataId = $('#setCondition').attr('data-id');
     $('#setting').show();
-    $("#conditionLi").attr("href", "/Condition/Index/" + dataId);
 
     //Initialize conditions
     //Get and set title conditions
-    var siteId = { "siteId": dataId };
+    var siteId = { "siteId": settingMenu.siteId() };
     var siteIdJson = JSON.stringify(siteId);
 
     $.ajax({
@@ -134,15 +131,6 @@ $(document).ready(function () {
         $('#location').val($('#locationConds :selected').text());
     });
 
-    /*
-    //Prevent submit event being triggerred.
-    $('[name="timeRange"]').click(function(event) {
-        this.click();
-    });
-    */
-    
-
-
     function setCond() {
         var titleConds = [];
         var locationConds = [];
@@ -162,7 +150,7 @@ $(document).ready(function () {
         });
 
         var data = JSON.stringify({
-            ID: dataId,
+            ID: settingMenu.siteId(),
             titleConds: titleConds,
             locationConds: locationConds
         });

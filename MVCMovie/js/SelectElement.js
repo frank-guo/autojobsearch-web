@@ -5,17 +5,8 @@ cssLink.rel = "stylesheet";
 cssLink.type = "text/css";
 $('head',document).append(cssLink);
 
-/*
-var titleNo = 1;
-var locationNo = 1;
-*/
-
-
 $(document).ready(function () {
-    //Add set list in navigation bar
-    var dataId = $('#selectPanel').attr('data-id');
     $('#setting').show();
-    $("#conditionLi").attr("href", "/Condition/Index/" + dataId);
 
     //var d = $("#myframe")[0].contentDocument; // contentWindow works in IE7 and FF
     checkIframeLoaded();
@@ -71,71 +62,6 @@ $(document).ready(function () {
             });
         }
     });
-
-    /*
-    $('#addTitle').click(function () {
-        AddOneTitleCondInput();
-    });
-
-    $('#addLocation').click(function () {
-        AddOneLocationCondInput();
-    });
-
-    $('#removTitle').click(function () {
-        if (titleNo == 1) {
-            return;
-        }
-
-        RemoveOneTitleCondInput();
-    });
-
-    $('#removeLocation').click(function () {
-        if (locationNo == 1) {
-            return;
-        }
-
-        RemoveOneLocationCondInput();
-    });
-
-    $('#setCond').click(function () {
-        var titleConds = [];
-        var locationConds = [];
-
-        for (var i = 1; i <= titleNo; i++) {
-            id = "#inputTitle" + i;
-            var condition = $(id).val();
-            if(condition!=null && condition!=""){
-                titleConds.push(condition);
-            }
-        }
-
-        for (var i = 1; i <= locationNo; i++) {
-            id = "#location" + i;
-            var condition = $(id).val();
-            if(condition!=null && condition!=""){
-                locationConds.push(condition);
-            }
-        }
-
-        //siteId = $(this).attr('data-id');
-        var data = JSON.stringify({
-            ID: siteId,
-            titleConds: titleConds,
-            locationConds: locationConds
-        });
-
-        $.ajax({
-            type: "POST",
-            url: "/Browser/SetCondition",
-            data: data,
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (msg) {
-                alert(msg);
-            }
-        });
-    });
-    */
 });
 
 function checkIframeLoaded() {
@@ -288,106 +214,12 @@ function checkIframeLoaded() {
                 }
             }
         });
-
-        /*
-        //Get and set title conditions
-        $.ajax({
-            type: "POST",
-            url: "/Browser/GetCondition",
-            data: siteIdJson,
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (condition) {
-                if(condition==null){
-                    return;
-                }
-
-                //Set titleConds
-                for(i=0;i<condition.titleConds.length;i++){
-                    //Set titleCond with titleNo
-                    titleId = "#inputTitle" + titleNo;
-                    var title = condition.titleConds[i].titleCond;
-                    $(titleId).val(title);
-
-                    if(i==condition.titleConds.length - 1){
-                        break;
-                    }
-
-                    AddOneTitleCondInput();
-                }
-
-                //Set locationConds
-                for(i=0;i<condition.locationConds.length;i++){
-                    //Set locationConds with locationNo
-                    locationId = "#location" + locationNo;
-                    var location = condition.locationConds[i].locationCond;
-                    $(locationId).val(location);
-
-                    if(i==condition.locationConds.length - 1){
-                        break;
-                    }
-
-                    AddOneLocationCondInput();
-                }
-            }
-        });
-
-        */
-
         return;
     }
 
     window.setTimeout('checkIframeLoaded();', 100);
 
 }
-
-/*
-function RemoveOneTitleCondInput() {
-    var divId = "#inputTitleDiv" + titleNo;
-    $(divId).remove();
-
-    titleNo--;
-    var lastOrId = "#titleOr" + titleNo;
-    $(lastOrId).hide();
-
-}
-
-function RemoveOneLocationCondInput() {
-    var divId = "#locationDiv" + locationNo;
-    $(divId).remove();
-
-    locationNo--;
-    var lastOrId = "#locationOr" + locationNo;
-    $(lastOrId).hide();
-}
-
-function AddOneLocationCondInput(){
-    var lastOrId = "#locationOr" + locationNo;
-    locationNo++;
-
-    var div1 = '<div class="col-md-3 myrow btmAlgn" id="locationDiv' + locationNo + '">';
-    var locationDiv = '<div class="col-md-8 left0"><input type="text" class="form-control top5" id="location'
-        + locationNo + '" placeholder="City Name" /></div>';
-    var orDiv = '<div class="col-md-4" id="locationOr' + locationNo + '" style="display:none">OR</div>';
-    var endDiv1 = '</div>';
-    var locationDiv = div1 + locationDiv + orDiv + endDiv1;
-    $(lastOrId).show();
-    $("#locationRow").append(locationDiv);
-}
-
-function AddOneTitleCondInput() {
-    var lastOrId = "#titleOr" + titleNo;
-    titleNo++;
-    var div1 = '<div class="col-md-3 myrow btmAlgn" id="inputTitleDiv' + titleNo + '">';
-    var titleDiv = '<div class="col-md-8 left0"><input type="text" class="form-control top5" id="inputTitle'
-        + titleNo + '" placeholder="Keyword" /></div>';
-    var orDiv = '<div class="col-md-4" id="titleOr' + titleNo + '" style="display:none">OR</div>';
-    var endDiv1 = '</div>';
-    var condDiv = div1 + titleDiv + orDiv + endDiv1;
-    $(lastOrId).show();
-    $("#condRow").append(condDiv);
-}
-*/
 
 function getNode(listOfNodes){
     var i;

@@ -1,0 +1,68 @@
+﻿@using MVCMovie.Resources;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts{
+    @Scripts.Render("/js/Email.js")
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new{@id="setCondForm"}))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="h3" id="setEmail"><strong>@Resource.EmailSetting</strong></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">Email</span>
+                    <input id="email" class="form-control" value="" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">Password</span>
+                    <input id="password" type="password" class="form-control" value="" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    
+                    <input id="frequency" class="form-control" aria-label="..." />
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #eee;">
+                            Frequency 
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            @foreach (var description in @ViewBag.SendingFrequencies)
+                            {
+                                <li><a href="#">@description</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <button id="startEmail" class="btn btn-primary">Turn on Sending Email</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
