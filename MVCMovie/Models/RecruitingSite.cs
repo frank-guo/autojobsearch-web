@@ -42,12 +42,15 @@ namespace MVCMovie.Models
         public virtual IList<Others> othersPath { get; set; }
 
         public virtual Condition condition { get; set; }
+
+        public virtual Email email { get; set; }
     }
 
     public class RecruitingSiteDBContext : DbContext
     {
         public DbSet<RecruitingSite> RecruitingSites { get; set; }
         public DbSet<Condition> Conditions { get; set; }
+        public DbSet<Email> Emails { get; set; }
 
         
       protected override void OnModelCreating(DbModelBuilder modelBuilder)

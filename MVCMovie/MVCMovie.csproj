@@ -405,7 +405,6 @@
     <Content Include="Views\SeletElement\Index.cshtml" />
     <Content Include="Views\SeletElement\Condition.cshtml" />
     <Content Include="Views\SeletElement\ElementSelector.cshtml" />
-    <Content Include="Views\SeletElement\Email.cshtml" />
     <Content Include="Views\Condition\Index.cshtml" />
     <Content Include="Views\Email\Index.cshtml" />
   </ItemGroup>

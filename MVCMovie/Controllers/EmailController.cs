@@ -33,9 +33,10 @@ namespace MVCMovie.Controllers
         private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
         private const int tmpSiteID = 1;
 
-        public EmailProcessor()
+        public EmailProcessor(int siteId)
         {
-            site = Getsite(1);
+
+            site = Getsite(siteId);
         }
 
         // This method that will be called when the thread is started
@@ -480,6 +481,7 @@ namespace MVCMovie.Controllers
 
     public class EmailController : Controller
     {
+        private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
 
         private const string sendingTime = "00:05";
         private const double interval = 60 * 1000; //one second
@@ -499,29 +501,100 @@ namespace MVCMovie.Controllers
                 i++;
              }
             ViewBag.SendingFrequencies = descriptions;
+            ViewBag.siteId = id;
 
             return View();
         }
 
-        // Start to send Email periodically
-        public string TurnOnSend(string address, string password)
+        public ActionResult SaveEmail(Email email)
+        {
+            const string successMsg = "Success! The email info has been saved.";
+            const string wrongIdMsg = "Error! Invalid site ID.";
+            const string invalidModelMsg = "Error! Invalid email model.";
+
+            if (email != null && email.ID <= 0)
+            {
+                var response = new Dictionary<string, object>();
+                response.Add("ErrorCode", -1);
+                response.Add("ErrorMsg", wrongIdMsg);
+                return Json(response);
+            }
+
+            if (ModelState.IsValid)
+            {
+
+                var qry = from s in db.Emails
+                          select s;
+                qry = qry.Where(s => s.ID == email.ID);
+                var retreivedEmail = qry.FirstOrDefault();
+
+                //The email of email ID doesn't exist, and then insert the new email
+                //Othewise, remove the original one and insert the new email
+                if (retreivedEmail != null)
+                {
+                    db.Emails.Remove(retreivedEmail);
+                    db.SaveChanges();           
+                }
+                
+                db.Emails.Add(email);
+                db.SaveChanges();
+
+                if (email.sendingOn)
+                {
+                    TurnOnSend(email.address, email.password, email.ID);
+                }
+                else
+                {
+                    TurnOffSend();
+                }
+
+                var response = new Dictionary<string, object>();
+                response.Add("ErrorCode", 0);
+                response.Add("ErrorMsg", successMsg);
+                return Json(response);
+            }
+            else
+            {
+                var response = new Dictionary<string, object>();
+                response.Add("ErrorCode", -2);
+                response.Add("ErrorMsg", invalidModelMsg);
+                return Json(response);
+            }
+        }
+
+        //Turn off sending emails
+        public void TurnOffSend()
         {
 
-            //Timer checkForTime = new Timer(interval);
-            //checkForTime.Elapsed += new ElapsedEventHandler((sender, e) => 
-            //    checkForTime_Elapsed(sender, e, address, password));
-            // checkForTime.Enabled = true;
+        }
 
-            sendEmail(address, password);
+        // Start to send Email periodically
+        private void TurnOnSend(string address, string password, int siteId)
+        {
+            sendEmail(address, password, siteId);
 
-            return "Turn on email-sending successfully";
+            return;
+        }
+
+        private void sendEmail(string address, string password, int  siteId)
+        {
+
+            EmailProcessor emailProcessor = new EmailProcessor(siteId);
+
+            // Create the thread object, passing in the EmailProcessor.sendAllJobs method
+            // via a ThreadStart delegate. This does not start the thread.
+
+            var t = new Thread(() => emailProcessor.sendAllJobs(address, password));
+
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
         }
 
         private void checkForTime_Elapsed(object sender, ElapsedEventArgs e, string address, string password)
         {
             if (timeIsReady() && !hasSent())
             {
-                sendEmail(address, password);
+                sendEmail(address, password, 1);
             }
         }
 
@@ -571,23 +644,5 @@ namespace MVCMovie.Controllers
 
             return false;
         }
-
-        private void sendEmail(string address, string password)
-        {
-
-            EmailProcessor emailProcessor = new EmailProcessor();
-
-            // Create the thread object, passing in the EmailProcessor.sendAllJobs method
-            // via a ThreadStart delegate. This does not start the thread.
-
-            var t = new Thread(() => emailProcessor.sendAllJobs(address, password));
-
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
-        }
-
     }
-
-
-
 }

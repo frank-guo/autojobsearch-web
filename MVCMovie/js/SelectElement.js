@@ -11,23 +11,6 @@ $(document).ready(function () {
     //var d = $("#myframe")[0].contentDocument; // contentWindow works in IE7 and FF
     checkIframeLoaded();
 
-    $('#startEmail').click(function () {
-        //Send credential to the website to store
-        var email = { "address": $("#email").val(), "password": $('#password').val() };
-        var credential = JSON.stringify(email);
-
-        $.ajax({
-            type: "POST",
-            url: "/Email/TurnOnsend",
-            data: credential,
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (msg) {
-                alert(msg);
-            }
-        });
-    });
-
     $('#containLinks').click(function () {
         //show the text box to help find job1's link
         if (this.checked) {

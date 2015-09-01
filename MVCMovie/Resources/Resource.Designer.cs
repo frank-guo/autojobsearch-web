@@ -106,11 +106,29 @@ namespace MVCMovie.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Frequency.
         /// </summary>
         public static string SendingFrequency {
             get {
                 return ResourceManager.GetString("SendingFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn on email sending.
+        /// </summary>
+        public static string SendingOn {
+            get {
+                return ResourceManager.GetString("SendingOn", resourceCulture);
             }
         }
         

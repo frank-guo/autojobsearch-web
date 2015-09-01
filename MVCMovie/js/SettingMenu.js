@@ -15,4 +15,4 @@
 }
 
 var settingMenu = new SettingMenu($("#siteId").html());
-ko.applyBindings(settingMenu);
+ko.applyBindings(settingMenu, document.getElementById('settingMenu'));

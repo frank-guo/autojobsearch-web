@@ -23,7 +23,7 @@ namespace MVCMovie.Controllers
         public ActionResult SetCondition(ConditionViewModel condViewModel)
         {
             const string successMsg = "Success! The condtions has been saved.";
-            const string wrongIdMsg = "Error! Invalid condition ID.";
+            const string wrongIdMsg = "Error! Invalid site ID.";
             const string invalidModelMsg = "Error! Invalid condition model.";
 
             if (condViewModel != null && condViewModel.ID <= 0)
@@ -57,12 +57,8 @@ namespace MVCMovie.Controllers
                 {
                     db.Conditions.Remove(cond);
                     db.SaveChanges();           //Have to save change after remove. Otherwise, remove option will most likely be lost
-                    db.Conditions.Add(condition);
                 }
-                else
-                {
-                    db.Conditions.Add(condition);
-                }
+                db.Conditions.Add(condition);
                 db.SaveChanges();
 
                 //Re-read the condition of the condID and then set its titleConds and locationConds

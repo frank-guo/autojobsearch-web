@@ -132,8 +132,14 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="SendingFrequency" xml:space="preserve">
     <value>Frequency</value>
+  </data>
+  <data name="SendingOn" xml:space="preserve">
+    <value>Turn on email sending</value>
   </data>
   <data name="Weekly" xml:space="preserve">
     <value>Weekly</value>
