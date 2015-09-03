@@ -1,0 +1,13 @@
+﻿
+
+.alert {
+    height: 28px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.rowMinHeight {
+    min-height: 55px;
+}
+
+

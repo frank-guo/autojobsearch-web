@@ -60,50 +60,9 @@ namespace MVCMovie.Controllers
             document.Write(html);
             HtmlElement htmlElement = document.GetElementsByTagName("html")[0];
 
-            /*
-            Browser browserInstance;
-            browserInstance = new IE(url);
-            browserInstance.WaitForComplete();
-            Element body = browserInstance.Body;
-            Element htmlElmt = body.Parent;
-            
-            Element root = browserInstance.DomContainer.Elements[0];
-             * */
-
-
-
             tranverse(htmlElement);
 
-            /*
-            HtmlElementCollection headChildren = htmlElement.GetElementsByTagName("head")[0].Children;
-            foreach (HtmlElement e in headChildren)
-            {
-                string urlOfElement = null;
-                string baseUrl = getBaseUrl(url);
-                string attrName = null;
-
-                if (e.TagName == "SCRIPT")
-                {
-                    urlOfElement = e.GetAttribute("src");
-                    attrName = "src";
-                }
-                if (e.TagName == "LINK")
-                {
-                    urlOfElement = e.GetAttribute("href");
-                    attrName = "href";
-                }
-
-                if(urlOfElement != null && urlOfElement!="" && !urlOfElement.StartsWith("http"))
-                {
-                    urlOfElement = baseUrl + urlOfElement;
-                    e.SetAttribute(attrName,urlOfElement);
-                }                             
-            }
-            */
-
             webpage = htmlElement.InnerHtml;
-            //webpage = body.Parent.OuterHtml;
-
         }
 
 
@@ -115,9 +74,6 @@ namespace MVCMovie.Controllers
                 return;
             }
 
-            //ElementCollection children = root.Children();
-
-            //foreach (Element e in children)
             HtmlElementCollection elmts = root.Children;
             // ToDo: elements[0] is root, [1] is head, [2] is title....
             //DomContainer has child method. Could take a look at the source code of child
@@ -270,19 +226,17 @@ namespace MVCMovie.Controllers
                 qry = qry.Where(s => s.ID == 1);
                 RecruitingSite site = qry.FirstOrDefault();
 
+                if (site.ListNextPositions != null) 
+                {
+                    site.ListNextPositions = new List<NextPosition>();
+                    db.SaveChanges();
+                }
+
                 for (int i=0; i<listNextPositions.Count;i++)
                 {
-
-                    if (site.ListNextPositions == null ||  site.ListNextPositions.Count-1 < i)
-                    {
-                        NextPosition np = new NextPosition();
-                        np.position = listNextPositions.ElementAt(i);
-                        site.ListNextPositions.Add(np);
-                    }
-                    else
-                    {
-                        site.ListNextPositions.ElementAt(i).position = listNextPositions.ElementAt(i);
-                    }
+                    NextPosition np = new NextPosition();
+                    np.position = listNextPositions.ElementAt(i);
+                    site.ListNextPositions.Add(np);
                 }
                 db.SaveChanges();
             }
@@ -376,19 +330,17 @@ namespace MVCMovie.Controllers
                 qry = qry.Where(s => s.ID == 1);
                 RecruitingSite site = qry.FirstOrDefault();
 
+                if (site.companyPath != null)
+                {
+                    site.companyPath = new List<Company>();
+                    db.SaveChanges();
+                }
+
                 for (int i = 0; i < listCompanyPositions.Count; i++)
                 {
-
-                    if (site.companyPath == null || site.companyPath.Count - 1 < i)
-                    {
-                        Company cp = new Company();
-                        cp.position = listCompanyPositions.ElementAt(i);
-                        site.companyPath.Add(cp);
-                    }
-                    else
-                    {
-                        site.companyPath.ElementAt(i).position = listCompanyPositions.ElementAt(i);
-                    }
+                    Company cp = new Company();
+                    cp.position = listCompanyPositions.ElementAt(i);
+                    site.companyPath.Add(cp);
                 }
                 db.SaveChanges();
             }
@@ -428,22 +380,22 @@ namespace MVCMovie.Controllers
                 qry = qry.Where(s => s.ID == 1);
                 RecruitingSite site = qry.FirstOrDefault();
 
+                if (site.othersPath != null)
+                {
+                    site.othersPath = new List<Others>();
+                    db.SaveChanges();
+                }
+
                 for (int i = 0; i < listOthersPositions.Count; i++)
                 {
 
-                    if (site.othersPath == null || site.othersPath.Count - 1 < i)
-                    {
+
                         //Create new others and add to othersPath if there is no othersPath
                         //or the current othersPath is shorter than the new one
                         Others op = new Others();
                         op.position = listOthersPositions.ElementAt(i);
                         site.othersPath.Add(op);
-                    }
-                    else
-                    {
-                        //Overwrite the current othersPath
-                        site.othersPath.ElementAt(i).position = listOthersPositions.ElementAt(i);
-                    }
+
                 }
                 db.SaveChanges();
             }
@@ -553,21 +505,18 @@ namespace MVCMovie.Controllers
                 qry = qry.Where(s => s.ID == 1);
                 RecruitingSite site = qry.FirstOrDefault();
 
+                if (site.JobPath != null)
+                {
+                    site.JobPath = new List<PathNode>();
+                    db.SaveChanges();
+                }
+
                 for (int i = 0; i < listPathNodes.Count; i++)
                 {
-
-                    if (site.JobPath == null || site.JobPath.Count - 1 < i)
-                    {
-                        PathNode pn = new PathNode();
-                        pn.position = listPathNodes.ElementAt(i).position;
-                        pn.hasCommonParent = listPathNodes.ElementAt(i).hasCommonParent;
-                        site.JobPath.Add(pn);
-                    }
-                    else
-                    {
-                        site.JobPath.ElementAt(i).position = listPathNodes.ElementAt(i).position;
-                        site.JobPath.ElementAt(i).hasCommonParent = listPathNodes.ElementAt(i).hasCommonParent;
-                    }
+                    PathNode pn = new PathNode();
+                    pn.position = listPathNodes.ElementAt(i).position;
+                    pn.hasCommonParent = listPathNodes.ElementAt(i).hasCommonParent;
+                    site.JobPath.Add(pn);
                 }
                 db.SaveChanges();
             }
@@ -588,19 +537,17 @@ namespace MVCMovie.Controllers
                           select s;
                 RecruitingSite site = qry.FirstOrDefault();
 
+                if (site.Job2Path != null)
+                {
+                    site.Job2Path = new List<Job2Position>();
+                    db.SaveChanges();
+                }
+
                 for (int i = 0; i < listJob2Positions.Count; i++)
                 {
-                    //If Job2Path is null  or the current Job2Path is already shorter than i
-                    if (site.Job2Path == null || site.Job2Path.Count - 1 < i)
-                    {
-                        Job2Position j2p = new Job2Position();
-                        j2p.position = listJob2Positions.ElementAt(i);
-                        site.Job2Path.Add(j2p);
-                    }
-                    else
-                    {
-                        site.Job2Path.ElementAt(i).position = listJob2Positions.ElementAt(i);
-                    }
+                    Job2Position j2p = new Job2Position();
+                    j2p.position = listJob2Positions.ElementAt(i);
+                    site.Job2Path.Add(j2p);
                 }
                 db.SaveChanges();
             }

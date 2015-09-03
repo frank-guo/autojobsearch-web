@@ -106,7 +106,7 @@ $("#itemOthers").click(function (e) {
     //Caculate the path for the others node
     var listPositions = getNodePath(others);
 
-    //Highlight the company node with green using the caculated path
+    //Highlight the others node with green using the caculated path
     hightLightNode(listPositions, 'green');
 
     //Send listPositions to the website to store
@@ -121,7 +121,7 @@ $("#itemOthers").click(function (e) {
         }
     });
 
-    //Highlight the company node, the path of which is got from the website, with red
+    //Highlight the others node, the path of which is got from the website, with red
     var listPostions = [];
     $.ajax({
         type: "GET",

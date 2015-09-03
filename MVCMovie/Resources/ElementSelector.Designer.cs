@@ -22,14 +22,14 @@ namespace MVCMovie.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resource {
+    public class ElementSelector {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resource() {
+        internal ElementSelector() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace MVCMovie.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MVCMovie.Resources.Resource", typeof(Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MVCMovie.Resources.ElementSelector", typeof(ElementSelector).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,83 +61,56 @@ namespace MVCMovie.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Daily.
+        ///   Looks up a localized string similar to Must click the company name under the job1.
         /// </summary>
-        public static string Daily {
+        public static string CompanyTipMsg {
             get {
-                return ResourceManager.GetString("Daily", resourceCulture);
+                return ResourceManager.GetString("CompanyTipMsg", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email Address.
+        ///   Looks up a localized string similar to Go up from the Job1 node to find the link node for Job1.
         /// </summary>
-        public static string EmailAddress {
+        public static string Job1LinkTipMsg {
             get {
-                return ResourceManager.GetString("EmailAddress", resourceCulture);
+                return ResourceManager.GetString("Job1LinkTipMsg", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email Setting.
+        ///   Looks up a localized string similar to Right click one of the jobs listed above and choose Job1. This will set this input box automatically.
         /// </summary>
-        public static string EmailSetting {
+        public static string Job1TipMsg {
             get {
-                return ResourceManager.GetString("EmailSetting", resourceCulture);
+                return ResourceManager.GetString("Job1TipMsg", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Every Other Day.
+        ///   Looks up a localized string similar to Right click  a different job than job 1 in the job list above so that the system will be able to get all the jobs in the list.
         /// </summary>
-        public static string EveryOtherDay {
+        public static string Job2TipMsg {
             get {
-                return ResourceManager.GetString("EveryOtherDay", resourceCulture);
+                return ResourceManager.GetString("Job2TipMsg", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password.
+        ///   Looks up a localized string similar to Right click the next link. This will make the system know how to get the next page.
         /// </summary>
-        public static string Password {
+        public static string NextTipMsg {
             get {
-                return ResourceManager.GetString("Password", resourceCulture);
+                return ResourceManager.GetString("NextTipMsg", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save.
+        ///   Looks up a localized string similar to This will give the other information, such as, the job location. Must click the other information under Job1 .
         /// </summary>
-        public static string Save {
+        public static string OthersTipMsg {
             get {
-                return ResourceManager.GetString("Save", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Frequency.
-        /// </summary>
-        public static string SendingFrequency {
-            get {
-                return ResourceManager.GetString("SendingFrequency", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Turn on email sending.
-        /// </summary>
-        public static string SendingOn {
-            get {
-                return ResourceManager.GetString("SendingOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Weekly.
-        /// </summary>
-        public static string Weekly {
-            get {
-                return ResourceManager.GetString("Weekly", resourceCulture);
+                return ResourceManager.GetString("OthersTipMsg", resourceCulture);
             }
         }
     }

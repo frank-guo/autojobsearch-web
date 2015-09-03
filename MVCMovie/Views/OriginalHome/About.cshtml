@@ -1,7 +1,11 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title.</h2>
+﻿
 <h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<p>Basically, this application gets and sends users the job posts that they are interested in from the specified job hunting web sites through emails.</p><br/>
+<p>It will present the job posting page from the sites to users, and ask users to tell it where the job-related nodes are on the page, such as, the nodes of job titles, companies, and locations, etc. and what jobs they are interested in, e.g. Developers in Vancouver, etc. Based on this information that use provides, it will get these job posts from the web sites automatically and send them to users by email periodically as required.</p>
+<br/>
+<h4>ToDo:</h4>
+<ul>
+    <li>Implement user authentication</li>	
+    <li>Make the application able to analyze the job marketing data that it automatically gets from the popular job hunting web sites. So it can provide some useful real job marketing analysis to users, e.g. the job marketing share of ASP.Net developers.</li>	
+</ul>

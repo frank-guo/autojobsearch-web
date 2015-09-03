@@ -1,4 +1,6 @@
 ﻿var SettingMenu = function (siteId) {
+    $('[data-toggle="tooltip"]').tooltip();
+
     this.siteId = ko.observable(siteId);
 
     this.jobFeaturesUrl = ko.computed(function () {

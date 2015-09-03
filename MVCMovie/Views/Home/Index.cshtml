@@ -1,71 +1,10 @@
 ﻿@model MVCMovie.Models.RecruitingSite
+@using MVCMovie.Resources;
 
-<script type="text/javascript">
 
-    window.onerror = function (message, url, lineNo) {
-        console.log('Error: ' + message + '\n' + 'Line Number: ' + lineNo);
-
-        return true;
-    }
-
-    $(document).ready(function () {
-        function openBrower() {
-            var siteId = $('#url').data('siteId');
-            var idUrl = { "id":siteId, "url": $("#url").val() };
-
-            var json = JSON.stringify(idUrl);
-
-            $.ajax({
-                url: '/Browser/SetURL',
-                data: json,
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                success: function (id) {
-                    // get the result and do some magic with it
-                    $.ajax({
-                        url: '/SeletElement/Index/' + siteId,
-                        contentType: 'application/json; charset=utf-8',
-                        success: function (data) {
-                            // get the result and do some magic with it
-                            //SelectElment will return a view which contains the iframe that will request Browser/Index/siteId.
-                            //Browser/Index/siteId acutally returns the content of job searching sites.
-                            //So the content inside the iframe will be thought of as safety
-                            var w = window.open();
-                            w.document.open(data);
-                            w.document.write(data);
-                            w.document.close();
-                        }
-                    });
-                }
-            });
-        }
-
-        $('#website').change(function () {
-            $('#url').text($('#website :selected').text());
-            //can not set the siteId to the value of textarea becasue the value of textarea is actually changing the its text()
-            $('#url').data('siteId', $(this).children(':selected').val());
-        });
-
-        $('#url').click(function () {
-            $('#website').val(null);
-            $(this).data('siteId', 0);
-        });
-
-        $('#sitesForm').submit(function (event) {
-            openBrower();
-            event.preventDefault();
-        });
-
-    });
-
-</script>
-
-<style>
-    .top2{
-        margin-top:2%;
-    }
-
-</style>
+@section Scripts{
+    @Scripts.Render("/js/Home.js")
+}
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new {@id = "sitesForm"}))
 {
@@ -73,16 +12,36 @@
     <div class="row">
         <div class="col-xs-8">
             <div class="input-group input-group-sm">
-                <span class="input-group-addon">@Html.DisplayNameFor(model=>model.url)</span>
-                @Html.TextAreaFor(model=>model.url, new { @class="form-control", id="url" })
+                @*<span class="input-group-addon">@Html.DisplayNameFor(model=>model.url)</span>*@
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown tooltip" title="@Home.RecommondSites"
+                            aria-haspopup="true" aria-expanded="false" style="background-color: #eee;">
+                        @Html.DisplayNameFor(model => model.url)
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-left" id="recomdSite">
+                          <li><a href="#">@Common.TNet</a></li>
+                        <li><a href="#">@Common.Monster</a></li>
+                    </ul>
+                </div>
+
+                @Html.TextAreaFor(model=>model.url, new { @class="form-control", id="url",@data_bind="value: url"})
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-8">
-            @Html.DropDownList("urls", (SelectList)@ViewBag.options, new{ @class="form-control top2", id="website", size="8" })
-            <button class="btn btn-primary btn-sm top2" id="urlbutton">OpenBrowser</button>
+            @Html.DropDownList("urls", (SelectList)@ViewBag.options, new { @class = "form-control", id = "website", size = "8", data_toggle = "tooltip", title = Home.StoredSites })
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-xs-2">
+            <button class="btn btn-primary btn-sm" id="openSite">Open Site</button>
+        </div>
+        <div class="col-xs-2">
+            <button class="btn btn-primary btn-sm" id="deleteSite">Delete Site</button>
         </div>
     </div>
 }

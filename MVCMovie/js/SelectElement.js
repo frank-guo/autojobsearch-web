@@ -164,7 +164,7 @@ function checkIframeLoaded() {
             }
         });
 
-        //Get and set Company input area
+        //Get and set others input area
         $.ajax({
             type: "POST",
             url: "/Browser/GetOthers",

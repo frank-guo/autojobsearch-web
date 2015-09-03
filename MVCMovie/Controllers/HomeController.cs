@@ -18,7 +18,7 @@ namespace MVCMovie.Controllers
         private RecruitingSiteDBContext siteDb = new RecruitingSiteDBContext();
 
         // GET: Sites
-        public ActionResult Index(string movieGenre, string searchString)
+        public ActionResult Index()
         {
             var options = siteDb.RecruitingSites.Select(s => new
             {
@@ -28,6 +28,46 @@ namespace MVCMovie.Controllers
             ViewBag.options = new SelectList(options, "ID", "url");
 
             return View(); 
+        }
+
+        //Create a new web site
+        public ActionResult CreateSite(string url)
+        {
+            RecruitingSite newsite = new RecruitingSite();
+
+            newsite.url = url;
+
+            newsite = siteDb.RecruitingSites.Add(newsite);
+            siteDb.SaveChanges();
+
+            var sites = siteDb.RecruitingSites.Select(s => new
+            {
+                s.url,
+                s.ID
+            }).ToList();
+
+            return Json(new { sites = sites, newID = newsite.ID }, JsonRequestBehavior.AllowGet);
+        }
+
+        //Delete a web site
+        public ActionResult DeleteSite(int id)
+        {
+
+            var qry = from site in siteDb.RecruitingSites
+                      select site;
+            qry = qry.Where(s => s.ID == id);
+            var retrievedSite = qry.FirstOrDefault();
+
+            siteDb.RecruitingSites.Remove(retrievedSite);
+            siteDb.SaveChanges();
+
+            var sites = siteDb.RecruitingSites.Select(s => new
+            {
+                s.url,
+                s.ID
+            }).ToList();
+
+            return Json(sites, JsonRequestBehavior.AllowGet);
         }
 
 

@@ -200,6 +200,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Common\EnumExtensions.cs" />
+    <Compile Include="Common\Logger.cs" />
+    <Compile Include="Common\Model\Message.cs" />
+    <Compile Include="Common\Model\MessageCode.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BrowserController.cs">
       <SubType>Form</SubType>
@@ -252,10 +255,30 @@
     <Compile Include="Models\TitleCond.cs" />
     <Compile Include="Models\WebsiteViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Resource.Designer.cs">
+    <Compile Include="Resources\Common.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resource.resx</DependentUpon>
+      <DependentUpon>Common.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Condition.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Condition.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ElementSelector.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementSelector.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Email.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Email.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Home.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Home.resx</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -324,10 +347,13 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="js\Condition.css" />
     <Content Include="js\Condition.js" />
     <Content Include="js\ContextMenu.css" />
     <Content Include="js\ContextMenu.js" />
+    <Content Include="js\Email.css" />
     <Content Include="js\Email.js" />
+    <Content Include="js\Home.js" />
     <Content Include="js\SelectElement.css" />
     <Content Include="js\SelectElement.js" />
     <Content Include="js\SettingMenu.js" />
@@ -403,7 +429,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Browser\Index.cshtml" />
     <Content Include="Views\SeletElement\Index.cshtml" />
-    <Content Include="Views\SeletElement\Condition.cshtml" />
     <Content Include="Views\SeletElement\ElementSelector.cshtml" />
     <Content Include="Views\Condition\Index.cshtml" />
     <Content Include="Views\Email\Index.cshtml" />
@@ -428,9 +453,25 @@
     <EmbeddedResource Include="Migrations\201501110639178_DataAnnotations1.resx">
       <DependentUpon>201501110639178_DataAnnotations1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Resource.resx">
+    <EmbeddedResource Include="Resources\Common.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <LastGenOutput>Common.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Condition.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Condition.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ElementSelector.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementSelector.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Email.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Email.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Home.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Home.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

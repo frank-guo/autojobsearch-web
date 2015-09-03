@@ -117,31 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Daily" xml:space="preserve">
-    <value>Daily</value>
+  <data name="InvlidModel" xml:space="preserve">
+    <value>Error! Invalid {0} model.</value>
   </data>
-  <data name="EmailAddress" xml:space="preserve">
-    <value>Email Address</value>
+  <data name="InvlidSiteID" xml:space="preserve">
+    <value>Error! Invalid site ID.</value>
   </data>
-  <data name="EmailSetting" xml:space="preserve">
-    <value>Email Setting</value>
+  <data name="LogFile" xml:space="preserve">
+    <value>log.txt</value>
   </data>
-  <data name="EveryOtherDay" xml:space="preserve">
-    <value>Every Other Day</value>
+  <data name="LogFolder" xml:space="preserve">
+    <value>\log</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
+  <data name="Monster" xml:space="preserve">
+    <value>Monster</value>
   </data>
-  <data name="Save" xml:space="preserve">
-    <value>Save</value>
+  <data name="NotImplemented" xml:space="preserve">
+    <value>Not Implemented</value>
   </data>
-  <data name="SendingFrequency" xml:space="preserve">
-    <value>Frequency</value>
+  <data name="SaveSuccessMsg" xml:space="preserve">
+    <value>Success! The {0} information has been saved.</value>
   </data>
-  <data name="SendingOn" xml:space="preserve">
-    <value>Turn on email sending</value>
+  <data name="TNet" xml:space="preserve">
+    <value>T-Net</value>
   </data>
-  <data name="Weekly" xml:space="preserve">
-    <value>Weekly</value>
+  <data name="TNetUrl" xml:space="preserve">
+    <value>http://www.bctechnology.com/jobs/search-results.cfm</value>
   </data>
 </root>

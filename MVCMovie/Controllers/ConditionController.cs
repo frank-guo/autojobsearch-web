@@ -22,15 +22,13 @@ namespace MVCMovie.Controllers
         [HttpPost]
         public ActionResult SetCondition(ConditionViewModel condViewModel)
         {
-            const string successMsg = "Success! The condtions has been saved.";
-            const string wrongIdMsg = "Error! Invalid site ID.";
-            const string invalidModelMsg = "Error! Invalid condition model.";
-
             if (condViewModel != null && condViewModel.ID <= 0)
             {
-                var response = new Dictionary<string, object>();
-                response.Add("ErrorCode", -1);
-                response.Add("ErrorMsg", wrongIdMsg);
+                var response = new Common.Model.Message()
+                {
+                    msgCode = Common.Model.MessageCode.InvlidSiteID,
+                    message = Resources.Common.InvlidSiteID,
+                };
                 return Json(response);
             }
 
@@ -92,16 +90,20 @@ namespace MVCMovie.Controllers
 
                 db.SaveChanges();
 
-                var response = new Dictionary<string, object>();
-                response.Add("ErrorCode", 0);
-                response.Add("ErrorMsg", successMsg);
+                var response = new Common.Model.Message()
+                {
+                    msgCode = Common.Model.MessageCode.Success,
+                    message = String.Format(Resources.Common.SaveSuccessMsg, Resources.Condition.condition),
+                };
                 return Json(response);
             }
             else
             {
-                var response = new Dictionary<string, object>();
-                response.Add("ErrorCode", -2);
-                response.Add("ErrorMsg", invalidModelMsg);
+                var response = new Common.Model.Message()
+                {
+                    msgCode = Common.Model.MessageCode.InvlidModel,
+                    message = String.Format(Resources.Common.InvlidModel, Resources.Condition.condition),
+                };
                 return Json(response);
             }
         }

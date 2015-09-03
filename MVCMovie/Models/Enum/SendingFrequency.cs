@@ -10,13 +10,13 @@ namespace MVCMovie.Models.Enum
 {
     public enum SendingFrequency
     {
-        [Display(Name = "Daily", ResourceType = typeof(Resource))]
+        [Display(Name = "Daily", ResourceType = typeof(Resources.Email))]
         Daily = 1,
 
-        [Display(Name = "EveryOtherDay", ResourceType = typeof(Resource))]
+        [Display(Name = "EveryOtherDay", ResourceType = typeof(Resources.Email))]
         EveryOtherDay = 2,
 
-        [Display(Name = "Weekly", ResourceType = typeof(Resource))]
+        [Display(Name = "Weekly", ResourceType = typeof(Resources.Email))]
         Weekly = 3
     }
 }

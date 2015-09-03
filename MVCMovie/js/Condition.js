@@ -161,19 +161,19 @@ $(document).ready(function () {
             data: data,
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            success: function (error) {
-                switch (error.ErrorCode) {
+            success: function (msg) {
+                switch (msg.msgCode) {
                     case 0:
                         $('#alertMsg').attr("class", "alert alert-success");
-                        $('#alertMsg').text(error.ErrorMsg);
+                        $('#alertMsg').text(msg.message);
                         break;
-                    case -1:
+                    case 1:
                         $('#alertMsg').attr("class", "alert alert-danger");
-                        $('#alertMsg').text(error.ErrorMsg);
+                        $('#alertMsg').text(msg.message);
                         break;
-                    case -2:
+                    case 2:
                         $('#alertMsg').attr("class", "alert alert-danger");
-                        $('#alertMsg').text(error.ErrorMsg);
+                        $('#alertMsg').text(msg.message);
                         break;
                 }
                 

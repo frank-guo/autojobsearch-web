@@ -1,4 +1,5 @@
 ﻿@model MVCMovie.Models.RecruitingSite
+@using MVCMovie.Resources;
 
 
     <div class="panel panel-default" >
@@ -12,19 +13,19 @@
                         <div class="col-md-4">
                             <div class="input-group">
                                 <span class="input-group-addon">@Html.DisplayNameFor(model => model.JobPath)</span>
-                                <textarea id="node1" class="form-control"></textarea>
+                                <textarea id="node1" class="form-control" data-toggle="tooltip" , title="@ElementSelector.Job1TipMsg"></textarea>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="input-group">
                                 <span class="input-group-addon">@Html.DisplayNameFor(model => model.Job2Path)</span>
-                                <textarea id="node2" class="form-control"></textarea>
+                                <textarea id="node2" class="form-control" data-toggle="tooltip" , title="@ElementSelector.Job2TipMsg"></textarea>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="input-group">
                                 <span class="input-group-addon">@Html.DisplayNameFor(model => model.ListNextPositions)</span>
-                                <textarea id="nextPage" class="form-control"></textarea>
+                                <textarea id="nextPage" class="form-control" data-toggle="tooltip" , title="@ElementSelector.NextTipMsg"></textarea>
                             </div>
                         </div>
                     </div>
@@ -33,13 +34,13 @@
                         <div class="col-md-4">
                             <div class="input-group">
                                 <span class="input-group-addon">@Html.DisplayNameFor(model => model.companyPath)</span>
-                                <textarea id="company" class="form-control"></textarea>
+                                <textarea id="company" class="form-control" data-toggle="tooltip" , title="@ElementSelector.CompanyTipMsg"></textarea>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="input-group">
                                 <span class="input-group-addon">@Html.DisplayNameFor(model => model.othersPath)</span>
-                                <textarea id="others" class="form-control"></textarea>
+                                <textarea id="others" class="form-control" data-toggle="tooltip" , title="@ElementSelector.OthersTipMsg"></textarea>
                             </div>
                         </div>
                     </div>
@@ -59,7 +60,7 @@
                     <div class="col-md-4">
                         <div class="input-group">
                             <span class="input-group-addon">Job1</span>
-                            <textarea id="job1link" class="form-control"></textarea>
+                            <textarea id="job1link" class="form-control" data-toggle="tooltip" , title="@ElementSelector.Job1LinkTipMsg"></textarea>
                         </div>
                     </div>
                     @*here must be col-md-8, othewise the button will not next the textarea.

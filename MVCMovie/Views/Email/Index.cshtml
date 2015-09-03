@@ -1,4 +1,6 @@
-﻿@using MVCMovie.Resources;
+﻿@model MVCMovie.Models.Email
+@using MVCMovie.Resources;
+
 
 @{
     ViewBag.Title = "Index";
@@ -7,9 +9,12 @@
 
 @section Scripts{
     @Scripts.Render("/js/Email.js")
+    @Scripts.Render("~/bundles/jqueryval")
 }
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+@section Styles{
+    @Styles.Render("/js/Email.css")
+}
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new{@id="emailForm"}))
 {
@@ -18,33 +23,35 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="h3" id="setEmail"><strong>@Resource.EmailSetting</strong></div>
+                <div class="h3" id="setEmail"><strong>@Email.EmailSetting</strong></div>
             </div>
         </div>
         <br />
         <div class="row">
             <div class="col-md-4">
                 <div class="input-group">
-                    <span class="input-group-addon">@Resource.EmailAddress</span>
-                    <input id="email" class="form-control" data-bind="value: address" />
+                    <span class="input-group-addon">@Email.EmailAddress</span>
+                    @Html.TextBoxFor(model => model.address, new { @class = "form-control", id = "email", data_bind = "value: address" } )
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="input-group">
-                    <span class="input-group-addon">@Resource.Password</span>
-                    <input id="password" type="password" class="form-control" data-bind="value: password" />
+                    <span class="input-group-addon">@Email.Password</span>
+                    @Html.TextBoxFor(model => model.password, new { @class = "form-control", type="password", id = "password", 
+                        data_toggle="tooltip", title=Email.PasswordTipMsg, data_bind = "value: password" })
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="input-group">
                     
-                    <input id="frequency" class="form-control" aria-label="..." data-bind="value: frequency" />
+                    <input id="frequency" class="form-control" aria-label="..." data-bind="value: frequencyText" disabled />
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #eee;">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" 
+                                aria-haspopup="true" aria-expanded="false" style="background-color: #eee;">
                             Frequency 
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-right">
+                        <ul class="dropdown-menu dropdown-menu-right" id="frequencyDropdown">
                             @foreach (var description in @ViewBag.SendingFrequencies)
                             {
                                 <li><a href="#">@description</a></li>
@@ -54,12 +61,55 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <br/>
+        <div class="row myrow btmAlgn">
+            <div class="col-md-4">
+                <label class="control-label" for="sendingTime" data-toggle="tooltip" title="@Email.SendingTimeTipMsg">@Email.SendingTime</label>
+                <div class="input-group">
+                    <span class="input-group-addon">@Email.Time</span>
+                    <input id="sendingTime" class="form-control" data-bind="value: sendingTime" disabled/>
+                </div>
+            </div><div class="col-md-4">
+                <label class="control-label" for="smtpAddress">@Email.SMTPServer</label>
+                <div class="input-group">
+                    <span class="input-group-addon">@Email.SMTPAddress</span>
+                    @Html.TextBoxFor(model => model.smtpAddress, new { @class = "form-control", id = "smtpAddress", data_bind = "value: smtpAddress" })
+                </div>
+            </div><div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">@Email.SMTPPort</span>
+                    @Html.TextBoxFor(model => model.smtpPort, new { @class = "form-control", id = "smtpPort", data_bind = "value: smtpPort" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                @Html.ValidationMessageFor(model => model.smtpAddress, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                @Html.ValidationMessageFor(model => model.smtpPort, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <br/>
         <div class="row">
             <div class="col-md-3">
                 <div class="checkbox">
-                    <label><input type="checkbox" data-bind="value: sendingOn">
-                        <span><strong>@Resource.SendingOn</strong></span>
+                    <label><input type="checkbox" data-bind="checked: sendingOn" >
+                        <span><strong>@Email.SendingOn</strong></span>
                     </label>
                 </div>
             </div>
@@ -67,7 +117,7 @@
         <br/>
         <div class="row rowMinHeight">
             <div class="col-md-2">
-                <input type="submit" class="btn btn-primary btn-sm" id="saveEmail" value="@Resource.Save" />
+                <input type="submit" class="btn btn-primary btn-sm" id="saveEmail" value="@Email.SaveTrunOnOff" />
             </div>
             <div class="col-md-4">
                 <div class="alert" id="alertMsg" style="display:none">Test</div>

@@ -7,17 +7,11 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
-<style>
-    .alert {
-        height: 28px;
-        padding-bottom: 2px;
-        padding-top: 2px;
-    }   
-
-    .rowMinHeight {
-        min-height: 55px
+@section Styles{
+    @Styles.Render("/js/Condition.css")
 }
-</style>
+
+
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new{@id="setCondForm"}))
 {
@@ -43,7 +37,7 @@
                 <div class="col-md-4">
                     @Html.LabelFor(condition => condition.locationConds)
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     @Html.LabelFor(condition => condition.location)
                 </div>
             </div>

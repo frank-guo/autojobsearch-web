@@ -21,64 +21,180 @@ using System.Threading;
 
 namespace MVCMovie.Controllers
 {
-
     //This class has to be run in a separate thread because of using WebBrowser
+    //WebBrowser is used for getting the element in a html page by JobPath/companyPath etc. in RecruitingSite.
     public class EmailProcessor : Form
     {
-        private string sentDate = "C:/Users/Frank/Documents/Visual Studio 2013/Projects/MVCMovie/sentDate.txt";
-        private string dateFormat = "MM/dd/yy";
+        private const string sendingTime = "00:05";
+        private const int onesecond = 1000;
+        private const int twominTest = 120000;
+        private const int oneday = 86400000;
+        private const int twoday = 86400000 * 2;
+        private const int oneweek = 86400000 * 7;
+        private const int oneminute = 60000;
+        private const int tensecond = 10000;
+
         private RecruitingSite site;
         private HtmlDocument document;
         private HtmlElement htmlElement;
-        private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
-        private const int tmpSiteID = 1;
+        private  RecruitingSiteDBContext db = new RecruitingSiteDBContext();
+        private int siteId;
+        
+        private System.Windows.Forms.Timer timer;
+        private Email email;
+        private WebBrowser browser;
+        private WebClient client;
+        private bool exitFlag;
+        private string emailSubject;
 
-        public EmailProcessor(int siteId)
+        internal static Dictionary<int, Email> emails = new Dictionary<int, Email>();
+        internal static Dictionary<int, System.Windows.Forms.Timer> timers = new Dictionary<int, System.Windows.Forms.Timer>();
+
+        public EmailProcessor(Email eml)
         {
-
+            timer = new System.Windows.Forms.Timer();
+            SetTimer(eml, timer);
+            timers.Add(eml.ID, timer);
+            email = eml;
+            emails.Add(eml.ID, eml);
+            siteId = eml.ID;
             site = Getsite(siteId);
         }
 
-        // This method that will be called when the thread is started
-        public void sendAllJobs(string address, string password)
+        public void StartTimer()
         {
-            WebBrowser browser = new WebBrowser();
-            WebClient client = new WebClient();
+            while (!timeIsReady())
+            {
+                Thread.Sleep(oneminute);
+            }
+
+            exitFlag = false;
+
+            browser = new WebBrowser();
+            client = new WebClient();
             browser.ScriptErrorsSuppressed = true;
 
             //If don't set Url about:blank, browser.Document will be null, which causes a null reference exception
             //Since there is no actual form there.
             //ToDo: Subscribe to the webBrowser.DocumentCompleted event so document could be loaded.
-            //Refer to http://stackoverflow.com/questions/9925022/webbrowser-document-is-always-null
+            //Refer to http://stackoverflow.com/questions/9925022/webbrowser-document-is-always-null 
             browser.Url = new Uri("about:blank");
 
-            string html;
+            sendAllJobs();
+            timer.Tick += new EventHandler(OnTimedEvent);
+            timer.Start();
+
+            //This loop is needed or the timer event would not fire
+            while (exitFlag == false && timers.ContainsKey(email.ID))
+            {
+                // Processes all the events in the queue.
+                Application.DoEvents();
+                Thread.Sleep(onesecond);
+            }
+        }
+
+        internal static void SetEmail(Email email)
+        {
+            var eml = emails[email.ID];
+            if(eml==null)
+            {
+                return;
+            }
+
+            eml.address = email.address;
+            eml.password = email.password;
+            eml.frequency = email.frequency;
+            eml.sendingOn = email.sendingOn;
+        } 
+
+        private void OnTimedEvent(Object source, EventArgs e)
+        {
+            var retreivedEmail = GetEmail(siteId);
+
+            if (retreivedEmail == null)
+            {
+                timer.Enabled = false;
+                timers.Remove(siteId);
+                emails.Remove(siteId);
+                exitFlag = true;
+            }
+            else
+            {
+                if (retreivedEmail.sendingOn)
+                {
+                    //Re-set timer in case the frequency has been changed
+                    SetTimer(retreivedEmail, timer);
+                    email = retreivedEmail;
+                    sendAllJobs();
+                }
+                else
+                {
+                    timer.Enabled = false;
+                    timers.Remove(siteId);
+                    emails.Remove(siteId);
+                    exitFlag = true;
+                }
+            }
+
             
+        }
+
+        internal static void SetTimer(Email email, System.Windows.Forms.Timer timer)
+        {
+            switch (email.frequency)
+            {
+                case SendingFrequency.Daily:
+                    timer.Interval = oneday;                    
+                    break;
+                case SendingFrequency.EveryOtherDay:
+                    timer.Interval = twoday;
+                    break;
+                case SendingFrequency.Weekly:
+                    timer.Interval = oneweek;
+                    break;
+            }
+        }
+
+        private Email GetEmail(int id)
+        {
+            var qry = from s in db.Emails
+                      select s;
+            qry = qry.Where(s => s.ID == email.ID);
+            var retreivedEmail = qry.FirstOrDefault();
+
+            return retreivedEmail;
+        }
+
+
+        // This method that will be called when the timer is out
+        private void sendAllJobs()
+        {
+            var address = email.address;
+            var password = email.password;
+            string html;           
             string body = "";
 
             List<PathNode> JobPath = getJobPath();
-
             List<Company> companyPath = getCompanyPath();
-
             List<Others> othersPath = getOthers();
+
+            if (JobPath.Count == 0 || companyPath.Count == 0 || othersPath.Count == 0)
+            {
+                body = MVCMovie.Resources.Email.SetConditionJobFeatures;
+                goto sending;
+            }
             
             //bool isToday = true;
 
             string url = site.url;
 
+            //Loop through all the job posting pages until the posting time falls out of the specified range
             while (true)
             {
 
                 html = client.DownloadString(url);
                 document = browser.Document.OpenNew(true);
 
-                //WebBrowser browser1 = new WebBrowser();              
-                //browser1.DocumentCompleted += WebBrowser_DocumentCompleted;
-                //browser1.Navigate(url);
-                //browser1.Visible = true;
-
-                //Thread.Sleep(10000);
-                //document = browser.Document;
                 document.Write(html);
                 htmlElement = document.GetElementsByTagName("html")[0];
 
@@ -94,6 +210,7 @@ namespace MVCMovie.Controllers
                 int maxIdxJobPath = JobPath.Count - 1;
                 int maxIdxCompPath = companyPath.Count - 1;
 
+                //Go downwards from top until the common ancestor
                 do
                 {
                     //start from <html> element, i.e. level 1
@@ -150,7 +267,8 @@ namespace MVCMovie.Controllers
 
                         if (node1 != null)
                         {
-                            if (!isTodayJob(node1, levelNoCommonAnstr))
+                            //Tell if the job is in the specified time range
+                            if (!isJobInTimeRange(node1, levelNoCommonAnstr))
                             {
                                 goto sending;
                             }
@@ -161,7 +279,7 @@ namespace MVCMovie.Controllers
 
                             var conds = from s in db.Conditions
                                             select s;
-                            conds = conds.Where(s => s.ID == tmpSiteID);
+                            conds = conds.Where(s => s.ID == siteId);
                             Condition cond = conds.FirstOrDefault();
 
                             //Evaluate title conditions
@@ -230,7 +348,31 @@ namespace MVCMovie.Controllers
             }
 
             sending:
+
+            html = client.DownloadString(site.url);
+            document = browser.Document.OpenNew(true);
+            document.Write(html);
+            var titles = document.GetElementsByTagName("title");
+            emailSubject = titles == null ? "" : titles[0].InnerHtml;
+
             sendEmail(address, password, body);
+
+        }
+
+        private bool timeIsReady()
+        {
+            DateTime dateTime = DateTime.Now;
+            string timeFormat = "HH:mm";
+
+            string currentTime = dateTime.ToString(timeFormat);
+
+            if (currentTime.CompareTo(sendingTime) > 0)
+            {
+
+                return true;
+            }
+
+            return false;
 
         }
 
@@ -389,14 +531,33 @@ namespace MVCMovie.Controllers
         }
 
         //Given the common ancestor of job1, company and others, tell if the job is for today
-        private bool isTodayJob(HtmlElement commonAncestor, int levelNoCommonAnstr)
+        private bool isJobInTimeRange(HtmlElement commonAncestor, int levelNoCommonAnstr)
         {
             HtmlElement others = getOtherInfo(commonAncestor, levelNoCommonAnstr);
 
-            if (others.InnerText.Contains("Today"))
+            switch (email.frequency)
             {
-                return true;
+                case SendingFrequency.Daily:
+                    if (others.InnerText.Contains("Today"))
+                    {
+                        return true;
+                    }
+                    break;
+                case SendingFrequency.EveryOtherDay:
+                    if (others.InnerText.Contains("Today") || others.InnerText.Contains("Yesterday"))
+                    {
+                        return true;
+                    }
+                    break;
+                case SendingFrequency.Weekly:
+                    //ToDo: Write a function to tell if the date is in the recent seven days
+                    if (others.InnerText.Contains("Today") || others.InnerText.Contains("Yesterday"))
+                    {
+                        return true;
+                    }
+                    break;
             }
+
             return false;
         }
 
@@ -429,50 +590,32 @@ namespace MVCMovie.Controllers
         {
 
             SmtpClient client = new SmtpClient();
-            client.Port = 587;
-            client.Host = "mailgate.sfu.ca";
+
+            client.Port = email.smtpPort;
+            client.Host = email.smtpAddress;
             client.EnableSsl = true;
-            client.Timeout = 10000;
+            client.Timeout = tensecond;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
             client.Credentials = new System.Net.NetworkCredential(address, password);
 
-            MailMessage mm = new MailMessage();
-            mm.From = new MailAddress(address);
-            mm.To.Add(new MailAddress(address));
-            mm.Subject = "T-Net Jobs - Today";
-            mm.Body = body;
-
-            //mm.BodyEncoding = UTF8Encoding.UTF8;
-            mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-
             try
             {
-                client.Send(mm);
+                MailMessage mm = new MailMessage();
+                mm.From = new MailAddress(address);
+                mm.To.Add(new MailAddress(address));
+                mm.Subject = emailSubject;
+                mm.Body = body;
 
-                DateTime dateTime = DateTime.Now;
-                string today = dateTime.ToString(dateFormat);
-                setHasSent(today);
+                mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+                client.Send(mm);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception caught in CreateTestMessage2(): {0}",
-                    ex.ToString());
-            }
-        }
-
-        private void setHasSent(string today)
-        {
-            using (StreamWriter file = new StreamWriter(sentDate))
-            {
-                try
-                {
-                    file.Write(today);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
+                var logger = Logger.GetInstance();
+                logger.WriteLine(DateTime.Now.ToString());
+                logger.WriteLine(String.Format(ex.ToString()));
             }
         }
 
@@ -482,11 +625,6 @@ namespace MVCMovie.Controllers
     public class EmailController : Controller
     {
         private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
-
-        private const string sendingTime = "00:05";
-        private const double interval = 60 * 1000; //one second
-        private string sentDate = "C:/Users/Frank/Documents/Visual Studio 2013/Projects/MVCMovie/sentDate.txt";
-        private string dateFormat = "MM/dd/yy";
 
         // GET: Email
         public ActionResult Index(int id)
@@ -508,15 +646,13 @@ namespace MVCMovie.Controllers
 
         public ActionResult SaveEmail(Email email)
         {
-            const string successMsg = "Success! The email info has been saved.";
-            const string wrongIdMsg = "Error! Invalid site ID.";
-            const string invalidModelMsg = "Error! Invalid email model.";
-
             if (email != null && email.ID <= 0)
             {
-                var response = new Dictionary<string, object>();
-                response.Add("ErrorCode", -1);
-                response.Add("ErrorMsg", wrongIdMsg);
+                var response = new Common.Model.Message()
+                {
+                    msgCode = Common.Model.MessageCode.InvlidSiteID,
+                    message = Resources.Common.InvlidSiteID,
+                };
                 return Json(response);
             }
 
@@ -541,108 +677,89 @@ namespace MVCMovie.Controllers
 
                 if (email.sendingOn)
                 {
-                    TurnOnSend(email.address, email.password, email.ID);
+                    TurnOnSend(email);
                 }
                 else
                 {
-                    TurnOffSend();
+                    EmailProcessor.timers[email.ID].Enabled = false;
+                    EmailProcessor.timers.Remove(email.ID);
+                    EmailProcessor.emails.Remove(email.ID);
                 }
 
-                var response = new Dictionary<string, object>();
-                response.Add("ErrorCode", 0);
-                response.Add("ErrorMsg", successMsg);
+                var response = new Common.Model.Message()
+                {
+                    msgCode = Common.Model.MessageCode.Success,
+                    message = String.Format(Resources.Common.SaveSuccessMsg, Resources.Email.email),
+                };
                 return Json(response);
             }
             else
             {
-                var response = new Dictionary<string, object>();
-                response.Add("ErrorCode", -2);
-                response.Add("ErrorMsg", invalidModelMsg);
+                var response = new Common.Model.Message()
+                {
+                    msgCode = Common.Model.MessageCode.InvlidModel,
+                    message = String.Format(Resources.Common.InvlidModel, Resources.Email.email),
+                };
                 return Json(response);
             }
         }
 
-        //Turn off sending emails
-        public void TurnOffSend()
+        public JsonResult GetEmail(int id)
         {
+
+            var qry = from s in db.Emails
+                      select s;
+            qry = qry.Where(s => s.ID == id);
+            Email email = qry.FirstOrDefault();
+
+            if (email == null)
+            {
+                return null;
+            }
+
+            //Don't return RecruitingSite property or a cyclic reference error occurs.
+            return Json(new {
+                address = email.address,
+                password = email.password,
+                frequency = email.frequency,
+                sendingOn = email.sendingOn,
+                smtpAddress = email.smtpAddress,
+                smtpPort = email.smtpPort,
+            }, 
+            JsonRequestBehavior.AllowGet);
 
         }
 
         // Start to send Email periodically
-        private void TurnOnSend(string address, string password, int siteId)
+        private void TurnOnSend(Email email)
         {
-            sendEmail(address, password, siteId);
+            sendEmail(email);
 
             return;
         }
 
-        private void sendEmail(string address, string password, int  siteId)
+        private void sendEmail(Email email)
         {
-
-            EmailProcessor emailProcessor = new EmailProcessor(siteId);
-
-            // Create the thread object, passing in the EmailProcessor.sendAllJobs method
-            // via a ThreadStart delegate. This does not start the thread.
-
-            var t = new Thread(() => emailProcessor.sendAllJobs(address, password));
-
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
-        }
-
-        private void checkForTime_Elapsed(object sender, ElapsedEventArgs e, string address, string password)
-        {
-            if (timeIsReady() && !hasSent())
+            //If there is already a thread to send email for this site, don't start a new thread
+            if (!EmailProcessor.timers.ContainsKey(email.ID)) 
             {
-                sendEmail(address, password, 1);
+                EmailProcessor emailProcessor = new EmailProcessor(email);
+
+                // Create the thread object, passing in the EmailProcessor.sendAllJobs method
+                // via a ThreadStart delegate. This does not start the thread.
+
+                var t = new Thread(() => emailProcessor.StartTimer());
+
+                t.SetApartmentState(ApartmentState.STA);
+                t.Start();
+            }
+            else
+            {
+                EmailProcessor.SetEmail(email);
+                var timer = EmailProcessor.timers[email.ID];
+                EmailProcessor.SetTimer(email, timer);
             }
         }
 
-        private bool timeIsReady()
-        {
-            DateTime dateTime = DateTime.Now;
-            string timeFormat = "HH:mm";
-
-            string currentTime = dateTime.ToString(timeFormat);
-
-            if (currentTime.CompareTo(sendingTime) > 0)
-            {
-
-                return true;
-            }
-
-            return false;
-
-        }
-
-        private bool hasSent()
-        {
-
-            if (!System.IO.File.Exists(sentDate))
-            {
-                return false;
-            }
-
-            DateTime dateTime = DateTime.Now;
-            string today = dateTime.ToString(dateFormat);
-
-            using (StreamReader file = new StreamReader(sentDate))
-            {
-                try
-                {
-                    string date = file.ReadLine();
-                    if (date.Equals(today))
-                    {
-                        return true;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-            }
-
-            return false;
-        }
     }
 }
