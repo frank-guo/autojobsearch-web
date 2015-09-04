@@ -124,10 +124,10 @@
     <value>Go up from the Job1 node to find the link node for Job1</value>
   </data>
   <data name="Job1TipMsg" xml:space="preserve">
-    <value>Right click one of the jobs listed above and choose Job1. This will set this input box automatically</value>
+    <value>Note: Job1 and Job2 are saved only  when 'Hightlight All Jobs' in the right-click menu of the ifram above succeeds. Right click one of the jobs listed above and choose Job1. This will set this input box.</value>
   </data>
   <data name="Job2TipMsg" xml:space="preserve">
-    <value>Right click  a different job than job 1 in the job list above so that the system will be able to get all the jobs in the list</value>
+    <value>Note: Job1 and Job2 are saved only  when 'Hightlight All Jobs' in the right-click menu of the ifram above succeeds. Right click  a different job than job 1 in the job list above so that the system will be able to get all the jobs in the list</value>
   </data>
   <data name="NextTipMsg" xml:space="preserve">
     <value>Right click the next link. This will make the system know how to get the next page</value>

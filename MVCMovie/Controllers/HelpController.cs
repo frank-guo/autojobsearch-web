@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MVCMovie.Controllers
 {
-    public class OriginalHomeController : Controller
+    public class HelpController : Controller
     {
         public ActionResult Index()
         {

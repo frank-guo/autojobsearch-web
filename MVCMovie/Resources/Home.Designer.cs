@@ -61,7 +61,7 @@ namespace MVCMovie.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This gives some recommonded web sites.
+        ///   Looks up a localized string similar to Some recommonded web sites..
         /// </summary>
         public static string RecommondSites {
             get {

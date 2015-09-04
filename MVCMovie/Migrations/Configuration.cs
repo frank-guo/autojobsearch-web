@@ -1,19 +1,19 @@
 namespace MVCMovie.Migrations
 {
-    using MvcMovie.Models;
+    using MVCMovie.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MvcMovie.Models.MovieDBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<MVCMovie.Models.MovieDBContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(MvcMovie.Models.MovieDBContext context)
+        protected override void Seed(MVCMovie.Models.MovieDBContext context)
         {
             context.Movies.AddOrUpdate(i => i.Title,
                 new Movie

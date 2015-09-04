@@ -79,7 +79,7 @@ namespace MVCMovie.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Right click one of the jobs listed above and choose Job1. This will set this input box automatically.
+        ///   Looks up a localized string similar to Note: Job1 and Job2 are saved only  when &apos;Hightlight All Jobs&apos; in the right-click menu of the ifram above succeeds. Right click one of the jobs listed above and choose Job1. This will set this input box..
         /// </summary>
         public static string Job1TipMsg {
             get {
@@ -88,7 +88,7 @@ namespace MVCMovie.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Right click  a different job than job 1 in the job list above so that the system will be able to get all the jobs in the list.
+        ///   Looks up a localized string similar to Note: Job1 and Job2 are saved only  when &apos;Hightlight All Jobs&apos; in the right-click menu of the ifram above succeeds. Right click  a different job than job 1 in the job list above so that the system will be able to get all the jobs in the list.
         /// </summary>
         public static string Job2TipMsg {
             get {

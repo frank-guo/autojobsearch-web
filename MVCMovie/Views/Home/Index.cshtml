@@ -14,13 +14,13 @@
             <div class="input-group input-group-sm">
                 @*<span class="input-group-addon">@Html.DisplayNameFor(model=>model.url)</span>*@
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown tooltip" title="@Home.RecommondSites"
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" 
                             aria-haspopup="true" aria-expanded="false" style="background-color: #eee;">
                         @Html.DisplayNameFor(model => model.url)
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-left" id="recomdSite">
-                          <li><a href="#">@Common.TNet</a></li>
+                    <ul class="dropdown-menu dropdown-menu-left" id="recomdSite" data-toggle="tooltip" title="@Home.RecommondSites">
+                        <li><a href="#">@Common.TNet</a></li>
                         <li><a href="#">@Common.Monster</a></li>
                     </ul>
                 </div>

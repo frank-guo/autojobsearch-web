@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="RecommondSites" xml:space="preserve">
-    <value>This gives some recommonded web sites</value>
+    <value>Some recommonded web sites.</value>
   </data>
   <data name="StoredSites" xml:space="preserve">
     <value>This shows all the favorite web sites you have saved.</value>
