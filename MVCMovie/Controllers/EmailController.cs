@@ -747,7 +747,7 @@ namespace MVCMovie.Controllers
 
                 // Create the thread object, passing in the EmailProcessor.sendAllJobs method
                 // via a ThreadStart delegate. This does not start the thread.
-
+                //this line also works: var t = new Thread(emailProcessor.StartTimer);
                 var t = new Thread(() => emailProcessor.StartTimer());
 
                 t.SetApartmentState(ApartmentState.STA);
