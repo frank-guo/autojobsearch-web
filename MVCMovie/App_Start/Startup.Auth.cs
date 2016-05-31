@@ -63,6 +63,10 @@ namespace MVCMovie
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+            app.UseGoogleAuthentication(
+                 clientId: "188747294230-9ol2ppm3ddo1ecr88chqnc91iar2qg48.apps.googleusercontent.com",
+                 clientSecret: "EHA5zz4HDhS-dOH9WxWz-rNw");
         }
     }
 }
