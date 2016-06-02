@@ -11,7 +11,6 @@ using MVCMovie.Models;
 
 namespace MVCMovie.Controllers
 {
-    [RequireHttps]
     public class HomeController : Controller
     {
         private RecruitingSiteDBContext siteDb = new RecruitingSiteDBContext();
