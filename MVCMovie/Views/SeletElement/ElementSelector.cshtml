@@ -4,48 +4,47 @@
 
     <div class="panel panel-default" >
         <div class="panel-heading">
-            <h1 class="panel-title" id="selectPanel" data-id="@ViewBag.siteId">Specify Elements for Auto Searching:</h1> 
+            <h1 class="panel-title" id="selectPanel" data-id="@ViewBag.siteId"><b>Specify Elements for Auto Searching:</b></h1> 
         </div>
         <div class="panel-body">
-            <form>
-                <fieldset disabled="disabled">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.JobPath)</span>
-                                <textarea id="node1" class="form-control" data-toggle="tooltip" , title="@ElementSelector.Job1TipMsg"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.Job2Path)</span>
-                                <textarea id="node2" class="form-control" data-toggle="tooltip" , title="@ElementSelector.Job2TipMsg"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.ListNextPositions)</span>
-                                <textarea id="nextPage" class="form-control" data-toggle="tooltip" , title="@ElementSelector.NextTipMsg"></textarea>
-                            </div>
-                        </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">@Html.DisplayNameFor(model => model.JobPath)</span>
+                        <textarea id="node1" class="form-control" data-toggle="tooltip" , title="@ElementSelector.Job1TipMsg" disabled></textarea>
                     </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.companyPath)</span>
-                                <textarea id="company" class="form-control" data-toggle="tooltip" , title="@ElementSelector.CompanyTipMsg"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">@Html.DisplayNameFor(model => model.othersPath)</span>
-                                <textarea id="others" class="form-control" data-toggle="tooltip" , title="@ElementSelector.OthersTipMsg"></textarea>
-                            </div>
-                        </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">@Html.DisplayNameFor(model => model.Job2Path)</span>
+                        <textarea id="node2" class="form-control" data-toggle="tooltip" , title="@ElementSelector.Job2TipMsg" disabled></textarea>
                     </div>
-                </fieldset>
-            </form>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">@Html.DisplayNameFor(model => model.ListNextPositions)</span>
+                        <textarea id="nextPage" class="form-control" data-toggle="tooltip" , title="@ElementSelector.NextTipMsg" disabled></textarea>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">@Html.DisplayNameFor(model => model.companyPath)</span>
+                        <textarea id="company" class="form-control" data-toggle="tooltip" , title="@ElementSelector.CompanyTipMsg" disabled></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">@Html.DisplayNameFor(model => model.othersPath)</span>
+                        <textarea id="others" class="form-control" data-toggle="tooltip" , title="@ElementSelector.OthersTipMsg" disabled></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button id="clearAll" class="btn btn-primary">Clear All</button>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-md-4">

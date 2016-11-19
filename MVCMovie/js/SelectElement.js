@@ -45,6 +45,23 @@ $(document).ready(function () {
             });
         }
     });
+
+    $('#clearAll').click(function () {
+        console.log("teset")
+        debugger;
+        //siteId is come from knockout setting in SettingMenu.js
+        var siteIdObj = { "siteId": siteId };
+        $.ajax({
+            type: "POST",
+            url: "/Browser/DeleteAllJobSetting",
+            data: JSON.stringify(siteIdObj),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function () {
+                alert("Cleared all job settings!");
+            }
+        });
+    })
 });
 
 function checkIframeLoaded() {

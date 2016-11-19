@@ -6,6 +6,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVCMovie.Models
 {
@@ -13,5 +14,11 @@ namespace MVCMovie.Models
     {
         public int ID { get; set; }
         public int position { get; set; }
+
+        //[Column("RecruitingSite_ID")]
+        //public int RecruitingSiteId { get; set; }
+
+        //[ForeignKey("RecruitingSiteId")]
+        //public virtual RecruitingSite RecruitingSite { get; set; }
     }
 }

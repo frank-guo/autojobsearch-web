@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -12,5 +14,11 @@ namespace MVCMovie.Models
         public int ID {get; set;}
         public int position { get; set; }
         public bool hasCommonParent { get; set; }
+
+        public int RecruitingSite_ID { get; set; }
+
+        [ForeignKey("RecruitingSite_ID")]
+        [Required]
+        public virtual RecruitingSite RecruitingSite { get; set; }
     }
 }

@@ -61,6 +61,15 @@ namespace MVCMovie.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to about:blank.
+        /// </summary>
+        public static string BlankUrl {
+            get {
+                return ResourceManager.GetString("BlankUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error! Invalid {0} model..
         /// </summary>
         public static string InvlidModel {

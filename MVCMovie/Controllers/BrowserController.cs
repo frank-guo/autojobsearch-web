@@ -45,7 +45,7 @@ namespace MVCMovie.Controllers
             WebBrowser browser = new WebBrowser();
             WebClient client = new WebClient();
             browser.ScriptErrorsSuppressed = true;
-            browser.Url = new Uri("about:blank");
+            browser.Url = new Uri(Resources.Common.BlankUrl);
 
             string html;
 
@@ -650,6 +650,27 @@ namespace MVCMovie.Controllers
 
             return Json(jobsPath, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public void DeleteAllJobSetting(int siteId)
+        {
+            var qry = from s in db.RecruitingSites
+                      select s;
+            qry = qry.Where(s => s.ID == siteId);
+            RecruitingSite site = qry.FirstOrDefault();
+
+            site.companyPath = null;
+            site.isContainJobLink = false;
+            site.Job2Path = null;
+
+            IList<PathNode> jobPath = site.JobPath;
+            jobPath.Clear();
+            
+            site.othersPath = null;
+            site.ListNextPositions = null;
+            site.levelNoLinkHigherJob1 = 0;
+
+            db.SaveChanges();
         }
 
         //? represent id could be null 
