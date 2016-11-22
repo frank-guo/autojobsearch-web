@@ -9,7 +9,8 @@ namespace MVCMovie.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
+            ContextKey = "MVCMovie.Models.RecruitingSiteDBContext";
         }
 
         protected override void Seed(MVCMovie.Models.RecruitingSiteDBContext context)

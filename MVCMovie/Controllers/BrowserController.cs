@@ -446,6 +446,7 @@ namespace MVCMovie.Controllers
                             select new WebsiteViewModel 
                             { 
                                 ID = s.ID,
+                                siteName = s.siteName,
                                 url = s.url
                             };
             List<WebsiteViewModel> sites = result.ToList();

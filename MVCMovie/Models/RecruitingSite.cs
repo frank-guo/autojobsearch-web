@@ -17,6 +17,11 @@ namespace MVCMovie.Models
 
         [StringLength(256)]
         [Required]
+        [Display(Name = "Site Name")]
+        public string siteName { get; set; }
+
+        [StringLength(256)]
+        [Required]
         [Display(Name = "URL")]
         public string url { get; set; }
 
@@ -55,6 +60,10 @@ namespace MVCMovie.Models
         
       protected override void OnModelCreating(DbModelBuilder modelBuilder)
       {
+
+          Database.SetInitializer<RecruitingSiteDBContext>(null);
+          base.OnModelCreating(modelBuilder);
+
         //Specify one-many between Condition and titleConds, and enable cascade delete
         modelBuilder.Entity<Condition>().HasMany(i => i.titleConds).WithRequired()
             .WillCascadeOnDelete();
