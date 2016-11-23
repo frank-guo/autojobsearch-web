@@ -61,7 +61,7 @@ namespace MVCMovie.Models
       protected override void OnModelCreating(DbModelBuilder modelBuilder)
       {
 
-          Database.SetInitializer<RecruitingSiteDBContext>(null);
+          Database.SetInitializer<RecruitingSiteDBContext>(new CreateDatabaseIfNotExists<RecruitingSiteDBContext>());
           base.OnModelCreating(modelBuilder);
 
         //Specify one-many between Condition and titleConds, and enable cascade delete

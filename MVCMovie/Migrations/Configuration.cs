@@ -1,5 +1,6 @@
 namespace MVCMovie.Migrations
 {
+    using MVCMovie.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -20,12 +21,10 @@ namespace MVCMovie.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
             //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
+            context.RecruitingSites.AddOrUpdate(
+              site => site.siteName,
+              new RecruitingSite { siteName = "T-Net", url = "http://www.bctechnology.com/jobs/search-results.cfm" }
+            );
             //
         }
     }
