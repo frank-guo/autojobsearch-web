@@ -9,6 +9,7 @@ namespace MVCMovie.Models
     {
 
         public int ID { get; set; }
+        public string siteName { get; set; }
         public string url { get; set; }
     }
 }

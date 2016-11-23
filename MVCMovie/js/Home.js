@@ -1,80 +1,77 @@
 ﻿
 $(document).ready(function () {
-    function openBrower() {
-        var siteId = $('#url').data('siteId');
-
-        if (siteId !== 0) {
-            openSite(siteId);
+    var openSite = function () {
+        var siteId = jobHuntingSite.existingSites()[jobHuntingSite.selectedSiteIdx()].ID
+        if (siteId == null) {
+            return
         }
-        else {
-            if ($('#url').val() !== "") {
-                createSite();
-            }
-        }
-    }
-
-    var openSite = function (siteId) {
-        var idUrl = { "id": siteId, "url": $("#url").val() };
-
-        var json = JSON.stringify(idUrl);
-
         $.ajax({
-            url: '/Browser/SetURL',
-            data: json,
-            type: 'POST',
+            url: '/SeletElement/Index/' + siteId,
             contentType: 'application/json; charset=utf-8',
-            success: function (id) {
+            success: function (data) {
                 // get the result and do some magic with it
-                $.ajax({
-                    url: '/SeletElement/Index/' + siteId,
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (data) {
-                        // get the result and do some magic with it
-                        //SelectElment will return a view which contains the iframe that will request Browser/Index/siteId.
-                        //Browser/Index/siteId acutally returns the content of job searching sites.
-                        //So the content inside the iframe will be thought of as safety
-                        var w = window.open();
-                        w.document.open(data);
-                        w.document.write(data);
-                        w.document.close();
-                    }
-                });
+                //SelectElment will return a view which contains the iframe that will request Browser/Index/siteId.
+                //Browser/Index/siteId acutally returns the content of job searching sites.
+                //So the content inside the iframe will be thought of as safety
+                var w = window.open();
+                w.document.open(data);
+                w.document.write(data);
+                w.document.close();
             }
         });
     }
 
     var createSite = function () {
-        var url = { "url": $('#url').val() };
-        var jsonData = JSON.stringify(url);
+        var site = {"siteName": $('#siteName').val(), "url": $('#url').val() };
+        var jsonData = JSON.stringify(site);
 
         $.ajax({
             url: '/Home/CreateSite',
             data: jsonData,
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
-            success: function (sites) {
-                //Update website text area
-                $('#website').empty();
-                $(sites.sites).each(function () {
-                    $('#website').append($('<option>', {
-                        value: this.ID,
-                        text: this.url
-                    }));
-                });
-
-                $("#url").data('siteId', sites.newID);
-
-                openSite(sites.newID);
+            success: function () {
+                getSites();
             }
 
         });
     }
 
-    $('#website').change(function () {
-        $('#url').text($('#website :selected').text());
-        //can not set the siteId to the value of textarea becasue the value of textarea is actually changing the its text()
-        $('#url').data('siteId', $(this).children(':selected').val());
-    });
+    var upateSite = function () {
+        var site = {
+            "siteName": $('#siteName').val(), "url": $('#url').val()
+        };
+        var jsonData = JSON.stringify(site);
+
+        $.ajax({
+            url: '/Home/UpdateSite/' + jobHuntingSite.existingSites()[jobHuntingSite.selectedSiteIdx()].ID,
+            data: jsonData,
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            success: function () {
+                getSites();
+            }
+
+        });
+    }
+
+    var getSites = function () {
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetSites/",
+            cache: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (existingSites) {
+                if (existingSites == null) {
+                    return;
+                }
+
+                jobHuntingSite.existingSites(existingSites);
+                return;
+            }
+        });
+    }
 
     $('#url').click(function () {
         $('#website').val(null);
@@ -86,56 +83,83 @@ $(document).ready(function () {
     });
 
     $("#openSite").click(function () {
-        openBrower();
+        openSite();
     })
 
-    $("#deleteSite").click(function () {
-        var url = '/Home/DeleteSite/' + $('#url').data('siteId');
-        $.ajax({
-            url: url,
-            contentType: 'application/json; charset=utf-8',
-            success: function (sites) {
-                //Update website text area
-                $('#website').empty();
-                $(sites).each(function () {
-                    $('#website').append($('<option>', {
-                        value: this.ID,
-                        text: this.url
-                    }));
-                });
-
-                //Empty url input box
-                $("#url").data('siteId', 0);
-                $("#url").val("");
-                $('#website').val(null);
-
-            }
-        });
-    });
-
-    var RecomdSite = function () {
-        this.siteName = ko.observable("");
-        this.url = ko.computed(function () {
-            var url = "";
-            switch (this.siteName()) {
-                case "T-Net":
-                    url = "http://www.bctechnology.com/jobs/search-results.cfm";
-                    break;
-                case "Monster":
-                    url = "http://jobsearch.monster.ca/jobs/?cy=ca";
-                    break;
-            }
-            return url;
+    var JobHuntingSite = function () {
+        this.existingSites = ko.observableArray([]);
+        this.selectedSiteIdx = ko.observable(0);
+        this.selectedSiteName = ko.computed(function () {
+            var selecteIdx = this.selectedSiteIdx()
+            var selectedSite = this.existingSites()[this.selectedSiteIdx()];
+            return selectedSite == null ? null : selectedSite.siteName;
+        }, this);
+        this.selectedSiteUrl = ko.computed(function () {
+            var selectedSite = this.existingSites()[this.selectedSiteIdx()];
+            return selectedSite == null ? null : selectedSite.url;
+        }, this);
+        this.dropdownOptions = ko.computed(function () {
+            var options = []
+            this.existingSites().map(function (site, index) {
+                var siteName = site.siteName;
+                var option = {
+                    id: site.ID,
+                    index: index,
+                    text: siteName != null && siteName !== "" ? siteName + ": " + site.url : site.url
+                }
+                options.push(option);
+            })
+            return options
         }, this);
     }
 
-    var recomdSite = new RecomdSite();
-    ko.applyBindings(recomdSite, document.getElementById("sitesForm"));
+    var jobHuntingSite = new JobHuntingSite();
+    getSites();
+    ko.applyBindings(jobHuntingSite, document.getElementById("sitesForm"));
 
-    $("#recomdSite li a").click(function () {
-        recomdSite.siteName("");
-        recomdSite.siteName($(this).html());
-        $("#url").data('siteId', 0);
+    $('#website').change(function () {
+        //$('#url').text($('#website :selected').text());
+        ////can not set the siteId to the value of textarea becasue the value of textarea is actually changing the its text()
+        //$('#url').data('siteId', $(this).children(':selected').val());
+        var siteIdx = $(this).children(':selected').val()
+        if (siteIdx != null) {
+            jobHuntingSite.selectedSiteIdx(parseInt(siteIdx))
+        }
+        $('#openSite').prop('disabled', false)
+    });
+
+    $('#addSite').click(function () {
+        createSite()
+        $('#openSite').prop('disabled', false)
     })
+
+    $('#updateSite').click(function () {
+        upateSite()
+        $('#openSite').prop('disabled', false)
+    })
+
+    $("#siteName").on('change keyup paste', function () {
+        $('#openSite').prop('disabled', true)
+    })
+
+    $("#deleteSite").click(function () {
+        var selectedSiteIdx = jobHuntingSite.selectedSiteIdx();
+        if (selectedSiteIdx == null) {
+            return
+        }
+        var url = '/Home/DeleteSite/' + jobHuntingSite.existingSites()[selectedSiteIdx].ID;
+
+        $.ajax({
+            url: url,
+            contentType: 'application/json; charset=utf-8',
+            success: function () {
+                //Update website text area
+                getSites();
+                $('#website option[value="0"]').attr('selected', 'selected')
+                jobHuntingSite.selectedSiteIdx(0)
+            }
+        });
+        $('#openSite').prop('disabled', false)
+    });
 
 });

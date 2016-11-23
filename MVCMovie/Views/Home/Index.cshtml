@@ -1,5 +1,6 @@
 ﻿@model MVCMovie.Models.RecruitingSite
 @using MVCMovie.Resources;
+@using MVCMovie.Models;
 
 
 @section Scripts{
@@ -9,39 +10,58 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new {@id = "sitesForm"}))
 {
     <div class="h3"><strong>Favorite Job Hunting Websites:</strong></div>
-    <div class="row">
-        <div class="col-xs-8">
-            <div class="input-group input-group-sm">
-                @*<span class="input-group-addon">@Html.DisplayNameFor(model=>model.url)</span>*@
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" 
-                            aria-haspopup="true" aria-expanded="false" style="background-color: #eee;">
-                        @Html.DisplayNameFor(model => model.url)
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-left" id="recomdSite" data-toggle="tooltip" title="@Home.RecommondSites">
-                        <li><a href="#">@Common.TNet</a></li>
-                        <li><a href="#">@Common.Monster</a></li>
-                    </ul>
-                </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default" style="background-color: #eee; width: 100px">
+                            @Html.DisplayNameFor(model => model.siteName)
+                        </button>
+                    </div>
 
-                @Html.TextAreaFor(model=>model.url, new { @class="form-control", id="url",@data_bind="value: url"})
+                    @Html.TextAreaFor(model => model.siteName, new { @class = "form-control", id = "siteName", @data_bind = "value: selectedSiteName" })
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-8">
-            @Html.DropDownList("urls", (SelectList)@ViewBag.options, new { @class = "form-control", id = "website", size = "8", data_toggle = "tooltip", title = Home.StoredSites })
+        <br/>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default" style="background-color: #eee; width: 100px">
+                            @Html.DisplayNameFor(model => model.url)
+                        </button>
+                    </div>
+                    @Html.TextAreaFor(model => model.url, new { @class = "form-control", id = "url", @data_bind = "value: selectedSiteUrl" })
+                </div>
+            </div>
         </div>
-    </div>
-    <br/>
-    <div class="row">
-        <div class="col-xs-2">
-            <button class="btn btn-primary btn-sm" id="openSite">Open Site</button>
+        <br/>
+        <div class="row">
+            <div class="col-md-8">
+                <label>Existing Web Sites:</label>
+                @Html.DropDownList("urls", new SelectList(new List<WebsiteViewModel>()), new
+                   {
+                        @class = "form-control",
+                        id = "website",
+                        size = "8",
+                        data_toggle = "tooltip",
+                        title = Home.StoredSites,
+                        data_bind = "options: dropdownOptions, optionsText: 'text', optionsValue: 'index'"
+                   })
+            </div>
         </div>
-        <div class="col-xs-2">
-            <button class="btn btn-primary btn-sm" id="deleteSite">Delete Site</button>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <button class="btn btn-primary btn-sm" id="openSite">Open Site</button>
+            </div>
+            <div class=" col-sm-offset-3 col-md-3">
+                <button class="btn btn-primary btn-sm" id="addSite">Add Site</button>
+                &nbsp;
+                <button class="btn btn-primary btn-sm" id="updateSite">Upate Site</button>
+                &nbsp;
+                <button class="btn btn-primary btn-sm" id="deleteSite">Delete Site</button>
+            </div>
         </div>
-    </div>
-}
+        }
