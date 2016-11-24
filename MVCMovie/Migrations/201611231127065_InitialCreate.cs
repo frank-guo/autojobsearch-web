@@ -40,7 +40,6 @@ namespace MVCMovie.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        siteName = c.String(nullable: false, maxLength: 256),
                         url = c.String(nullable: false, maxLength: 256),
                         isContainJobLink = c.Boolean(nullable: false),
                         levelNoLinkHigherJob1 = c.Int(nullable: false),

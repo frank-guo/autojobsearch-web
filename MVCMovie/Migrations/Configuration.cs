@@ -10,7 +10,7 @@ namespace MVCMovie.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "MVCMovie.Models.RecruitingSiteDBContext";
         }
 
