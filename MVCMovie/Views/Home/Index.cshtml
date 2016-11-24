@@ -5,10 +5,12 @@
 
 @section Scripts{
     @Scripts.Render("/js/Home.js")
+    @Scripts.Render("~/bundles/jqueryval")
 }
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new {@id = "sitesForm"}))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "sitesForm" }))
 {
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="h3"><strong>Favorite Job Hunting Websites:</strong></div>
         <div class="row">
             <div class="col-md-8">
@@ -19,7 +21,7 @@
                         </button>
                     </div>
 
-                    @Html.TextAreaFor(model => model.siteName, new { @class = "form-control", id = "siteName", @data_bind = "value: selectedSiteName" })
+                    @Html.TextBoxFor(model => model.siteName, new { @class = "form-control", id = "siteName", @data_bind = "value: selectedSiteName" })
                 </div>
             </div>
         </div>
@@ -32,7 +34,7 @@
                             @Html.DisplayNameFor(model => model.url)
                         </button>
                     </div>
-                    @Html.TextAreaFor(model => model.url, new { @class = "form-control", id = "url", @data_bind = "value: selectedSiteUrl" })
+                    @Html.TextBoxFor(model => model.url, new { @class = "form-control", id = "url", @data_bind = "value: selectedSiteUrl" })
                 </div>
             </div>
         </div>
@@ -59,7 +61,7 @@
         <br />
         <div class="row">
             <div class="col-md-2">
-                <button class="btn btn-primary btn-sm" id="openSite">Open Site</button>
+                <input type="submit" class="btn btn-primary btn-sm" id="openSite" value="Open Site"/>
             </div>
             <div class=" col-sm-offset-3 col-md-3">
                 <button class="btn btn-primary btn-sm" id="addSite">Add Site</button>

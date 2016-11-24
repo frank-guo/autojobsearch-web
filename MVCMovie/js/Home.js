@@ -79,12 +79,12 @@ $(document).ready(function () {
     });
 
     $('#sitesForm').submit(function (event) {
+        $(this).validate()        
+        if ($(this).valid()) {
+            openSite();
+        }
         event.preventDefault();
     });
-
-    $("#openSite").click(function () {
-        openSite();
-    })
 
     var JobHuntingSite = function () {
         this.existingSites = ko.observableArray([]);
