@@ -81,7 +81,7 @@ namespace MVCMovie.Services
             } 
 
             RecruitingSite site = new RecruitingSite();
-
+            site.ID = id;
             site.url = url;
             site.siteName = siteName;
             repository.Update(site);

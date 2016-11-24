@@ -78,8 +78,8 @@ $(document).ready(function () {
     });
 
     $('#openSite').click(function () {
-        $(this).validate()
-        if ($(this).valid()) {
+        $('#sitesForm').validate()
+        if ($('#sitesForm').valid()) {
             openSite();
         }
     })
@@ -126,6 +126,17 @@ $(document).ready(function () {
         }
         jobHuntingSite.disableOpenSite(false)
     });
+
+    $('#website').click(function () {
+        //jobHuntingSite.selectedSiteIdx.valueHasMutated()
+        var siteIdx = $(this).children(':selected').val()
+        if (siteIdx != null) {
+            var url = jobHuntingSite.selectedSiteUrl()
+            $('#url').val(url)
+            $('#siteName').val(jobHuntingSite.selectedSiteName());
+        }
+        
+    })
 
     $('#addSite').click(function () {
         $('#sitesForm').validate()
@@ -174,7 +185,7 @@ $(document).ready(function () {
                 jobHuntingSite.selectedSiteIdx(0)
             }
         });
-        $('#openSite').prop('disabled', false)
+        jobHuntingSite.disableOpenSite(false)
     });
 
 });

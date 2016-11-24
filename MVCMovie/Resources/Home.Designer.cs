@@ -61,6 +61,15 @@ namespace MVCMovie.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add or Update the changes to enable the button when it is disabled..
+        /// </summary>
+        public static string EnableButton {
+            get {
+                return ResourceManager.GetString("EnableButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Some recommonded web sites..
         /// </summary>
         public static string RecommondSites {
