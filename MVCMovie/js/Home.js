@@ -73,21 +73,20 @@ $(document).ready(function () {
         });
     }
 
-    $('#url').click(function () {
-        $('#website').val(null);
-        $(this).data('siteId', 0);
-    });
-
     $('#sitesForm').submit(function (event) {
-        $(this).validate()        
-        if ($(this).valid()) {
-            openSite();
-        }
         event.preventDefault();
     });
 
+    $('#openSite').click(function () {
+        $(this).validate()
+        if ($(this).valid()) {
+            openSite();
+        }
+    })
+
     var JobHuntingSite = function () {
         this.existingSites = ko.observableArray([]);
+        this.disableOpenSite = ko.observable(false);
         this.selectedSiteIdx = ko.observable(0);
         this.selectedSiteName = ko.computed(function () {
             var selecteIdx = this.selectedSiteIdx()
@@ -125,22 +124,38 @@ $(document).ready(function () {
         if (siteIdx != null) {
             jobHuntingSite.selectedSiteIdx(parseInt(siteIdx))
         }
-        $('#openSite').prop('disabled', false)
+        jobHuntingSite.disableOpenSite(false)
     });
 
     $('#addSite').click(function () {
-        createSite()
-        $('#openSite').prop('disabled', false)
+        $('#sitesForm').validate()
+        if ($('#sitesForm').valid()) {
+            createSite()
+            jobHuntingSite.disableOpenSite(false)
+        }
     })
 
     $('#updateSite').click(function () {
-        upateSite()
-        $('#openSite').prop('disabled', false)
+        $('#sitesForm').validate()
+        if ($('#sitesForm').valid()) {
+            upateSite()
+            jobHuntingSite.disableOpenSite(false)
+        }
     })
 
     $("#siteName").on('change keyup paste', function () {
-        $('#openSite').prop('disabled', true)
+        jobHuntingSite.disableOpenSite(true)
     })
+
+    $("#url").on('change keyup paste', function () {
+        jobHuntingSite.disableOpenSite(true)
+    })
+
+    $("#url").bind('input propertychange', function () {
+        if (this.value === "") {
+            jobHuntingSite.disableOpenSite(true)
+        }
+    });
 
     $("#deleteSite").click(function () {
         var selectedSiteIdx = jobHuntingSite.selectedSiteIdx();
