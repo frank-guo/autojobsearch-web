@@ -60,8 +60,6 @@ namespace MVCMovie.Models
         
       protected override void OnModelCreating(DbModelBuilder modelBuilder)
       {
-
-          Database.SetInitializer<RecruitingSiteDBContext>(new CreateDatabaseIfNotExists<RecruitingSiteDBContext>());
           base.OnModelCreating(modelBuilder);
 
         //Specify one-many between Condition and titleConds, and enable cascade delete
@@ -79,8 +77,6 @@ namespace MVCMovie.Models
         //modelBuilder.Entity<RecruitingSite>().HasMany(i => i.companyPath).WithRequired().WillCascadeOnDelete();
         //modelBuilder.Entity<RecruitingSite>().HasMany(i => i.othersPath).WithRequired().WillCascadeOnDelete();
       }
-
-
     }
 
 }

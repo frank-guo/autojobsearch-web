@@ -7,6 +7,9 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Microsoft.Practices.Unity;
 using MVCMovie.App_Start;
+using System.Data.Entity;
+using MVCMovie.Models;
+using MVCMovie.Migrations;
 
 namespace MVCMovie
 {
@@ -18,6 +21,7 @@ namespace MVCMovie
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            Database.SetInitializer<RecruitingSiteDBContext>(new DatabaseInitializer());
         }
     }
 }
