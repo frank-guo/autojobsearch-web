@@ -491,7 +491,7 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
-        public void SetJobs(List<PathNode> listPathNodes)
+        public void SetJobs(List<PathNodeViewModel> listPathNodes)
         {
  
             if (listPathNodes == null)
@@ -660,15 +660,15 @@ namespace MVCMovie.Controllers
             qry = qry.Where(s => s.ID == siteId);
             RecruitingSite site = qry.FirstOrDefault();
 
-            site.companyPath = null;
+            site.companyPath.Clear();
             site.isContainJobLink = false;
-            site.Job2Path = null;
+            site.Job2Path.Clear();
 
             IList<PathNode> jobPath = site.JobPath;
             jobPath.Clear();
             
-            site.othersPath = null;
-            site.ListNextPositions = null;
+            site.othersPath.Clear();
+            site.ListNextPositions.Clear();
             site.levelNoLinkHigherJob1 = 0;
 
             db.SaveChanges();

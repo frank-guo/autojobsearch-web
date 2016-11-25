@@ -15,10 +15,10 @@ namespace MVCMovie.Models
         public int position { get; set; }
         public bool hasCommonParent { get; set; }
 
-        public int RecruitingSite_ID { get; set; }
+        //public int RecruitingSite_ID { get; set; }
 
-        [ForeignKey("RecruitingSite_ID")]
-        [Required]
-        public virtual RecruitingSite RecruitingSite { get; set; }
+        //[ForeignKey("RecruitingSite_ID")]
+        //[Required]
+        //public virtual RecruitingSite RecruitingSite { get; set; }
     }
 }

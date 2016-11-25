@@ -377,6 +377,7 @@ $("#itemHLight").click(function (e) {
         pathNode = new Object();
         pathNode.position = count;
         pathNode.hasCommonParent = false;
+        //pathNode.RecruitingSite_ID = siteId;
         listOfNodes.push(pathNode);
 
         count = 0;
@@ -398,6 +399,7 @@ $("#itemHLight").click(function (e) {
 
         pathNode = new Object();
         pathNode.position = count;
+        //pathNode.RecruitingSite_ID = siteId;
         if ($(parent1)[0] != $(parent2)[0]) {
             pathNode.hasCommonParent = false;
         }

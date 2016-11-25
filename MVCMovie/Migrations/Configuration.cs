@@ -14,18 +14,11 @@ namespace MVCMovie.Migrations
             ContextKey = "MVCMovie.Models.RecruitingSiteDBContext";
         }
 
-        protected override void Seed(MVCMovie.Models.RecruitingSiteDBContext context)
+        protected override void Seed(RecruitingSiteDBContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            context.RecruitingSites.AddOrUpdate(
-              site => site.siteName,
+            context.RecruitingSites.Add(
               new RecruitingSite { siteName = "T-Net", url = "http://www.bctechnology.com/jobs/search-results.cfm" }
             );
-            //
         }
     }
 }

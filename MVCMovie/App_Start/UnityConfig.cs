@@ -5,6 +5,7 @@ using MVCMovie.Repositories;
 using MVCMovie.Models;
 using MVCMovie.Controllers;
 using MVCMovie.Services;
+using System.Web.Mvc;
 
 namespace MVCMovie.App_Start
 {
@@ -44,6 +45,8 @@ namespace MVCMovie.App_Start
             container.RegisterType<IRepository<RecruitingSite>, Repository<RecruitingSite>>();
             container.RegisterType<AccountController>(new InjectionConstructor());
             container.RegisterType<ManageController>(new InjectionConstructor());
+            container.RegisterType<IController, SeletElementController>("SeletElement");
+            container.RegisterType<IController, HomeController>("Home");
 
             container.RegisterType<IRecruitingSiteService, RecruitingSiteService>();
         }

@@ -47,8 +47,6 @@ $(document).ready(function () {
     });
 
     $('#clearAll').click(function () {
-        console.log("teset")
-        debugger;
         //siteId is come from knockout setting in SettingMenu.js
         var siteIdObj = { "siteId": siteId };
         $.ajax({
@@ -58,7 +56,10 @@ $(document).ready(function () {
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function () {
-                alert("Cleared all job settings!");
+                //alert("Cleared all job settings!");
+                $('#node1').val(null)
+                $('#node2').val(null)
+
             }
         });
     })

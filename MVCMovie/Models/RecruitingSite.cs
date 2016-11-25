@@ -69,9 +69,10 @@ namespace MVCMovie.Models
         modelBuilder.Entity<Condition>().HasMany(i => i.locationConds).WithRequired()
             .WillCascadeOnDelete();
 
-        modelBuilder.Entity<PathNode>()
-            .HasKey(p => new { p.ID, p.RecruitingSite_ID });
+        //modelBuilder.Entity<PathNode>()
+        //    .HasKey(p => new { p.ID, p.RecruitingSite_ID });
         //modelBuilder.Entity<PathNode>().HasRequired(p => p.RecruitingSite).WithMany().WillCascadeOnDelete();
+        //modelBuilder.Entity<RecruitingSite>().HasMany(i => i.JobPath).WithRequired().WillCascadeOnDelete();
         //modelBuilder.Entity<RecruitingSite>().HasMany(i => i.Job2Path).WithRequired().WillCascadeOnDelete();
         //modelBuilder.Entity<RecruitingSite>().HasMany(i => i.ListNextPositions).WithRequired().WillCascadeOnDelete();
         //modelBuilder.Entity<RecruitingSite>().HasMany(i => i.companyPath).WithRequired().WillCascadeOnDelete();
