@@ -9,6 +9,7 @@ namespace MVCMovie.Services
 {
     public interface ICompanyPathService
     {
+        IList<Company> Get(int siteId);
         void Update(IList<int> companyPath, int siteId);
         void Delete(int id);
         void Delete(IList<Company> companyPath);

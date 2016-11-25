@@ -10,10 +10,42 @@ namespace MVCMovie.Services
     public class PathNodeService : IPathNodeService
     {
         private IRepository<PathNode> repository;
+        private IRepository<RecruitingSite> recruitingSiteRepository;
 
-        public PathNodeService(IRepository<PathNode> repository)
+        public PathNodeService(IRepository<PathNode> repository,
+            IRepository<RecruitingSite> recruitingSiteRepository)
         {
             this.repository = repository;
+            this.recruitingSiteRepository = recruitingSiteRepository;
+        }
+
+        public IList<PathNode> Get(int siteId)
+        {
+            if (siteId <= 0)
+            {
+                return null;
+            }
+
+            RecruitingSite site = recruitingSiteRepository.GetByID(siteId);
+            return site.JobPath;
+        }
+
+        public void Update(IList<PathNode> job1Path, int id)
+        {
+            if (job1Path == null || id <= 0)
+            {
+                return;
+            }
+
+            RecruitingSite site = recruitingSiteRepository.GetByID(id);
+            IList<PathNode> job1Nodes = site.JobPath;
+            Delete(job1Nodes);
+
+            foreach (PathNode node in job1Path)
+            {
+                job1Nodes.Add(node);
+            }
+            recruitingSiteRepository.Update(site);
         }
 
         public void Delete(int id)

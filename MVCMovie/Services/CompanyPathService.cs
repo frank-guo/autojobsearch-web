@@ -19,6 +19,17 @@ namespace MVCMovie.Services
             this.recruitingSiteRepository = recruitingSiteRepository;
         }
 
+        public IList<Company> Get(int siteId)
+        {
+            if (siteId <= 0)
+            {
+                return null;
+            }
+            RecruitingSite site = recruitingSiteRepository.GetByID(siteId);
+
+            return site.companyPath;
+        }
+
         public void Update(IList<int> companyPath, int id)
         {
             if (companyPath == null || id <= 0)

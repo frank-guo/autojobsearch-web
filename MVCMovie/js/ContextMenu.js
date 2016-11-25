@@ -45,18 +45,16 @@ $("#itemNode2").click(function (e) {
     node2 = targetE;
     var listPositions = getNodePath(node2);
     var job2Path = JSON.stringify(listPositions);
-    var data = JSON.stringify({
-        siteId: siteId,
-        listJob2Positions: listPositions
-    });
+    var data = JSON.stringify(
+        listPositions
+    );
     $.ajax({
         type: "POST",
-        url: "/Browser/SetJob2",
+        url: "/Browser/SetJob2/" + siteId,
         data: data,
-        dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (json) {
-            alert("send listPositions successfully!");
+            alert("Set and Saved the path to the Job2 node in this page!");
         }
     });
 
@@ -77,10 +75,9 @@ $("#itemCompany").click(function (e) {
         type: "POST",
         url: "/Browser/SetCompany/" + siteId,
         data: JSON.stringify(listPositions),
-        dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (json) {
-            alert("send listPositions successfully!");
+            alert("Set and Saved the path to the Company node in this page!");
         }
     });
 
@@ -112,12 +109,11 @@ $("#itemOthers").click(function (e) {
     //Send listPositions to the website to store
     $.ajax({
         type: "POST",
-        url: "/Browser/SetOthers",
+        url: "/Browser/SetOthers/" + siteId,
         data: JSON.stringify(listPositions),
-        dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (json) {
-            alert("send listPositions successfully!");
+            alert("Set and Saved the path to the Other Info node in this page!");
         }
     });
 
@@ -188,7 +184,7 @@ $("#goUp").click(function (e) {
     if (job1Link == null) {
         $.ajax({
             type: "POST",
-            url: "/Browser/GetJobs",
+            url: "/Browser/GetJob1",
             data: JSON.stringify({ siteId: siteId }),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
@@ -291,7 +287,7 @@ $("#goDown").click(function (e) {
     if (nodeListOfJob1.length == 0) {
         $.ajax({
             type: "POST",
-            url: "/Browser/GetJobs",
+            url: "/Browser/GetJob1",
             data: JSON.stringify({ siteId: siteId }),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
@@ -447,12 +443,11 @@ $("#itemHLight").click(function (e) {
     //Send ListPathNodes to the website to store
     $.ajax({
         type: "POST",
-        url: "/Browser/SetJobs",
+        url: "/Browser/SetJob1/" + siteId,
         data: JSON.stringify(listOfNodes),
-        dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (json) {
-            alert("send listOfNodes successfully!");
+            alert("Highligth all job nodes, and set and saved the path to the specified JOb1 node in this page!");
         }
     });
 });

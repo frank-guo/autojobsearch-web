@@ -94,7 +94,7 @@ function checkIframeLoaded() {
 
         $.ajax({
             type: "POST",
-            url: "/Browser/GetJobs",
+            url: "/Browser/GetJob1",
             data: siteIdJson,
             dataType: "json",
             contentType: "application/json; charset=utf-8",

@@ -336,13 +336,10 @@ namespace MVCMovie.Controllers
         public JsonResult GetCompany(int siteId)
         {
 
-            var qry = from s in db.RecruitingSites
-                      select s;
-            qry = qry.Where(s => s.ID == siteId);
-            RecruitingSite site = qry.FirstOrDefault();
+            IList<Company> companyPath = companyPathService.Get(siteId);
 
             List<int> listCompanyPositions = new List<int>();
-            foreach (Company p in site.companyPath)
+            foreach (Company p in companyPath)
             {
 
                 listCompanyPositions.Add(p.position);
@@ -353,38 +350,16 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
-        public void SetOthers(List<int> listOthersPositions)
+        public void SetOthers(List<int> othersPath, int id)
         {
-            if (listOthersPositions == null)
+            if (othersPath == null || id <= 0)
             {
                 return;
             }
 
             if (ModelState.IsValid)
             {
-                var qry = from s in db.RecruitingSites
-                          select s;
-                qry = qry.Where(s => s.ID == 1);
-                RecruitingSite site = qry.FirstOrDefault();
-
-                if (site.othersPath != null)
-                {
-                    site.othersPath = new List<Others>();
-                    db.SaveChanges();
-                }
-
-                for (int i = 0; i < listOthersPositions.Count; i++)
-                {
-
-
-                        //Create new others and add to othersPath if there is no othersPath
-                        //or the current othersPath is shorter than the new one
-                        Others op = new Others();
-                        op.position = listOthersPositions.ElementAt(i);
-                        site.othersPath.Add(op);
-
-                }
-                db.SaveChanges();
+                othersPathService.Update(othersPath, id);
             }
         }
 
@@ -478,79 +453,41 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
-        public void SetJobs(List<PathNodeViewModel> listPathNodes)
+        public void SetJob1(IList<PathNode> job1Path, int id)
         {
  
-            if (listPathNodes == null)
+            if (job1Path == null)
             {
                 return;
             }
 
             if (ModelState.IsValid)
             {
-                var qry = from s in db.RecruitingSites
-                          select s;
-                qry = qry.Where(s => s.ID == 1);
-                RecruitingSite site = qry.FirstOrDefault();
-
-                if (site.JobPath != null)
-                {
-                    site.JobPath = new List<PathNode>();
-                    db.SaveChanges();
-                }
-
-                for (int i = 0; i < listPathNodes.Count; i++)
-                {
-                    PathNode pn = new PathNode();
-                    pn.position = listPathNodes.ElementAt(i).position;
-                    pn.hasCommonParent = listPathNodes.ElementAt(i).hasCommonParent;
-                    site.JobPath.Add(pn);
-                }
-                db.SaveChanges();
+                pathNodeService.Update(job1Path, id);
             }
         }
 
         [HttpPost]
-        public void SetJob2(List<int> listJob2Positions, int siteId)
+        public void SetJob2(List<int> job2Path, int id)
         {
-            if (listJob2Positions == null)
+            if (job2Path == null || id <= 0)
             {
                 return;
             }
 
             if (ModelState.IsValid)
             {
-                var qry = from s in db.RecruitingSites
-                          where (s.ID == siteId)
-                          select s;
-                RecruitingSite site = qry.FirstOrDefault();
-
-                if (site.Job2Path != null)
-                {
-                    site.Job2Path = new List<Job2Position>();
-                    db.SaveChanges();
-                }
-
-                for (int i = 0; i < listJob2Positions.Count; i++)
-                {
-                    Job2Position j2p = new Job2Position();
-                    j2p.position = listJob2Positions.ElementAt(i);
-                    site.Job2Path.Add(j2p);
-                }
-                db.SaveChanges();
+                job2PathService.Update(job2Path, id);
             }
         }
 
         public JsonResult GetJob2(int siteId)
         {
 
-            var qry = from s in db.RecruitingSites
-                      select s;
-            qry = qry.Where(s => s.ID == siteId);
-            RecruitingSite site = qry.FirstOrDefault();
+            IList<Job2Position> job2Path = job2PathService.Get(siteId);
 
             List<int> listPositions = new List<int>();
-            foreach (Job2Position p in site.Job2Path)
+            foreach (Job2Position p in job2Path)
             {
 
                 listPositions.Add(p.position);
@@ -619,16 +556,18 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetJobs(int siteId)
+        public JsonResult GetJob1(int siteId)
         {
 
-            var qry = from s in db.RecruitingSites
-                      select s;
-            qry = qry.Where(s => s.ID == siteId);
-            RecruitingSite site = qry.FirstOrDefault();
+            if (siteId <= 0)
+            {
+                return null;
+            }
+
+            IList<PathNode> job1Path = pathNodeService.Get(siteId);
 
             List<PathNode> jobsPath = new List<PathNode>();
-            foreach (PathNode p in site.JobPath)
+            foreach (PathNode p in job1Path)
             {
                 PathNode pn = new PathNode();
                 pn.position = p.position;
