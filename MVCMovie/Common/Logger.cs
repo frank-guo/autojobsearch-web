@@ -21,6 +21,8 @@ namespace MVCMovie.Common
         /// </summary>
         private static readonly string LogFile = System.Web.Hosting.HostingEnvironment.MapPath("~") 
             + Resources.Common.LogFolder + "\\" + Resources.Common.LogFile;
+        private static readonly string LogFolder = System.Web.Hosting.HostingEnvironment.MapPath("~")
+            + Resources.Common.LogFolder;
         private static Logger instance = new Logger();
 
         #endregion
@@ -68,10 +70,15 @@ namespace MVCMovie.Common
         /// <param name="line">One line of log info</param>
         public  void WriteLine(string line)
         {
+            if (!Directory.Exists(LogFolder))
+            {
+                Directory.CreateDirectory(LogFolder);
+            }
             using (var log = File.AppendText(LogFile))
             {
                 log.WriteLine(line);
             }
+
         }
 
         #endregion

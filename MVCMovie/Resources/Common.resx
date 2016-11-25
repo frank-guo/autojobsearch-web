@@ -130,7 +130,7 @@
     <value>log.txt</value>
   </data>
   <data name="LogFolder" xml:space="preserve">
-    <value>\log</value>
+    <value>log</value>
   </data>
   <data name="Monster" xml:space="preserve">
     <value>Monster</value>

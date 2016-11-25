@@ -297,8 +297,10 @@
     </Compile>
     <Compile Include="Services\CompanyPathService.cs" />
     <Compile Include="Services\ConditionService.cs" />
+    <Compile Include="Services\EmailSettingService.cs" />
     <Compile Include="Services\ICompanyPathService.cs" />
     <Compile Include="Services\IConditionService.cs" />
+    <Compile Include="Services\IEmailSettingService.cs" />
     <Compile Include="Services\IJob2PathService.cs" />
     <Compile Include="Services\INextPathService.cs" />
     <Compile Include="Services\IOthersPathService.cs" />

@@ -15,6 +15,7 @@ using MVCMovie.Common;
 
 using System.Windows.Forms;
 using System.Threading;
+using MVCMovie.Services;
 
 
 
@@ -625,6 +626,12 @@ namespace MVCMovie.Controllers
     public class EmailController : Controller
     {
         private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
+        private IEmailSettingService emailService;
+
+        public EmailController(IEmailSettingService emailService)
+        {
+            this.emailService = emailService;
+        }
 
         // GET: Email
         public ActionResult Index(int id)
@@ -681,9 +688,17 @@ namespace MVCMovie.Controllers
                 }
                 else
                 {
-                    EmailProcessor.timers[email.ID].Enabled = false;
-                    EmailProcessor.timers.Remove(email.ID);
-                    EmailProcessor.emails.Remove(email.ID);
+                    try
+                    {
+                        EmailProcessor.timers[email.ID].Enabled = false;
+                        EmailProcessor.timers.Remove(email.ID);
+                        EmailProcessor.emails.Remove(email.ID);
+                    }
+                    catch (Exception ex)
+                    {
+                        var logger = Logger.GetInstance();
+                        logger.WriteLine(ex.Message);
+                    }
                 }
 
                 var response = new Common.Model.Message()
@@ -706,11 +721,7 @@ namespace MVCMovie.Controllers
 
         public JsonResult GetEmail(int id)
         {
-
-            var qry = from s in db.Emails
-                      select s;
-            qry = qry.Where(s => s.ID == id);
-            Email email = qry.FirstOrDefault();
+            Email email = emailService.GetById(id);
 
             if (email == null)
             {

@@ -46,6 +46,8 @@ namespace MVCMovie.App_Start
             container.RegisterType<ManageController>(new InjectionConstructor());
             container.RegisterType<IController, SeletElementController>("SeletElement");
             container.RegisterType<IController, HomeController>("Home");
+            container.RegisterType<IController, ConditionController>("Conditon");
+            container.RegisterType<IController, EmailController>("Email");
 
             container.RegisterType<IRepository<RecruitingSite>, Repository<RecruitingSite>>();
             container.RegisterType<IRepository<PathNode>, Repository<PathNode>>();
@@ -54,6 +56,7 @@ namespace MVCMovie.App_Start
             container.RegisterType<IRepository<Others>, Repository<Others>>();
             container.RegisterType<IRepository<NextPosition>, Repository<NextPosition>>();
             container.RegisterType<IRepository<Condition>, Repository<Condition>>();
+            container.RegisterType<IRepository<Email>, Repository<Email>>();
 
             container.RegisterType<IRecruitingSiteService, RecruitingSiteService>();
             container.RegisterType<IPathNodeService, PathNodeService>();
@@ -62,6 +65,7 @@ namespace MVCMovie.App_Start
             container.RegisterType<IOthersPathService, OthersPathService>();
             container.RegisterType<INextPathService, NextPathService>();
             container.RegisterType<IConditionService, ConditionService>();
+            container.RegisterType<IEmailSettingService, EmailSettingService>();
         }
     }
 }
