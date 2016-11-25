@@ -246,78 +246,78 @@ namespace MVCMovie.Controllers
             }
         }
 
-        [HttpPost]
-        public void SetCondition(ConditionViewModel condViewModel)
-        {
-            if (condViewModel == null)
-            {
-                return;
-            }
+        //[HttpPost]
+        //public void SetCondition(ConditionViewModel condViewModel)
+        //{
+        //    if (condViewModel == null)
+        //    {
+        //        return;
+        //    }
 
-            int condID = condViewModel.ID;
-            List<string> titleConds = condViewModel.titleConds;
-            List<string> locationConds = condViewModel.locationConds;
+        //    int condID = condViewModel.ID;
+        //    List<string> titleConds = condViewModel.titleConds;
+        //    List<string> locationConds = condViewModel.locationConds;
 
-            if (titleConds == null && locationConds == null)
-            {
-                return;
-            }
+        //    if (titleConds == null && locationConds == null)
+        //    {
+        //        return;
+        //    }
 
 
-            if (ModelState.IsValid)
-            {
+        //    if (ModelState.IsValid)
+        //    {
 
-                Condition condition = new Condition();
-                condition.ID = condID;
-                condition.titleConds = new List<TitleCond>();
-                condition.locationConds = new List<LocationCond>();
+        //        Condition condition = new Condition();
+        //        condition.ID = condID;
+        //        condition.titleConds = new List<TitleCond>();
+        //        condition.locationConds = new List<LocationCond>();
 
-                var qry = from s in db.Conditions
-                          select s;
-                qry = qry.Where(s => s.ID == condID);
-                Condition cond = qry.FirstOrDefault();
+        //        var qry = from s in db.Conditions
+        //                  select s;
+        //        qry = qry.Where(s => s.ID == condID);
+        //        Condition cond = qry.FirstOrDefault();
 
-                //The condition of condID doesn't exist, and then insert the new condition with the condID
-                //Othewise, remove the original one and insert the new condition with the condID
-                if (cond != null)
-                {
-                    db.Conditions.Remove(cond);
-                    db.SaveChanges();           //Have to save change after remove. Otherwise, remove option will most likely be lost
-                    db.Conditions.Add(condition);
-                }
-                else
-                {
-                    db.Conditions.Add(condition);
-                }
-                db.SaveChanges();
+        //        //The condition of condID doesn't exist, and then insert the new condition with the condID
+        //        //Othewise, remove the original one and insert the new condition with the condID
+        //        if (cond != null)
+        //        {
+        //            db.Conditions.Remove(cond);
+        //            db.SaveChanges();           //Have to save change after remove. Otherwise, remove option will most likely be lost
+        //            db.Conditions.Add(condition);
+        //        }
+        //        else
+        //        {
+        //            db.Conditions.Add(condition);
+        //        }
+        //        db.SaveChanges();
 
-                //Re-read the condition of the condID and then set its titleConds and locationConds
-                qry = qry.Where(s => s.ID == condID);
-                cond = qry.FirstOrDefault();
+        //        //Re-read the condition of the condID and then set its titleConds and locationConds
+        //        qry = qry.Where(s => s.ID == condID);
+        //        cond = qry.FirstOrDefault();
 
-                if (titleConds != null)
-                {
-                    for (int i = 0; i < titleConds.Count; i++)
-                    {
-                        TitleCond tc = new TitleCond();
-                        tc.titleCond = titleConds.ElementAt(i);
-                        cond.titleConds.Add(tc);
-                    }
-                }
+        //        if (titleConds != null)
+        //        {
+        //            for (int i = 0; i < titleConds.Count; i++)
+        //            {
+        //                TitleCond tc = new TitleCond();
+        //                tc.titleCond = titleConds.ElementAt(i);
+        //                cond.titleConds.Add(tc);
+        //            }
+        //        }
 
-                if (locationConds != null)
-                {
-                    for (int i = 0; i < locationConds.Count; i++)
-                    {
-                        LocationCond lc = new LocationCond();
-                        lc.locationCond = locationConds.ElementAt(i);
-                        cond.locationConds.Add(lc);
-                    }
-                }
+        //        if (locationConds != null)
+        //        {
+        //            for (int i = 0; i < locationConds.Count; i++)
+        //            {
+        //                LocationCond lc = new LocationCond();
+        //                lc.locationCond = locationConds.ElementAt(i);
+        //                cond.locationConds.Add(lc);
+        //            }
+        //        }
 
-                db.SaveChanges();
-            }
-        }
+        //        db.SaveChanges();
+        //    }
+        //}
 
         [HttpPost]
         public void SetCompany(List<int> listCompanyPositions, int id)
@@ -401,56 +401,56 @@ namespace MVCMovie.Controllers
 
         }
 
-        public JsonResult GetUrls()
-        {
+        //public JsonResult GetUrls()
+        //{
 
-            var result = from s in db.RecruitingSites
-                            select new WebsiteViewModel 
-                            { 
-                                ID = s.ID,
-                                siteName = s.siteName,
-                                url = s.url
-                            };
-            List<WebsiteViewModel> sites = result.ToList();
+        //    var result = from s in db.RecruitingSites
+        //                    select new WebsiteViewModel 
+        //                    { 
+        //                        ID = s.ID,
+        //                        siteName = s.siteName,
+        //                        url = s.url
+        //                    };
+        //    List<WebsiteViewModel> sites = result.ToList();
 
-            return Json(sites, JsonRequestBehavior.AllowGet);
+        //    return Json(sites, JsonRequestBehavior.AllowGet);
 
-        }
+        //}
 
-        public JsonResult GetCondition(int siteId)
-        {
+        //public JsonResult GetCondition(int siteId)
+        //{
 
-            var qry = from s in db.Conditions
-                      select s;
-            qry = qry.Where(s => s.ID == siteId);
-            Condition cond = qry.FirstOrDefault();
+        //    var qry = from s in db.Conditions
+        //              select s;
+        //    qry = qry.Where(s => s.ID == siteId);
+        //    Condition cond = qry.FirstOrDefault();
 
-            if (cond == null)
-            {
-                return null;
-            }
+        //    if (cond == null)
+        //    {
+        //        return null;
+        //    }
 
-            List<TitleCond> titleConds = new List<TitleCond>();
-            List<LocationCond> locationConds = new List<LocationCond>();
-            foreach (TitleCond tc in cond.titleConds)
-            {
+        //    List<TitleCond> titleConds = new List<TitleCond>();
+        //    List<LocationCond> locationConds = new List<LocationCond>();
+        //    foreach (TitleCond tc in cond.titleConds)
+        //    {
 
-                titleConds.Add(tc);
-            }
+        //        titleConds.Add(tc);
+        //    }
 
-            foreach (LocationCond lc in cond.locationConds)
-            {
+        //    foreach (LocationCond lc in cond.locationConds)
+        //    {
 
-                locationConds.Add(lc);
-            }
+        //        locationConds.Add(lc);
+        //    }
 
-            Condition condition = new Condition();
-            condition.titleConds = titleConds;
-            condition.locationConds = locationConds;
+        //    Condition condition = new Condition();
+        //    condition.titleConds = titleConds;
+        //    condition.locationConds = locationConds;
 
-            return Json(condition, JsonRequestBehavior.AllowGet);
+        //    return Json(condition, JsonRequestBehavior.AllowGet);
 
-        }
+        //}
 
         [HttpPost]
         public void SetJob1(IList<PathNode> job1Path, int id)
@@ -502,13 +502,17 @@ namespace MVCMovie.Controllers
         {
             if (ModelState.IsValid)
             {
-                var qry = from s in db.RecruitingSites
-                          select s;
-                qry = qry.Where(s => s.ID == siteId);
-                RecruitingSite site = qry.FirstOrDefault();
+                //var qry = from s in db.RecruitingSites
+                //          select s;
+                //qry = qry.Where(s => s.ID == siteId);
+                //RecruitingSite site = qry.FirstOrDefault();
 
+                //site.levelNoLinkHigherJob1 = levelNoLinkHigherJob1;
+                //db.SaveChanges();
+
+                RecruitingSite site = recruitingSiteService.GetByID(siteId);
                 site.levelNoLinkHigherJob1 = levelNoLinkHigherJob1;
-                db.SaveChanges();
+                recruitingSiteService.Update(site);
             }
         }
 
@@ -516,10 +520,13 @@ namespace MVCMovie.Controllers
         {
             if (ModelState.IsValid)
             {
-                var qry = from s in db.RecruitingSites
-                          where (s.ID == siteId)
-                          select s.levelNoLinkHigherJob1;
-                int levelNoLinkHigherJob1 = qry.FirstOrDefault();
+                //var qry = from s in db.RecruitingSites
+                //          where (s.ID == siteId)
+                //          select s.levelNoLinkHigherJob1;
+                //int levelNoLinkHigherJob1 = qry.FirstOrDefault();
+
+                RecruitingSite site = recruitingSiteService.GetByID(siteId);
+                int levelNoLinkHigherJob1 = site.levelNoLinkHigherJob1;
                 return Json(levelNoLinkHigherJob1);
             }
 
@@ -527,17 +534,19 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
-        public void SetIsContainJobLink(bool isContainJobLink)
+        public void SetIsContainJobLink(bool isContainJobLink, int id)
         {
             if (ModelState.IsValid)
             {
-                var qry = from s in db.RecruitingSites
-                          select s;
-                qry = qry.Where(s => s.ID == defaultSiteID);
-                RecruitingSite site = qry.FirstOrDefault();
+                //var qry = from s in db.RecruitingSites
+                //          select s;
+                //qry = qry.Where(s => s.ID == defaultSiteID);
+                //RecruitingSite site = qry.FirstOrDefault();
 
+                RecruitingSite site = recruitingSiteService.GetByID(id);
                 site.isContainJobLink = isContainJobLink;
-                db.SaveChanges();
+                recruitingSiteService.Update(site);
+                //db.SaveChanges();
             }
         }
 
@@ -545,10 +554,13 @@ namespace MVCMovie.Controllers
         {
             if (ModelState.IsValid)
             {
-                var qry = from s in db.RecruitingSites
-                          where (s.ID == siteId)
-                          select s.isContainJobLink;
-                bool isContainJobLink = qry.FirstOrDefault();
+                //var qry = from s in db.RecruitingSites
+                //          where (s.ID == siteId)
+                //          select s.isContainJobLink;
+                //bool isContainJobLink = qry.FirstOrDefault();
+
+                RecruitingSite site = recruitingSiteService.GetByID(siteId);
+                bool isContainJobLink = site.isContainJobLink;
                 return Json(isContainJobLink);
             }
 

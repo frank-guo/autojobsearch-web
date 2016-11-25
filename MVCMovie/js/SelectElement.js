@@ -19,12 +19,11 @@ $(document).ready(function () {
             //Set isContainJobLink
             $.ajax({
                 type: "POST",
-                url: "/Browser/SetIsContainJobLink",
+                url: "/Browser/SetIsContainJobLink/" + siteId,
                 data: JSON.stringify({isContainJobLink:true}),
-                dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function () {
-                    alert("send listOfNodes successfully!");
+                    //alert("send listOfNodes successfully!");
                 }
             });
         }
@@ -35,7 +34,7 @@ $(document).ready(function () {
             //Reset isContainJobLink
             $.ajax({
                 type: "POST",
-                url: "/Browser/SetIsContainJobLink",
+                url: "/Browser/SetIsContainJobLink/" + siteId,
                 data: JSON.stringify({isContainJobLink:false}),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
@@ -47,7 +46,7 @@ $(document).ready(function () {
     });
 
     $('#clearAll').click(function () {
-        //siteId is come from knockout setting in SettingMenu.js
+        //siteId is coming from knockout setting in SettingMenu.js
         var siteIdObj = { "siteId": siteId };
         $.ajax({
             url: "/Browser/DeleteAllJobSetting",
