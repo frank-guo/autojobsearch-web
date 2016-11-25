@@ -50,15 +50,19 @@ $(document).ready(function () {
         //siteId is come from knockout setting in SettingMenu.js
         var siteIdObj = { "siteId": siteId };
         $.ajax({
-            type: "POST",
             url: "/Browser/DeleteAllJobSetting",
             data: JSON.stringify(siteIdObj),
-            dataType: "json",
+            type: "POST",
             contentType: "application/json; charset=utf-8",
             success: function () {
-                //alert("Cleared all job settings!");
                 $('#node1').val(null)
                 $('#node2').val(null)
+                $('#nextPage').val(null)
+                $('#company').val(null)
+                $('#others').val(null)
+                $('#clearAll').val(null)
+                $('#containLinks').prop('checked', false);
+                $('#job1link').val(null)
 
             }
         });

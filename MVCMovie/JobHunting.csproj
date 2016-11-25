@@ -295,6 +295,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Home.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\IPathNodeService.cs" />
+    <Compile Include="Services\PathNodeService.cs" />
     <Compile Include="Services\RecruitingSiteService.cs" />
     <Compile Include="Services\IRecruitingSiteService.cs" />
     <Compile Include="Startup.cs" />

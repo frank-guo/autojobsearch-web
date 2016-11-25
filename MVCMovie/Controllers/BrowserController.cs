@@ -10,7 +10,8 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
-using WatiN.Core;  
+using WatiN.Core;
+using MVCMovie.Services;  
 
 
 namespace MVCMovie.Controllers
@@ -175,8 +176,14 @@ namespace MVCMovie.Controllers
     public class BrowserController : Controller
     {
         private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
+        IPathNodeService pathNodeService;
         private const int defaultSiteID = 1;
         private const int InvalidSiteID = 0;
+
+        public BrowserController(IPathNodeService pathNodeService)
+        {
+            this.pathNodeService = pathNodeService;
+        }
 
         [HttpPost]
         public int SetURL(int id, string url)
@@ -664,8 +671,8 @@ namespace MVCMovie.Controllers
             site.isContainJobLink = false;
             site.Job2Path.Clear();
 
-            IList<PathNode> jobPath = site.JobPath;
-            jobPath.Clear();
+            pathNodeService.Delete(site.JobPath);
+            //jobPath.Clear();
             
             site.othersPath.Clear();
             site.ListNextPositions.Clear();

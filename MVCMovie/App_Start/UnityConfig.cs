@@ -42,13 +42,16 @@ namespace MVCMovie.App_Start
 
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
-            container.RegisterType<IRepository<RecruitingSite>, Repository<RecruitingSite>>();
             container.RegisterType<AccountController>(new InjectionConstructor());
             container.RegisterType<ManageController>(new InjectionConstructor());
             container.RegisterType<IController, SeletElementController>("SeletElement");
             container.RegisterType<IController, HomeController>("Home");
 
+            container.RegisterType<IRepository<RecruitingSite>, Repository<RecruitingSite>>();
+            container.RegisterType<IRepository<PathNode>, Repository<PathNode>>();
+
             container.RegisterType<IRecruitingSiteService, RecruitingSiteService>();
+            container.RegisterType<IPathNodeService, PathNodeService>();
         }
     }
 }
