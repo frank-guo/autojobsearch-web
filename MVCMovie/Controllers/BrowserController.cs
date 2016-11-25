@@ -199,38 +199,38 @@ namespace MVCMovie.Controllers
             this.recruitingSiteService = recruitingSiteService;
         }
 
-        [HttpPost]
-        public int SetURL(int id, string url)
-        {
-            if (url == null || url == "")
-            {
-                return InvalidSiteID;
-            }
+        //[HttpPost]
+        //public int SetURL(int id, string url)
+        //{
+        //    if (url == null || url == "")
+        //    {
+        //        return InvalidSiteID;
+        //    }
 
-            RecruitingSite site = new RecruitingSite();
-            site.url = url;
+        //    RecruitingSite site = new RecruitingSite();
+        //    site.url = url;
 
-            if (ModelState.IsValid)
-            {
-                var sites = new List<RecruitingSite>();
-                var qry = from s in db.RecruitingSites
-                          select s;
-                qry = qry.Where(u => u.url == url);
-                sites.AddRange(qry.Distinct());
-                if (sites.Count == 0)    //check if the url site does not exists already
-                {
-                    RecruitingSite returnedSite = db.RecruitingSites.Add(site);
-                    db.SaveChanges();
-                    return returnedSite.ID;
-                }
-                else
-                {
-                    return sites[0].ID;     //If the url exists, return its ID
-                }
-            }
+        //    if (ModelState.IsValid)
+        //    {
+        //        var sites = new List<RecruitingSite>();
+        //        var qry = from s in db.RecruitingSites
+        //                  select s;
+        //        qry = qry.Where(u => u.url == url);
+        //        sites.AddRange(qry.Distinct());
+        //        if (sites.Count == 0)    //check if the url site does not exists already
+        //        {
+        //            RecruitingSite returnedSite = db.RecruitingSites.Add(site);
+        //            db.SaveChanges();
+        //            return returnedSite.ID;
+        //        }
+        //        else
+        //        {
+        //            return sites[0].ID;     //If the url exists, return its ID
+        //        }
+        //    }
 
-            return InvalidSiteID;
-        }
+        //    return InvalidSiteID;
+        //}
 
         [HttpPost]
         public void SetNext(List<int> listNextPositions, int id)
@@ -320,33 +320,16 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
-        public void SetCompany(List<int> listCompanyPositions)
+        public void SetCompany(List<int> listCompanyPositions, int id)
         {
-            if (listCompanyPositions == null)
+            if (listCompanyPositions == null || id <= 0)
             {
                 return;
             }
 
             if (ModelState.IsValid)
             {
-                var qry = from s in db.RecruitingSites
-                          select s;
-                qry = qry.Where(s => s.ID == 1);
-                RecruitingSite site = qry.FirstOrDefault();
-
-                if (site.companyPath != null)
-                {
-                    site.companyPath = new List<Company>();
-                    db.SaveChanges();
-                }
-
-                for (int i = 0; i < listCompanyPositions.Count; i++)
-                {
-                    Company cp = new Company();
-                    cp.position = listCompanyPositions.ElementAt(i);
-                    site.companyPath.Add(cp);
-                }
-                db.SaveChanges();
+                companyPathService.Update(listCompanyPositions, id);
             }
         }
 

@@ -75,7 +75,7 @@ $("#itemCompany").click(function (e) {
     //Send listPositions to the website to store
     $.ajax({
         type: "POST",
-        url: "/Browser/SetCompany",
+        url: "/Browser/SetCompany/" + siteId,
         data: JSON.stringify(listPositions),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
