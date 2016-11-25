@@ -53,6 +53,7 @@ namespace MVCMovie.App_Start
             container.RegisterType<IRepository<Company>, Repository<Company>>();
             container.RegisterType<IRepository<Others>, Repository<Others>>();
             container.RegisterType<IRepository<NextPosition>, Repository<NextPosition>>();
+            container.RegisterType<IRepository<Condition>, Repository<Condition>>();
 
             container.RegisterType<IRecruitingSiteService, RecruitingSiteService>();
             container.RegisterType<IPathNodeService, PathNodeService>();
@@ -60,6 +61,7 @@ namespace MVCMovie.App_Start
             container.RegisterType<ICompanyPathService, CompanyPathService>();
             container.RegisterType<IOthersPathService, OthersPathService>();
             container.RegisterType<INextPathService, NextPathService>();
+            container.RegisterType<IConditionService, ConditionService>();
         }
     }
 }

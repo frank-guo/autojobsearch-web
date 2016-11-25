@@ -5,12 +5,20 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using MVCMovie.Models;
+using MVCMovie.Services;
 
 namespace MVCMovie.Controllers
 {
     public class ConditionController : Controller
     {
         private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
+
+        private IConditionService conditionService;
+
+        public ConditionController(IConditionService conditionService)
+        {
+            this.conditionService = conditionService;
+        }
 
         // GET: Condition
         public ActionResult Index(int id)
@@ -111,33 +119,35 @@ namespace MVCMovie.Controllers
         public JsonResult GetCondition(int siteId)
         {
 
-            var qry = from s in db.Conditions
-                      select s;
-            qry = qry.Where(s => s.ID == siteId);
-            Condition cond = qry.FirstOrDefault();
+            //var qry = from s in db.Conditions
+            //          select s;
+            //qry = qry.Where(s => s.ID == siteId);
+            //Condition cond = qry.FirstOrDefault();
 
-            if (cond == null)
-            {
-                return null;
-            }
+            //if (cond == null)
+            //{
+            //    return null;
+            //}
 
-            var titleConds = new List<TitleCond>();
-            var locationConds = new List<LocationCond>();
-            foreach (TitleCond tc in cond.titleConds)
-            {
+            //var titleConds = new List<TitleCond>();
+            //var locationConds = new List<LocationCond>();
+            //foreach (TitleCond tc in cond.titleConds)
+            //{
 
-                titleConds.Add(tc);
-            }
+            //    titleConds.Add(tc);
+            //}
 
-            foreach (LocationCond lc in cond.locationConds)
-            {
+            //foreach (LocationCond lc in cond.locationConds)
+            //{
 
-                locationConds.Add(lc);
-            }
+            //    locationConds.Add(lc);
+            //}
 
-            var condition = new Condition();
-            condition.titleConds = titleConds;
-            condition.locationConds = locationConds;
+            //var condition = new Condition();
+            //condition.titleConds = titleConds;
+            //condition.locationConds = locationConds;
+
+            var condition = conditionService.GetById(siteId);
 
             return Json(condition, JsonRequestBehavior.AllowGet);
 
