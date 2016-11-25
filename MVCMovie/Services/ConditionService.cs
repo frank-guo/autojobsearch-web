@@ -16,6 +16,46 @@ namespace MVCMovie.Services
             this.repository = repository;
         }
 
+        public void Update(ConditionViewModel conditionVM)
+        {
+            var condID = conditionVM.ID;
+            repository.Delete(conditionVM.ID);
+
+            var titleConds = conditionVM.titleConds;
+            var locationConds = conditionVM.locationConds;
+
+            var condition = new Condition();
+            condition.titleConds = new List<TitleCond>();
+            condition.locationConds = new List<LocationCond>();
+            condition.ID = condID;
+
+            if (titleConds != null)
+            {
+                for (int i = 0; i < titleConds.Count; i++)
+                {
+                    var tc = new TitleCond
+                    {
+                        titleCond = titleConds.ElementAt(i)
+                    };
+                    condition.titleConds.Add(tc);
+                }
+            }
+
+            if (locationConds != null)
+            {
+                for (int i = 0; i < locationConds.Count; i++)
+                {
+                    var lc = new LocationCond
+                    {
+                        locationCond = locationConds.ElementAt(i)
+                    };
+                    condition.locationConds.Add(lc);
+                }
+            }
+
+            repository.Insert(condition);
+        }
+
         public Condition GetById(int siteId)
         {
             var cond = repository.GetByID(siteId);

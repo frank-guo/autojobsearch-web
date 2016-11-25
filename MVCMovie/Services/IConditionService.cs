@@ -9,6 +9,7 @@ namespace MVCMovie.Services
 {
     public interface IConditionService
     {
+        void Update(ConditionViewModel conditionVM);
         Condition GetById(int siteId);
     }
 }

@@ -64,6 +64,10 @@ namespace MVCMovie.Repositories
         public void Delete(int id)
         {
             TEntity entity = dbSet.Find(id);
+            if (entity == null)
+            {
+                return;
+            }
             dbSet.Remove(entity);
             context.SaveChanges();
         }

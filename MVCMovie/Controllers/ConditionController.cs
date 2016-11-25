@@ -30,7 +30,7 @@ namespace MVCMovie.Controllers
         [HttpPost]
         public ActionResult SetCondition(ConditionViewModel condViewModel)
         {
-            if (condViewModel != null && condViewModel.ID <= 0)
+            if (condViewModel == null && condViewModel.ID <= 0)
             {
                 var response = new Common.Model.Message()
                 {
@@ -40,63 +40,9 @@ namespace MVCMovie.Controllers
                 return Json(response);
             }
 
-            var condID = condViewModel.ID;
-            var titleConds = condViewModel.titleConds;
-            var locationConds = condViewModel.locationConds;
-
             if (ModelState.IsValid)
             {
-
-                var condition = new Condition();
-                condition.ID = condID;
-                condition.titleConds = new List<TitleCond>();
-                condition.locationConds = new List<LocationCond>();
-
-                var qry = from s in db.Conditions
-                          select s;
-                qry = qry.Where(s => s.ID == condID);
-                var cond = qry.FirstOrDefault();
-
-                //The condition of condID doesn't exist, and then insert the new condition with the condID
-                //Othewise, remove the original one and insert the new condition with the condID
-                if (cond != null)
-                {
-                    db.Conditions.Remove(cond);
-                    db.SaveChanges();           //Have to save change after remove. Otherwise, remove option will most likely be lost
-                }
-                db.Conditions.Add(condition);
-                db.SaveChanges();
-
-                //Re-read the condition of the condID and then set its titleConds and locationConds
-                qry = qry.Where(s => s.ID == condID);
-                cond = qry.FirstOrDefault();
-
-                if (titleConds != null)
-                {
-                    for (int i = 0; i < titleConds.Count; i++)
-                    {
-                        var tc = new TitleCond
-                        {
-                            titleCond = titleConds.ElementAt(i)
-                        };
-                        if (cond != null) 
-                            cond.titleConds.Add(tc);
-                    }
-                }
-
-                if (locationConds != null)
-                {
-                    for (int i = 0; i < locationConds.Count; i++)
-                    {
-                        var lc = new LocationCond
-                        {
-                            locationCond = locationConds.ElementAt(i)
-                        };
-                        if (cond != null) cond.locationConds.Add(lc);
-                    }
-                }
-
-                db.SaveChanges();
+                conditionService.Update(condViewModel);
 
                 var response = new Common.Model.Message()
                 {
