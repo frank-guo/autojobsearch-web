@@ -4,29 +4,24 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MVCMovie.Models;
+using MVCMovie.Services;
 
 namespace MVCMovie.Controllers
 {
     public class SeletElementController : Controller        
     {
 
-        private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
+        private IRecruitingSiteService recruitingSiteService;
+
+        public SeletElementController(IRecruitingSiteService service)
+        {
+            this.recruitingSiteService = service;
+        }
 
         public ActionResult Index(int id)
         {
             ViewBag.siteId = id;
-
-            RecruitingSite site = null;
-            IQueryable<RecruitingSite> query = from s in db.RecruitingSites
-                                 where (s.ID == id)
-                                select s;
-
-            if ( query  != null )
-            {
-                site = query.FirstOrDefault<RecruitingSite>();
-            }
-
-
+            RecruitingSite site = recruitingSiteService.GetByID(id);
             return View(site);
         }
     }

@@ -14,7 +14,7 @@ namespace MVCMovie.Repositories
             string includeProperties = "");
         TEntity GetByID(int id);
         void Insert(TEntity entity);
-        TEntity Insert(TEntity entity);
+        TEntity InsertAndReturn(TEntity entity);
         void Delete(int id);
         //void Delete(TEntity entityToDelete);
         void Update(TEntity entityToUpdate);

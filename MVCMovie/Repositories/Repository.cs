@@ -54,7 +54,7 @@ namespace MVCMovie.Repositories
             context.SaveChanges();
         }
 
-        public TEntity Insert(TEntity entity)
+        public TEntity InsertAndReturn(TEntity entity)
         {
             TEntity ret_entity = dbSet.Add(entity);
             context.SaveChanges();
