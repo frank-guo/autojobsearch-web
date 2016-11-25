@@ -176,13 +176,27 @@ namespace MVCMovie.Controllers
     public class BrowserController : Controller
     {
         private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
-        IPathNodeService pathNodeService;
+        private IRecruitingSiteService recruitingSiteService;
+        private IPathNodeService pathNodeService;
+        private IJob2PathService job2PathService;
+        private ICompanyPathService companyPathService;
+        private IOthersPathService othersPathService;
+        private INextPathService nextPathService;
+
         private const int defaultSiteID = 1;
         private const int InvalidSiteID = 0;
 
-        public BrowserController(IPathNodeService pathNodeService)
+        public BrowserController(IRecruitingSiteService recruitingSiteService,
+            IPathNodeService pathNodeService, IJob2PathService job2PathServices,
+            ICompanyPathService companyPathService, IOthersPathService othersPathService,
+            INextPathService nextPathService)
         {
             this.pathNodeService = pathNodeService;
+            this.job2PathService = job2PathServices;
+            this.companyPathService = companyPathService;
+            this.othersPathService = othersPathService;
+            this.nextPathService = nextPathService;
+            this.recruitingSiteService = recruitingSiteService;
         }
 
         [HttpPost]
@@ -662,23 +676,22 @@ namespace MVCMovie.Controllers
 
         public void DeleteAllJobSetting(int siteId)
         {
-            var qry = from s in db.RecruitingSites
-                      select s;
-            qry = qry.Where(s => s.ID == siteId);
-            RecruitingSite site = qry.FirstOrDefault();
-
-            site.companyPath.Clear();
-            site.isContainJobLink = false;
-            site.Job2Path.Clear();
-
-            pathNodeService.Delete(site.JobPath);
-            //jobPath.Clear();
-            
-            site.othersPath.Clear();
-            site.ListNextPositions.Clear();
+            if (siteId <= 0)
+            {
+                return;
+            }
+            RecruitingSite site = recruitingSiteService.GetByID(siteId);
             site.levelNoLinkHigherJob1 = 0;
+            site.isContainJobLink = false;
+            recruitingSiteService.Update(site);
 
-            db.SaveChanges();
+            companyPathService.Delete(site.companyPath);
+            job2PathService.Delete(site.Job2Path);
+            pathNodeService.Delete(site.JobPath);            
+            othersPathService.Delete(site.othersPath);
+            nextPathService.Delete(site.ListNextPositions);
+            
+
         }
 
         //? represent id could be null 

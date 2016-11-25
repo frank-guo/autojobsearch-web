@@ -49,9 +49,17 @@ namespace MVCMovie.App_Start
 
             container.RegisterType<IRepository<RecruitingSite>, Repository<RecruitingSite>>();
             container.RegisterType<IRepository<PathNode>, Repository<PathNode>>();
+            container.RegisterType<IRepository<Job2Position>, Repository<Job2Position>>();
+            container.RegisterType<IRepository<Company>, Repository<Company>>();
+            container.RegisterType<IRepository<Others>, Repository<Others>>();
+            container.RegisterType<IRepository<NextPosition>, Repository<NextPosition>>();
 
             container.RegisterType<IRecruitingSiteService, RecruitingSiteService>();
             container.RegisterType<IPathNodeService, PathNodeService>();
+            container.RegisterType<IJob2PathService, Job2PathService>();
+            container.RegisterType<ICompanyPathService, CompanyPathService>();
+            container.RegisterType<IOthersPathService, OthersPathService>();
+            container.RegisterType<INextPathService, NextPathService>();
         }
     }
 }
