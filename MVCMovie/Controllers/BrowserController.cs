@@ -233,33 +233,16 @@ namespace MVCMovie.Controllers
         }
 
         [HttpPost]
-        public void SetNext(List<int> listNextPositions)
+        public void SetNext(List<int> listNextPositions, int id)
         {
-            if (listNextPositions == null)
+            if (listNextPositions == null || id <= 0)
             {
                 return;
             }
 
             if (ModelState.IsValid)
             {
-                var qry = from s in db.RecruitingSites
-                                      select s;
-                qry = qry.Where(s => s.ID == 1);
-                RecruitingSite site = qry.FirstOrDefault();
-
-                if (site.ListNextPositions != null) 
-                {
-                    site.ListNextPositions = new List<NextPosition>();
-                    db.SaveChanges();
-                }
-
-                for (int i=0; i<listNextPositions.Count;i++)
-                {
-                    NextPosition np = new NextPosition();
-                    np.position = listNextPositions.ElementAt(i);
-                    site.ListNextPositions.Add(np);
-                }
-                db.SaveChanges();
+                nextPathService.Update(listNextPositions, id);
             }
         }
 

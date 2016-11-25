@@ -150,12 +150,11 @@ $("#itemNext").click(function (e) {
     //Send listPositions to the website to store
     $.ajax({
         type: "POST",
-        url: "/Browser/SetNext",
+        url: "/Browser/SetNext/" + siteId,
         data: JSON.stringify(listPostions),
-        dataType: "json",
         contentType: "application/json; charset=utf-8",
-        success: function (json) {
-            alert("send listPositions successfully!");
+        success: function () {
+            alert("Set and saved the path to the Next node in this page!");
         }
     });
 
