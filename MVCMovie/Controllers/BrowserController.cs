@@ -175,7 +175,7 @@ namespace MVCMovie.Controllers
 
     public class BrowserController : Controller
     {
-        private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
+        //private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
         private IRecruitingSiteService recruitingSiteService;
         private IPathNodeService pathNodeService;
         private IJob2PathService job2PathService;
@@ -365,11 +365,7 @@ namespace MVCMovie.Controllers
 
         public JsonResult GetOthers(int siteId)
         {
-
-            var qry = from s in db.RecruitingSites
-                      select s;
-            qry = qry.Where(s => s.ID == siteId);
-            RecruitingSite site = qry.FirstOrDefault();
+            RecruitingSite site = recruitingSiteService.GetByID(siteId);
 
             List<int> listOthersPositions = new List<int>();
             foreach (Others p in site.othersPath)
@@ -384,11 +380,7 @@ namespace MVCMovie.Controllers
 
         public JsonResult GetNext(int siteId)
         {
-
-            var qry = from s in db.RecruitingSites
-                        select s;
-            qry = qry.Where(s => s.ID == siteId);
-            RecruitingSite site = qry.FirstOrDefault();
+            RecruitingSite site = recruitingSiteService.GetByID(siteId);
 
             List<int> listNextPositions = new List<int>();
             foreach (NextPosition p in site.ListNextPositions)
@@ -614,10 +606,10 @@ namespace MVCMovie.Controllers
         //? represent id could be null 
         //the parameter name has to be id which is matching the name of id in the routeconfig.cs
         //Otherwise, MVC would not know which parameter the third segment of url should match if there are multiple parameters 
-        public ActionResult Index(int? id)
+        public ActionResult Index(int id)
         {
 
-            if (id == null || id == 0)
+            if (id <= 0)
             {
                 return null;
             }
@@ -626,13 +618,16 @@ namespace MVCMovie.Controllers
             WebClient client = new WebClient();
 
             //get the first site url
-            var siteUrls = new List<string>();
-            var qry = from s in db.RecruitingSites
-                      where(s.ID == id)
-                       select s.url;
-            siteUrls.AddRange(qry.Distinct());
+            //var siteUrls = new List<string>();
+            //var qry = from s in db.RecruitingSites
+            //          where(s.ID == id)
+            //           select s.url;
+            //siteUrls.AddRange(qry.Distinct());
 
-            webaddress = siteUrls[0];
+            //webaddress = siteUrls[0];
+
+            RecruitingSite site = recruitingSiteService.GetByID(id);
+            webaddress = site.url;
             string webpageUpdate = null;
 
             URLTransformer urlTranformer = new URLTransformer(webaddress);

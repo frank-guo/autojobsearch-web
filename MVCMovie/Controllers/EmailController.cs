@@ -625,7 +625,6 @@ namespace MVCMovie.Controllers
 
     public class EmailController : Controller
     {
-        private RecruitingSiteDBContext db = new RecruitingSiteDBContext();
         private IEmailSettingService emailService;
 
         public EmailController(IEmailSettingService emailService)
@@ -665,22 +664,7 @@ namespace MVCMovie.Controllers
 
             if (ModelState.IsValid)
             {
-
-                var qry = from s in db.Emails
-                          select s;
-                qry = qry.Where(s => s.ID == email.ID);
-                var retreivedEmail = qry.FirstOrDefault();
-
-                //The email of email ID doesn't exist, and then insert the new email
-                //Othewise, remove the original one and insert the new email
-                if (retreivedEmail != null)
-                {
-                    db.Emails.Remove(retreivedEmail);
-                    db.SaveChanges();           
-                }
-                
-                db.Emails.Add(email);
-                db.SaveChanges();
+                emailService.Save(email);
 
                 if (email.sendingOn)
                 {

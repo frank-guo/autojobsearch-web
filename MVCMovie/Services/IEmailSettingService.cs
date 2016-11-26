@@ -9,6 +9,7 @@ namespace MVCMovie.Services
 {
     public interface IEmailSettingService
     {
+        void Save(Email email);
         Email GetById(int siteId);
     }
 }
