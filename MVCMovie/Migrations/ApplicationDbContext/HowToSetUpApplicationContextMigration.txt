@@ -1,0 +1,5 @@
+﻿1. Enable-Migrations -ContextTypeName ApplicationDbContext -MigrationsDirectory Migrations\ApplicationDbContext -Force
+2. Change seed() in Migrations/ApplicationDbContext/Configuration.cs to set the initial states of tables
+3. (Optional)Add-Migration InitialMigrations -IgnoreChanges -ConfigurationTypeName MVCMovie.Migrations.ApplicationDbContext.Configuration
+4. Update-Database -ConfigurationTypeName MVCMovie.Migrations.ApplicationDbContext.Configuration
+5. Run the application

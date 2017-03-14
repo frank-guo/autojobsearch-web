@@ -247,10 +247,6 @@
     <Compile Include="Migrations\201611250414367_AddRecruitingSiteSiteName.Designer.cs">
       <DependentUpon>201611250414367_AddRecruitingSiteSiteName.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\ApplicationDbContext\201703130458481_InitialMigrations.cs" />
-    <Compile Include="Migrations\ApplicationDbContext\201703130458481_InitialMigrations.Designer.cs">
-      <DependentUpon>201703130458481_InitialMigrations.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\ApplicationDbContext\201703130533451_InitialCreate.cs" />
     <Compile Include="Migrations\ApplicationDbContext\201703130533451_InitialCreate.Designer.cs">
       <DependentUpon>201703130533451_InitialCreate.cs</DependentUpon>
@@ -429,9 +425,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611250414367_AddRecruitingSiteSiteName.resx">
       <DependentUpon>201611250414367_AddRecruitingSiteSiteName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\ApplicationDbContext\201703130458481_InitialMigrations.resx">
-      <DependentUpon>201703130458481_InitialMigrations.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\ApplicationDbContext\201703130533451_InitialCreate.resx">
       <DependentUpon>201703130533451_InitialCreate.cs</DependentUpon>
