@@ -14,6 +14,7 @@ using MVCMovie.Services;
 
 namespace MVCMovie.Controllers
 {
+    [Authorize(Roles = "Regular")]
     public class HomeController : Controller
     {
         private IRecruitingSiteService recruitingSiteService;

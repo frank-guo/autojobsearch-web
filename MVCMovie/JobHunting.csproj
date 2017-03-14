@@ -247,6 +247,15 @@
     <Compile Include="Migrations\201611250414367_AddRecruitingSiteSiteName.Designer.cs">
       <DependentUpon>201611250414367_AddRecruitingSiteSiteName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\ApplicationDbContext\201703130458481_InitialMigrations.cs" />
+    <Compile Include="Migrations\ApplicationDbContext\201703130458481_InitialMigrations.Designer.cs">
+      <DependentUpon>201703130458481_InitialMigrations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ApplicationDbContext\201703130533451_InitialCreate.cs" />
+    <Compile Include="Migrations\ApplicationDbContext\201703130533451_InitialCreate.Designer.cs">
+      <DependentUpon>201703130533451_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ApplicationDbContext\Configuration.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DatabaseInitializer.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -355,6 +364,7 @@
     <Content Include="js\SelectElement.css" />
     <Content Include="js\SelectElement.js" />
     <Content Include="js\SettingMenu.js" />
+    <Content Include="Migrations\ApplicationDbContext\HowToSetUpApplicationContextMigration.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
@@ -420,6 +430,12 @@
     <EmbeddedResource Include="Migrations\201611250414367_AddRecruitingSiteSiteName.resx">
       <DependentUpon>201611250414367_AddRecruitingSiteSiteName.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ApplicationDbContext\201703130458481_InitialMigrations.resx">
+      <DependentUpon>201703130458481_InitialMigrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ApplicationDbContext\201703130533451_InitialCreate.resx">
+      <DependentUpon>201703130533451_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Common.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Common.Designer.cs</LastGenOutput>
@@ -458,7 +474,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49667</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
