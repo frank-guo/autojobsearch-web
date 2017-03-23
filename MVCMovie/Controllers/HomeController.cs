@@ -11,6 +11,7 @@ using MVCMovie.Models;
 using System.Collections;
 using MVCMovie.Repositories;
 using MVCMovie.Services;
+using Microsoft.AspNet.Identity;
 
 namespace MVCMovie.Controllers
 {
@@ -43,7 +44,6 @@ namespace MVCMovie.Controllers
             //    options.Add(webSiteVM);
             //}
             //ViewBag.options = new SelectList(options, "ID", "url");
-
             return View();
         }
 

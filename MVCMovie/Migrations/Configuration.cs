@@ -1,6 +1,5 @@
 namespace MVCMovie.Migrations
 {
-    using MVCMovie.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -10,15 +9,24 @@ namespace MVCMovie.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            ContextKey = "MVCMovie.Models.RecruitingSiteDBContext";
+            AutomaticMigrationsEnabled = false;
+            MigrationsDirectory = @"Migrations";
         }
 
-        protected override void Seed(RecruitingSiteDBContext context)
+        protected override void Seed(MVCMovie.Models.RecruitingSiteDBContext context)
         {
-            context.RecruitingSites.Add(
-              new RecruitingSite { siteName = "T-Net", url = "http://www.bctechnology.com/jobs/search-results.cfm" }
-            );
+            //  This method will be called after migrating to the latest version.
+
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  to avoid creating duplicate seed data. E.g.
+            //
+            //    context.People.AddOrUpdate(
+            //      p => p.FullName,
+            //      new Person { FullName = "Andrew Peters" },
+            //      new Person { FullName = "Brice Lambson" },
+            //      new Person { FullName = "Rowan Miller" }
+            //    );
+            //
         }
     }
 }

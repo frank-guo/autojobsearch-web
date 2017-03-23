@@ -1,4 +1,6 @@
-﻿using MVCMovie.Models;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using MVCMovie.Models;
 using MVCMovie.Repositories;
 using System;
 using System.Collections.Generic;
@@ -6,6 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
+using System.Web.Security;
 
 namespace MVCMovie.Services
 {
@@ -13,14 +16,23 @@ namespace MVCMovie.Services
     {
         private IRepository<RecruitingSite> repository;
 
+        private ApplicationDbContext ApplicationDbContext;
+        private UserManager<ApplicationUser> UserManager;
+
         public RecruitingSiteService(IRepository<RecruitingSite> repository)
         {
             this.repository = repository;
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
         }
 
         public IEnumerable<WebsiteViewModel> Get(Expression<Func<RecruitingSite, bool>> filter = null, string includeProperties = "")
         {
-            IEnumerable<RecruitingSite> sites = repository.Get();
+            var name = System.Web.HttpContext.Current.User.Identity.Name;
+            var user = this.ApplicationDbContext.Users.FirstOrDefault(u => u.UserName == name);
+            var userid = user.Id;
+
+            IEnumerable<RecruitingSite> sites = repository.Get(u => u.ApplicationUser.Id == userid);
             List<WebsiteViewModel> sitesVM = new List<WebsiteViewModel>();
             foreach (RecruitingSite site in sites)
             {
@@ -48,11 +60,24 @@ namespace MVCMovie.Services
             {
                 return;
             }
+            //RecruitingSite site = new RecruitingSite();
+            //site.siteName = siteName;
+            //site.url = url;
+            //var name = System.Web.HttpContext.Current.User.Identity.Name;
+            //var user = this.ApplicationDbContext.Users.FirstOrDefault(u => u.UserName == name);
+            ////var user = UserManager.FindById(userId);
+            //site.ApplicationUser = user;
+            //site.ApplicationUser_Id = user.Id;
+
             RecruitingSite site = new RecruitingSite();
             site.siteName = siteName;
             site.url = url;
+            var name = System.Web.HttpContext.Current.User.Identity.Name;
+            var user = this.ApplicationDbContext.Users.FirstOrDefault(u => u.UserName == name);
+            user.RecruitingSites.Add(site);
+            UserManager.Update(user);
 
-            repository.Insert(site);
+            //repository.Insert(site);
         }
 
         public void Delete(int id)

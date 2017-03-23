@@ -13,7 +13,6 @@ namespace MVCMovie.Migrations.ApplicationDbContext
         {
             AutomaticMigrationsEnabled = false;
             MigrationsDirectory = @"Migrations\ApplicationDbContext";
-            ContextKey = "MVCMovie.Models.ApplicationDbContext";
         }
 
         protected override void Seed(MVCMovie.Models.ApplicationDbContext context)

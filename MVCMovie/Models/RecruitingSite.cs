@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using System.Data.Entity;
 using System.ComponentModel;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MVCMovie.Models
 {
@@ -31,6 +32,11 @@ namespace MVCMovie.Models
         [DefaultValue(0)]
         public int levelNoLinkHigherJob1 {get; set; }
 
+        [ForeignKey("ApplicationUser")]
+        public String ApplicationUser_Id { get; set; }
+
+        public virtual ApplicationUser ApplicationUser { get; set; }
+
         [Display(Name = "Next Page")]
         public virtual IList<NextPosition> ListNextPositions { get; set; }
 
@@ -51,7 +57,7 @@ namespace MVCMovie.Models
         public virtual Email email { get; set; }
     }
 
-    public class RecruitingSiteDBContext : DbContext
+    public class RecruitingSiteDBContext : IdentityDbContext
     {
         public DbSet<RecruitingSite> RecruitingSites { get; set; }
         public DbSet<Condition> Conditions { get; set; }
@@ -62,12 +68,19 @@ namespace MVCMovie.Models
       {
           base.OnModelCreating(modelBuilder);
 
+          //modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
+          //modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
+          //modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
+
         //Specify one-many between Condition and titleConds, and enable cascade delete
         modelBuilder.Entity<Condition>().HasMany(i => i.titleConds).WithRequired()
             .WillCascadeOnDelete();
 
         modelBuilder.Entity<Condition>().HasMany(i => i.locationConds).WithRequired()
             .WillCascadeOnDelete();
+
+        //modelBuilder.Entity<RecruitingSite>().HasRequired<ApplicationUser>(au => au.ApplicationUser)
+        //    .WithMany(au => au.RecruitingSites).HasForeignKey(site => site.ApplicationUser_Id);
 
         //modelBuilder.Entity<PathNode>()
         //    .HasKey(p => new { p.ID, p.RecruitingSite_ID });
