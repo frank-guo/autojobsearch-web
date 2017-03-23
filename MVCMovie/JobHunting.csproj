@@ -251,29 +251,9 @@
     <Compile Include="Migrations\201703200750155_AddUserIdInRecruitingSite.Designer.cs">
       <DependentUpon>201703200750155_AddUserIdInRecruitingSite.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703220539586_AddOneToMany.cs" />
-    <Compile Include="Migrations\201703220539586_AddOneToMany.Designer.cs">
-      <DependentUpon>201703220539586_AddOneToMany.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703220618552_AddOneToMany1.cs" />
-    <Compile Include="Migrations\201703220618552_AddOneToMany1.Designer.cs">
-      <DependentUpon>201703220618552_AddOneToMany1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\ApplicationDbContext\201703130533451_InitialCreate.cs" />
     <Compile Include="Migrations\ApplicationDbContext\201703130533451_InitialCreate.Designer.cs">
       <DependentUpon>201703130533451_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\ApplicationDbContext\201703210602511_unknown.cs" />
-    <Compile Include="Migrations\ApplicationDbContext\201703210602511_unknown.Designer.cs">
-      <DependentUpon>201703210602511_unknown.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\ApplicationDbContext\201703220448016_AddCollectionInUser.cs" />
-    <Compile Include="Migrations\ApplicationDbContext\201703220448016_AddCollectionInUser.Designer.cs">
-      <DependentUpon>201703220448016_AddCollectionInUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\ApplicationDbContext\201703220621135_AddCollectionInUser1.cs" />
-    <Compile Include="Migrations\ApplicationDbContext\201703220621135_AddCollectionInUser1.Designer.cs">
-      <DependentUpon>201703220621135_AddCollectionInUser1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationDbContext\Configuration.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -453,23 +433,8 @@
     <EmbeddedResource Include="Migrations\201703200750155_AddUserIdInRecruitingSite.resx">
       <DependentUpon>201703200750155_AddUserIdInRecruitingSite.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703220539586_AddOneToMany.resx">
-      <DependentUpon>201703220539586_AddOneToMany.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703220618552_AddOneToMany1.resx">
-      <DependentUpon>201703220618552_AddOneToMany1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\ApplicationDbContext\201703130533451_InitialCreate.resx">
       <DependentUpon>201703130533451_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\ApplicationDbContext\201703210602511_unknown.resx">
-      <DependentUpon>201703210602511_unknown.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\ApplicationDbContext\201703220448016_AddCollectionInUser.resx">
-      <DependentUpon>201703220448016_AddCollectionInUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\ApplicationDbContext\201703220621135_AddCollectionInUser1.resx">
-      <DependentUpon>201703220621135_AddCollectionInUser1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Common.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

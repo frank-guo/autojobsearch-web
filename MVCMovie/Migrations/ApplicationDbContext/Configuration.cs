@@ -29,11 +29,10 @@ namespace MVCMovie.Migrations.ApplicationDbContext
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
             role.Name = "Regular";
-            roleManager.Create(role);   
+            roleManager.Create(role);  
         }
     }
 }
