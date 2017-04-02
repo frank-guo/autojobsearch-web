@@ -1,5 +1,9 @@
 ﻿1. Enable-Migrations -ContextTypeName ApplicationDbContext -MigrationsDirectory Migrations\ApplicationDbContext -Force
+	This command would generate the code that can create the same database as the current database which is created by Code First
+	before enabling migration, i.e. 201703230609069_InitialMigrations.cs
+	https://msdn.microsoft.com/en-us/library/jj591621(v=vs.113).aspx
 2. Change seed() in Migrations/ApplicationDbContext/Configuration.cs to set the initial states of tables
-3. (Optional)Add-Migration InitialMigrations -IgnoreChanges -ConfigurationTypeName MVCMovie.Migrations.ApplicationDbContext.Configuration
+3. (Optional)Add-Migration migrationName -ConfigurationTypeName MVCMovie.Migrations.ApplicationDbContext.Configuration
+	This command is intended to create a migration for the model change in code since last migration was created.
 4. Update-Database -ConfigurationTypeName MVCMovie.Migrations.ApplicationDbContext.Configuration
 5. Run the application
