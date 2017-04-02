@@ -21,7 +21,7 @@ namespace MVCMovie
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Database.SetInitializer<RecruitingSiteDBContext>(new DatabaseInitializer());
+            Database.SetInitializer<ApplicationDbContext>(new DatabaseInitializer());
         }
     }
 }

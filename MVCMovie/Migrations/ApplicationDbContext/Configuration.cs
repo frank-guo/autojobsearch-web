@@ -15,6 +15,7 @@ namespace MVCMovie.Migrations.ApplicationDbContext
             MigrationsDirectory = @"Migrations\ApplicationDbContext";
         }
 
+        // This seed method is called when updating database using NuGet package manager console
         protected override void Seed(MVCMovie.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.

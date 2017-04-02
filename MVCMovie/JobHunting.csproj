@@ -239,24 +239,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611250413046_InitialCreate.cs" />
-    <Compile Include="Migrations\201611250413046_InitialCreate.Designer.cs">
-      <DependentUpon>201611250413046_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611250414367_AddRecruitingSiteSiteName.cs" />
-    <Compile Include="Migrations\201611250414367_AddRecruitingSiteSiteName.Designer.cs">
-      <DependentUpon>201611250414367_AddRecruitingSiteSiteName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703200750155_AddUserIdInRecruitingSite.cs" />
-    <Compile Include="Migrations\201703200750155_AddUserIdInRecruitingSite.Designer.cs">
-      <DependentUpon>201703200750155_AddUserIdInRecruitingSite.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\ApplicationDbContext\201703130533451_InitialCreate.cs" />
-    <Compile Include="Migrations\ApplicationDbContext\201703130533451_InitialCreate.Designer.cs">
-      <DependentUpon>201703130533451_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\ApplicationDbContext\201703230609069_InitialMigrations.cs" />
+    <Compile Include="Migrations\ApplicationDbContext\201703230609069_InitialMigrations.Designer.cs">
+      <DependentUpon>201703230609069_InitialMigrations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationDbContext\Configuration.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DatabaseInitializer.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Company.cs" />
@@ -424,17 +411,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611250413046_InitialCreate.resx">
-      <DependentUpon>201611250413046_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611250414367_AddRecruitingSiteSiteName.resx">
-      <DependentUpon>201611250414367_AddRecruitingSiteSiteName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703200750155_AddUserIdInRecruitingSite.resx">
-      <DependentUpon>201703200750155_AddUserIdInRecruitingSite.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\ApplicationDbContext\201703130533451_InitialCreate.resx">
-      <DependentUpon>201703130533451_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\ApplicationDbContext\201703230609069_InitialMigrations.resx">
+      <DependentUpon>201703230609069_InitialMigrations.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Common.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
