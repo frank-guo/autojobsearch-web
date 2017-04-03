@@ -239,11 +239,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\ApplicationDbContext\201703230609069_InitialMigrations.cs" />
-    <Compile Include="Migrations\ApplicationDbContext\201703230609069_InitialMigrations.Designer.cs">
-      <DependentUpon>201703230609069_InitialMigrations.cs</DependentUpon>
+    <Compile Include="Migrations\201704030503146_initialCreate.cs" />
+    <Compile Include="Migrations\201704030503146_initialCreate.Designer.cs">
+      <DependentUpon>201704030503146_initialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\ApplicationDbContext\Configuration.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DatabaseInitializer.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Company.cs" />
@@ -351,7 +351,6 @@
     <Content Include="js\SelectElement.css" />
     <Content Include="js\SelectElement.js" />
     <Content Include="js\SettingMenu.js" />
-    <Content Include="Migrations\ApplicationDbContext\HowToSetUpApplicationContextMigration.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
@@ -411,8 +410,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\ApplicationDbContext\201703230609069_InitialMigrations.resx">
-      <DependentUpon>201703230609069_InitialMigrations.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704030503146_initialCreate.resx">
+      <DependentUpon>201704030503146_initialCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Common.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

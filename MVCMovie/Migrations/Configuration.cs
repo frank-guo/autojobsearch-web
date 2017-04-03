@@ -1,4 +1,4 @@
-namespace MVCMovie.Migrations.ApplicationDbContext
+namespace MVCMovie.Migrations
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
@@ -12,10 +12,10 @@ namespace MVCMovie.Migrations.ApplicationDbContext
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            MigrationsDirectory = @"Migrations\ApplicationDbContext";
+            MigrationsDirectory = @"Migrations";
         }
 
-        // This seed method is called when updating database using NuGet package manager console
+        //This method is used when there are some new seed data to be added into database during the development process
         protected override void Seed(MVCMovie.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
@@ -32,8 +32,12 @@ namespace MVCMovie.Migrations.ApplicationDbContext
             //
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-            role.Name = "Regular";
-            roleManager.Create(role);  
+
+            role.Name = "Admin";
+            roleManager.Create(role);
+
+            role.Name = "Paying";
+            roleManager.Create(role);
         }
     }
 }

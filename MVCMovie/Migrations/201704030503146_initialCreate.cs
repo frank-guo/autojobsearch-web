@@ -1,9 +1,9 @@
-namespace MVCMovie.Migrations.ApplicationDbContext
+namespace MVCMovie.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialMigrations : DbMigration
+    public partial class initialCreate : DbMigration
     {
         public override void Up()
         {
