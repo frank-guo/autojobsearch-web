@@ -68,17 +68,36 @@ $(document).ready(function () {
     })
 });
 
+$('#myframe').load(function () {
+    var scriptTag = document.createElement('script');
+    scriptTag.type = 'text/javascript';
+    scriptTag.src = "/js/ContextMenu.js";
+    //$("head", d).append(scriptTag);
+    var myframe = $("#myframe")
+    var contents = myframe.contents();
+    var head = $("head", myframe.contents());
+    head.append(scriptTag);
+})
+
+var id = window.setInterval(checkIframeLoaded, 100);
+
 function checkIframeLoaded() {
     var d = window.frames["myframename"].document;
-    //d.open(); d.close(); // must open and close document object to start using it!
 
     // now start doing normal jQuery:
-    if (d.readyState == 'complete') {
+    var innerHead = $("head", d).html();
+    //readyState and load event work in IE but not in Chrome.
+    //Therefore, add two more empty check for head element to determine if the iframe is loaded
+    if (d.readyState == 'complete' && innerHead != null && innerHead !== "") {
         $("#demo").html($(d).contents().find("title").html());
         var scriptTag = document.createElement('script');
         scriptTag.type = 'text/javascript';
         scriptTag.src = "/js/ContextMenu.js";
-        $("head", d).append(scriptTag);
+        //$("head", d).append(scriptTag);
+        var myframe = $("#myframe")
+        var contents = myframe.contents();
+        var head = $("head", myframe.contents());
+        head.append(scriptTag);
 
         //Get the values for all the input textarea from the website and set their values
         //First set job1 and job2
@@ -218,11 +237,10 @@ function checkIframeLoaded() {
                 }
             }
         });
+
+        window.clearInterval(id);
         return;
     }
-
-    window.setTimeout('checkIframeLoaded();', 100);
-
 }
 
 function getNode(listOfNodes){

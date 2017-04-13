@@ -13,10 +13,10 @@ $(document).ready(function () {
                 //SelectElment will return a view which contains the iframe that will request Browser/Index/siteId.
                 //Browser/Index/siteId acutally returns the content of job searching sites.
                 //So the content inside the iframe will be thought of as safety
-                var w = window.open();
-                w.document.open(data);
-                w.document.write(data);
-                w.document.close();
+                //var w = window.open();
+                document.open(data);
+                document.write(data);
+                document.close();
             }
         });
     }

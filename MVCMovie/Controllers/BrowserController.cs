@@ -79,16 +79,13 @@ namespace MVCMovie.Controllers
             // ToDo: elements[0] is root, [1] is head, [2] is title....
             //DomContainer has child method. Could take a look at the source code of child
 
-            HtmlElement e = null;
-            if (elmts.Count != 0) 
+            if (elmts != null && elmts.Count != 0)
             {
-                e = elmts[0];
-            }
 
-            while(e != null)
-            {
-                tranverse(e);
-                e = e.NextSibling;
+                foreach (HtmlElement e in elmts)
+                {
+                    tranverse(e);
+                }
             }
 
             transformUrl(ref root);
@@ -132,6 +129,16 @@ namespace MVCMovie.Controllers
                 attrName = "src";
             }
 
+            if (e.TagName == "INPUT")
+            {
+                urlOfElement = e.GetAttribute("src");
+                attrName = "src";
+                if (urlOfElement.Contains("search-icon.png"))
+                {
+                    Console.Write(urlOfElement);
+                }
+            }
+
             if (urlOfElement!=null && urlOfElement.StartsWith("about:/"))
             {
                 urlOfElement = urlOfElement.Substring(6);
@@ -173,6 +180,7 @@ namespace MVCMovie.Controllers
         }
     }
 
+    [Authorize(Roles = "Regular")]
     public class BrowserController : Controller
     {
         //private RecruitingSiteDBContext db = new RecruitingSiteDBContext();

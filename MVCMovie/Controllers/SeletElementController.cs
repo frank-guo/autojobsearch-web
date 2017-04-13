@@ -22,6 +22,7 @@ namespace MVCMovie.Controllers
         {
             ViewBag.siteId = id;
             RecruitingSite site = recruitingSiteService.GetByID(id);
+            ViewBag.url = site.url;
             return View(site);
         }
     }
