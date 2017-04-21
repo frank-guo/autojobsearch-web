@@ -9,12 +9,12 @@ $(document).ready(function () {
     $('#setting').show();
 
     //var d = $("#myframe")[0].contentDocument; // contentWindow works in IE7 and FF
-    checkIframeLoaded();
 
     $('#containLinks').click(function () {
         //show the text box to help find job1's link
         if (this.checked) {
-            $("#locateJob1Link").removeAttr("disabled");
+            $("#goUp").removeAttr("disabled");
+            $("#goDown").removeAttr("disabled");
 
             //Set isContainJobLink
             $.ajax({
@@ -29,7 +29,8 @@ $(document).ready(function () {
         }
 
         if (!this.checked) {
-            $("#locateJob1Link").attr("disabled", "disabled")
+            $("#goUp").attr("disabled", "disabled")
+            $("#goDown").attr("disabled", "disabled")
 
             //Reset isContainJobLink
             $.ajax({
@@ -67,17 +68,6 @@ $(document).ready(function () {
         });
     })
 });
-
-$('#myframe').load(function () {
-    var scriptTag = document.createElement('script');
-    scriptTag.type = 'text/javascript';
-    scriptTag.src = "/js/ContextMenu.js";
-    //$("head", d).append(scriptTag);
-    var myframe = $("#myframe")
-    var contents = myframe.contents();
-    var head = $("head", myframe.contents());
-    head.append(scriptTag);
-})
 
 var id = window.setInterval(checkIframeLoaded, 100);
 
@@ -229,11 +219,11 @@ function checkIframeLoaded() {
                 var isContainJobLink = retValue;
                 if (isContainJobLink){
                     $("#containLinks")[0].checked = true;
-                    $("#locateJob1Link").removeAttr("disabled");
+                    $("#findJobLink").removeAttr("disabled");
                 }
                 else{
                     $("#containLinks")[0].checked = false;
-                    $("#locateJob1Link").attr("disabled", "disabled")
+                    $("#findJobLink").attr("disabled", "disabled")
                 }
             }
         });

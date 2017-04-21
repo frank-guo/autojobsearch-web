@@ -4,74 +4,80 @@
 
     <div class="panel panel-default" >
         <div class="panel-heading">
-            <h1 class="panel-title" id="selectPanel" data-id="@ViewBag.siteId"><b>Specify Elements for Auto Searching:</b></h1> 
+            <h1 class="panel-title" id="selectPanel" data-id="@ViewBag.siteId">
+                <b>Specify Elements for Auto Searching</b>&nbsp;
+                <i class="fa fa-question-circle" aria-hidden="true" style="cursor: pointer"></i>
+            </h1> 
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">@Html.DisplayNameFor(model => model.JobPath)</span>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>@Html.DisplayNameFor(model => model.JobPath)</label>
                         <textarea id="node1" class="form-control" data-toggle="tooltip" , title="@ElementSelector.Job1TipMsg" disabled></textarea>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">@Html.DisplayNameFor(model => model.Job2Path)</span>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>@Html.DisplayNameFor(model => model.Job2Path)</label>
                         <textarea id="node2" class="form-control" data-toggle="tooltip" , title="@ElementSelector.Job2TipMsg" disabled></textarea>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">@Html.DisplayNameFor(model => model.ListNextPositions)</span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>@Html.DisplayNameFor(model => model.companyPath)</label>
+                        <textarea id="company" class="form-control" data-toggle="tooltip" , title="@ElementSelector.CompanyTipMsg" disabled></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>@Html.DisplayNameFor(model => model.othersPath)</label>
+                        <textarea id="others" class="form-control" data-toggle="tooltip" , title="@ElementSelector.OthersTipMsg" disabled></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>@Html.DisplayNameFor(model => model.ListNextPositions)</label>
                         <textarea id="nextPage" class="form-control" data-toggle="tooltip" , title="@ElementSelector.NextTipMsg" disabled></textarea>
                     </div>
                 </div>
             </div>
-            <br />
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">@Html.DisplayNameFor(model => model.companyPath)</span>
-                        <textarea id="company" class="form-control" data-toggle="tooltip" , title="@ElementSelector.CompanyTipMsg" disabled></textarea>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">@Html.DisplayNameFor(model => model.othersPath)</span>
-                        <textarea id="others" class="form-control" data-toggle="tooltip" , title="@ElementSelector.OthersTipMsg" disabled></textarea>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <button id="clearAll" class="btn btn-primary">Clear All</button>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="checkbox">
-                        <label><input type="checkbox" id="containLinks"> Contain job links in email</label>
-                    </div>
-                </div>
-            </div>
-
-            <fieldset disabled id="locateJob1Link">
+            <hr style="margin-bottom: 10px; margin-top: 10px"/>
+            <fieldset id="locateJob1Link">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">Job1</span>
-                            <textarea id="job1link" class="form-control" data-toggle="tooltip" , title="@ElementSelector.Job1LinkTipMsg"></textarea>
+                    <div class="col-md-6">
+                        <div class="form-group" style="margin-bottom: 5px">
+                            <input type="checkbox" id="containLinks" />&nbsp;&nbsp;<b>Contain job links in email</b>
                         </div>
                     </div>
-                    @*here must be col-md-8, othewise the button will not next the textarea.
-                        The btn-primary will take care of the button width*@
-                    <div class="col-md-8 buttonBox">
-                        <div class="btn-group-vertical">
-                            <button id="goUp" class="btn btn-primary btn-xs">Go up one level</button>
-                            <button id="goDown" class="btn btn-primary btn-xs">Go down one level</button>
+                    <div class="col-md-6">
+                        <div disabled class="btn-group pull-right">
+                            <button id="goUp" class="btn btn-primary btn-xs">
+                                <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>&nbsp;Go up one level
+                            </button>
+                            <button id="goDown" class="btn btn-primary btn-xs">
+                                <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>&nbsp;Go down one level
+                            </button>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <textarea disabled id="job1link" class="form-control" data-toggle="tooltip" , title="@ElementSelector.Job1LinkTipMsg"></textarea>
                     </div>
                 </div>
             </fieldset>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12">
+                    <button id="clearAll" class="btn btn-primary pull-right">Clear All</button>
+                </div>
+            </div>
         </div>
     </div>
 

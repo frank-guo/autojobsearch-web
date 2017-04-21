@@ -30,6 +30,11 @@ function startFocusOut() {
         $("#cntnr").hide(500);              // To hide the context menu
         $(document).off("click");
     });
+
+    $(doc1).on("click", function () {
+        $("#cntnr").hide(500);              // To hide the context menu
+        $(document).off("click");
+    });
 }
 $("#itemNode1").click(function (e) {
     //$("#op").text("You have selected " + $(targetE).prop('outerHTML'));
