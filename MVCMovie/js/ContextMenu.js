@@ -28,12 +28,12 @@ $(doc1).bind("contextmenu", function (e) {
 function startFocusOut() {
     $(document).on("click", function () {
         $("#cntnr").hide(500);              // To hide the context menu
-        $(document).off("click");
+        //$(document).off("click");
     });
 
     $(doc1).on("click", function () {
         $("#cntnr").hide(500);              // To hide the context menu
-        $(document).off("click");
+        //$(document).off("click");
     });
 }
 $("#itemNode1").click(function (e) {

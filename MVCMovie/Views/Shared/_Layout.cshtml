@@ -28,19 +28,18 @@
             </div>
             <div class="navbar-collapse collapse" id="settingMenu">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown" id="setting" style="display:none">
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Setting <b class="caret"></b></a>
+                    <li class="nav-item dropdown" id="setting" style="display:none">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Setting <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
                                 <a id="jobFeatures" data-bind='attr: {href: jobFeaturesUrl}'>job Features</a>
                             </li>
-
                             <li><a id="conditionLi" data-bind='attr: {href: conditionUrl}'>Conditions</a></li>
                             <li><a id="emailLi" data-bind='attr: {href: emailUrl}'>Email</a></li>
                         </ul>
                     </li>
-                    <li>@Html.ActionLink("About", "About", "Help")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Help")</li>
+                    <li class="nav-item">@Html.ActionLink("About", "About", "Help")</li>
+                    <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Help")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
