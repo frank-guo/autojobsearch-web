@@ -46,6 +46,22 @@ $(document).ready(function () {
         }
     });
 
+    $("#help").click(function () {
+        $("#modalBody").html("Use the right-click menu to specify the elements of the first job title, second job title, and corresponding information of the first job" +
+            " including company, other, and the next page link, in order to make the auto job searching system" +
+            " able to find those elements in the subsequent job posting pages with the same layout.")
+        $("#helpModal").modal("show");
+    })
+
+    $("#closeModal").click(function () {
+        $("#helpModal").modal("hide")
+    })
+
+    $("#locateLinkHelp").click(function () {
+        $("#modalBody").html("Use Go UP and Go Down buttons to find the element of the first job link which starts with &lt;a.")
+        $("#helpModal").modal("show");
+    })
+
     $('#clearAll').click(function () {
         //siteId is coming from knockout setting in SettingMenu.js
         var siteIdObj = { "siteId": siteId };
@@ -55,14 +71,13 @@ $(document).ready(function () {
             type: "POST",
             contentType: "application/json; charset=utf-8",
             success: function () {
-                $('#node1').val(null)
-                $('#node2').val(null)
-                $('#nextPage').val(null)
-                $('#company').val(null)
-                $('#others').val(null)
-                $('#clearAll').val(null)
+                $('#node1').html('')
+                $('#node2').html('')
+                $('#nextPage').html('')
+                $('#company').html('')
+                $('#others').html('')
                 $('#containLinks').prop('checked', false);
-                $('#job1link').val(null)
+                $('#job1link').html('')
 
             }
         });
@@ -219,11 +234,13 @@ function checkIframeLoaded() {
                 var isContainJobLink = retValue;
                 if (isContainJobLink){
                     $("#containLinks")[0].checked = true;
-                    $("#findJobLink").removeAttr("disabled");
+                    $("#goUp").removeAttr("disabled");
+                    $("#goDown").removeAttr("disabled");
                 }
                 else{
                     $("#containLinks")[0].checked = false;
-                    $("#findJobLink").attr("disabled", "disabled")
+                    $("#goUp").attr("disabled", "disabled")
+                    $("#goDown").attr("disabled", "disabled")
                 }
             }
         });

@@ -1,25 +1,25 @@
 ﻿
 $(document).ready(function () {
-    var openSite = function () {
-        var siteId = jobHuntingSite.existingSites()[jobHuntingSite.selectedSiteIdx()].ID
-        if (siteId == null) {
-            return
-        }
-        $.ajax({
-            url: '/SeletElement/Index/' + siteId,
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                // get the result and do some magic with it
-                //SelectElment will return a view which contains the iframe that will request Browser/Index/siteId.
-                //Browser/Index/siteId acutally returns the content of job searching sites.
-                //So the content inside the iframe will be thought of as safety
-                //var w = window.open();
-                document.open(data);
-                document.write(data);
-                document.close();
-            }
-        });
-    }
+    //var openSite = function () {
+    //    var siteId = jobHuntingSite.existingSites()[jobHuntingSite.selectedSiteIdx()].ID
+    //    if (siteId == null) {
+    //        return
+    //    }
+    //    $.ajax({
+    //        url: '/SeletElement/Index/' + siteId,
+    //        contentType: 'application/json; charset=utf-8',
+    //        success: function (data) {
+    //            // get the result and do some magic with it
+    //            //SelectElment will return a view which contains the iframe that will request Browser/Index/siteId.
+    //            //Browser/Index/siteId acutally returns the content of job searching sites.
+    //            //So the content inside the iframe will be thought of as safety
+    //            //var w = window.open();
+    //            document.open(data);
+    //            document.write(data);
+    //            document.close();
+    //        }
+    //    });
+    //}
 
     var createSite = function () {
         var site = {"siteName": $('#siteName').val(), "url": $('#url').val() };
@@ -77,12 +77,12 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
-    $('#openSite').click(function () {
-        $('#sitesForm').validate()
-        if ($('#sitesForm').valid()) {
-            openSite();
-        }
-    })
+    //$('#openSite').click(function () {
+    //    $('#sitesForm').validate()
+    //    if ($('#sitesForm').valid()) {
+    //        openSite();
+    //    }
+    //})
 
     var JobHuntingSite = function () {
         this.existingSites = ko.observableArray([]);
@@ -96,6 +96,10 @@ $(document).ready(function () {
         this.selectedSiteUrl = ko.computed(function () {
             var selectedSite = this.existingSites()[this.selectedSiteIdx()];
             return selectedSite == null ? null : selectedSite.url;
+        }, this);
+        this.selectedSiteId = ko.computed(function () {
+            var selectedSite = this.existingSites()[this.selectedSiteIdx()];
+            return selectedSite == null ? null : selectedSite.ID;
         }, this);
         this.dropdownOptions = ko.computed(function () {
             var options = []

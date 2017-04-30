@@ -353,7 +353,6 @@ $("#itemHLight").click(function (e) {
     //In general, the function first caculate the job1's path with the mark of the common parent of job1 and job2
     //Next, use the path to find all job nodes to highlight
     //At last, it putshes the path, i.e.listOfNodes, to the website for store. 
-    debugger;
     var listOfNodes = [];
 
     parent1 = $(node1).parent();

@@ -40,16 +40,16 @@ namespace MVCMovie.Models
         [Display(Name = "Next Page")]
         public virtual IList<NextPosition> ListNextPositions { get; set; }
 
-        [Display(Name = "Job1")]
+        [Display(Name = "First Job Title")]
         public virtual IList<PathNode> JobPath { get; set; }
 
-        [Display(Name = "Job2")]
+        [Display(Name = "Second Job Title")]
         public virtual IList<Job2Position> Job2Path { get; set; }
 
-        [Display(Name = "Company")]
+        [Display(Name = "Company Information")]
         public virtual IList<Company> companyPath { get; set; }
 
-        [Display(Name = "Others")]
+        [Display(Name = "Other Information")]
         public virtual IList<Others> othersPath { get; set; }
 
         public virtual Condition condition { get; set; }

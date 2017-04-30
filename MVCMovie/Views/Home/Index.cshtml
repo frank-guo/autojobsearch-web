@@ -61,9 +61,9 @@
         <br />
         <div class="row">
             <div class="col-md-2" data-toggle="tooltip" title="@Home.EnableButton">
-                <button class="btn btn-primary btn-sm" id="openSite" data-bind="attr:{disabled: disableOpenSite}">
+                <a class="btn btn-primary btn-sm" id="openSite" data-bind="attr:{disabled: disableOpenSite, href: 'SeletElement/Index/' + selectedSiteId()}">
                     Open Site
-                </button>
+                </a>
             </div>
             <div class=" col-sm-offset-3 col-md-3">
                 <button class="btn btn-primary btn-sm" id="addSite">Add Site</button>
