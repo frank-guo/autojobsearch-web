@@ -13,6 +13,12 @@ namespace MVCMovie
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //The following commented code is an example of how to default some particular urls.
+            //routes.MapRoute(
+            //    name: "Condition",
+            //    url: "Condition/{action}/{id}",
+            //    defaults: new { controller = "Condition", action = "Index", id = "1" }
+            //);
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
@@ -22,8 +28,6 @@ namespace MVCMovie
                  name: "Hello",
                  url: "{controller}/{action}/{name}/{id}"
              );
-
-
         }
 
     }

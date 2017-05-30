@@ -1,0 +1,22 @@
+﻿@using Settings = MVCMovie.Settings
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<app-root>Loading...</app-root>
+@if (Settings.UseWebpackDevServer)
+{
+    <script type="text/javascript" src="@(Settings.WebpackDevServerRoot)/inline.bundle.js"></script>
+    <script type="text/javascript" src="@(Settings.WebpackDevServerRoot)/polyfills.bundle.js"></script>
+    <script type="text/javascript" src="@(Settings.WebpackDevServerRoot)/styles.bundle.js"></script>
+    <script type="text/javascript" src="@(Settings.WebpackDevServerRoot)/vendor.bundle.js"></script>
+    <script type="text/javascript" src="@(Settings.WebpackDevServerRoot)/main.bundle.js"></script>
+    }
+else
+{
+    <script type="text/javascript" src="/static/polyfills.min.js"></script>
+    <script type="text/javascript" src="/static/vendor.min.js"></script>
+    <script type="text/javascript" src="/static/app.min.js"></script>
+}
+

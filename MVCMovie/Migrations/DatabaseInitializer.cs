@@ -25,7 +25,8 @@ namespace MVCMovie.Migrations
             var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
             role.Name = "Regular";
             roleManager.Create(role);
-
+            
+            role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
             role.Name = "Admin";
             roleManager.Create(role);
         }
