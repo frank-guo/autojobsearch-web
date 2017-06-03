@@ -1,0 +1,45 @@
+﻿
+<div class="row form-group">
+    <div class="col-md-1">
+        <div class="pull-right">{{model.id}}</div>
+    </div>
+	<div class="col-md-3">
+        <ng-select [allowClear]="true"
+                   [active]="model.fieldName ? [{id: model.fieldName, text: model.fieldName}] : null"
+                   [items]="fields"
+                   (data)="refreshField($event)"
+                   (selected)="selected($event)"
+                   (removed)="removed($event)"
+                   (typed)="typed($event)"
+                   placeholder="No field name selected">
+        </ng-select>
+	</div>
+    <div class="col-md-3">
+        <ng-select [allowClear]="true"
+                   [active]="model.operator ? [{id: model.operator, text: model.operator}] : null"
+                   [items]="operators"
+                   (data)="refreshOperator($event)"
+                   (selected)="selected($event)"
+                   (removed)="removed($event)"
+                   (typed)="typed($event)"
+                   placeholder="No operator selected">
+        </ng-select>
+    </div>
+    <div class="col-md-3">
+        <ng-select [multiple]="true"
+                   [active]="model.values ? model.values : null"
+                   [items]="cities"
+                   (data)="refreshCity($event)"
+                   (selected)="selected($event)"
+                   (removed)="removed($event)"
+                   (typed)="typed($event)"
+                   placeholder="No city selected">
+        </ng-select>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-primary btn-sm">
+            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;
+            Delete
+        </button>
+    </div>
+</div>

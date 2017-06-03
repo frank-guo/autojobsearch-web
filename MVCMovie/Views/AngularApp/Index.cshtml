@@ -3,8 +3,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 <app-root>Loading...</app-root>
+@section Styles{
+    @Styles.Render("/font-awesome-4.7.0/css/font-awesome.min.css")
+}
 @if (Settings.UseWebpackDevServer)
 {
     <script type="text/javascript" src="@(Settings.WebpackDevServerRoot)/inline.bundle.js"></script>
