@@ -10,6 +10,7 @@ using MVCMovie.App_Start;
 using System.Data.Entity;
 using MVCMovie.Models;
 using MVCMovie.Migrations;
+using System.Web.Http;
 
 namespace MVCMovie
 {
@@ -18,6 +19,7 @@ namespace MVCMovie
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
