@@ -1,12 +1,14 @@
 ﻿export class SearchCriteria {
+    id: number;
     fieldName: string;
-    operator: string;
+    _operator: string;
     values: [string];
     constructor();
-    constructor(fieldName: string, operator: string, values: [any]);
-    constructor(fieldName?: string, operator?: string, values?: [any]) {
+    constructor(id: number, fieldName: string, operator: string, values: [any]);
+    constructor(id?: number, fieldName?: string, operator?: string, values?: [any]) {
+        this.id = id;
         this.fieldName = fieldName;
-        this.operator = operator;
+        this._operator = operator;
         this.values = values;
     }
 }

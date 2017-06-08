@@ -15,11 +15,20 @@ namespace MVCMovie.Controllers
         public IHttpActionResult Get()
         {
             string[] vals = { "Vancouver" };
-            var rule = new
+            var rule = new[]
             {
-                fieldName = "City",
-                operatori = "equal",
-                values = vals
+                new {
+                    id = 1,
+                    fieldName = "City",
+                    _operator = "equal",
+                    values = vals
+                },
+                new {
+                    id = 2,
+                    fieldName = "City",
+                    _operator = "equal",
+                    values = new [] { "Burnaby", "Richmond" }
+                }
             };
 
             return Ok(rule);

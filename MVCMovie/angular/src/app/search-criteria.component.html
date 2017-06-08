@@ -1,7 +1,7 @@
 ﻿
 <div class="row form-group">
     <div class="col-md-1">
-        <div class="pull-right">{{model.id}}</div>
+        <div class="pull-right">{{index + 1}}</div>
     </div>
 	<div class="col-md-3">
         <ng-select [allowClear]="true"
@@ -16,7 +16,7 @@
 	</div>
     <div class="col-md-3">
         <ng-select [allowClear]="true"
-                   [active]="model.operator ? [{id: model.operator, text: model.operator}] : null"
+                   [active]="model._operator ? [{id: model._operator, text: model._operator}] : null"
                    [items]="operators"
                    (data)="refreshOperator($event)"
                    (selected)="selected($event)"
@@ -37,7 +37,7 @@
         </ng-select>
     </div>
     <div class="col-md-2">
-        <button type="button" class="btn btn-primary btn-sm">
+        <button type="button" class="btn btn-primary btn-sm" (click)="onDeleteClick(index)">
             <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;
             Delete
         </button>

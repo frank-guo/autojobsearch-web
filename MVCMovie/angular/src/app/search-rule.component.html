@@ -12,7 +12,9 @@
 <div class="row">
     <div class="col-md-12">
         <form>
-            <search-criteria *ngFor="let criteria of rule" [model]="criteria">test</search-criteria>
+            <search-criteria *ngFor="let criteria of rule; let i=index" [model]="criteria" [onDeleteClick]="onDelete"
+                             [index]="i">
+            </search-criteria>
         </form>
     </div>
 </div>

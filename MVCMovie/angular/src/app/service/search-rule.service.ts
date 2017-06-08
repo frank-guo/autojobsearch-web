@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class SearchRuleService {
-    private searchCriteriaUrl = 'api/searchrule'
+    private searchCriteriaUrl = '/api/searchrule'
 
     constructor(private http: Http) {
 
@@ -13,8 +13,11 @@ export class SearchRuleService {
 
     getSearchRule(): Promise<SearchCriteria[]> {
         //return Promise.resolve([new SearchCriteria('City', 'equal', [{ id: 'Vancouver', text: 'Vancouver' }])]);
-        return this.http.get(this.searchCriteriaUrl).toPromise().then(response => response.json()
-            .data as SearchCriteria[]).catch(this.handleError);
+        return this.http.get(this.searchCriteriaUrl).toPromise().then(response => {
+            let json = response.json();
+            return json as SearchCriteria[]
+        }
+        ).catch(this.handleError);
     }
 
     private handleError(error: any): Promise<any> {

@@ -7,16 +7,25 @@ import { SearchRuleService } from './service/search-rule.service';
     providers: [SearchRuleService]
 })
 export class SearchRuleComponent {
-    rule: Array<SearchCriteria>;
+    rule: SearchCriteria[];
+    public onDelete: Function;
 
     constructor(private searchRuleService: SearchRuleService) {
     }
 
     ngOnInit() {
-        this.searchRuleService.getSearchRule().then(rule => this.rule = rule);
+        let response = this.searchRuleService.getSearchRule()
+        response.then(rule => {
+            this.rule = rule
+            this.onDelete = this.onDeleteClick.bind(this)
+        });
     }
 
     public onAddClick(): void {
         this.rule.push(new SearchCriteria());
+    }
+
+    public onDeleteClick(index): void {
+        this.rule.splice(index, 1)
     }
 }

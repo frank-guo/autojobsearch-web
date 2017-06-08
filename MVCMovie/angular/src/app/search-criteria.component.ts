@@ -11,6 +11,8 @@ export class SearchCriteriaComponent {
     public cities: Array<string> = ['Vancouver', 'Burnaby', 'Richmond', 'Coquitlam', 'Surrey', 'Port Coquitlam'];
     public provinces: Array<string> = ['BC', 'ON', 'AB'];
     @Input() model: SearchCriteria;
+    @Input() onDeleteClick: Function;
+    @Input() index: number;
     submitted = false;
     onSubmit() { this.submitted = true; }
 
@@ -26,8 +28,8 @@ export class SearchCriteriaComponent {
     }
 
     public refreshOperator(value: any): void {
-        this.model.operator = value ? value.id : null;
-        console.log('this.model.operator=', this.model.operator)
+        this.model._operator = value ? value.id : null;
+        console.log('this.model.operator=', this.model._operator)
     }
 
     public refreshCity(values: [any]): void {

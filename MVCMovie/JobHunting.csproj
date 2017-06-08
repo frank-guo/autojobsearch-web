@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MVCMovie</RootNamespace>
     <AssemblyName>MVCMovie</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>
@@ -236,6 +236,25 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\RouteDebugger\Components\ActionSelectSimulator.cs" />
+    <Compile Include="Areas\RouteDebugger\Components\DictionaryExtensions.cs" />
+    <Compile Include="Areas\RouteDebugger\Components\HttpParameterBindingExtensions.cs" />
+    <Compile Include="Areas\RouteDebugger\Components\TypeHelper.cs" />
+    <Compile Include="Areas\RouteDebugger\Controllers\RouteDebuggerController.cs" />
+    <Compile Include="Areas\RouteDebugger\InspectActionInvoker.cs" />
+    <Compile Include="Areas\RouteDebugger\InspectActionSelector.cs" />
+    <Compile Include="Areas\RouteDebugger\InspectControllerSelector.cs" />
+    <Compile Include="Areas\RouteDebugger\InspectHandler.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\ActionSelectionInfo.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\ActionSelectionLog.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\ControllerSelectionInfo.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\HttpParameterDescriptionInfo.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\InspectData.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\RouteDataInfo.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\RouteInfo.cs" />
+    <Compile Include="Areas\RouteDebugger\RequestHelper.cs" />
+    <Compile Include="Areas\RouteDebugger\RouteDebuggerAreaRegistration.cs" />
+    <Compile Include="Areas\RouteDebugger\RouteDebuggerConfig.cs" />
     <Compile Include="Common\EnumExtensions.cs" />
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\Model\Message.cs" />
@@ -335,10 +354,16 @@
     <Content Include="angular\src\favicon.ico" />
     <Content Include="angular\src\index.html" />
     <Content Include="angular\src\styles.css" />
+    <Content Include="Areas\RouteDebugger\Content\rdstyle.css" />
+    <Content Include="Areas\RouteDebugger\Scripts\detect.js" />
+    <Content Include="Content\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\Material\editor.png" />
     <Content Include="Content\Material\imagebrowser.png" />
     <Content Include="Content\Material\indeterminate.gif" />
@@ -413,6 +438,8 @@
     <Content Include="angular\tsconfig.json" />
     <Content Include="angular\tslint.json" />
     <Content Include="angular\src\app\search-criteria.component.html" />
+    <Content Include="Areas\RouteDebugger\Views\Web.config" />
+    <Content Include="Areas\RouteDebugger\Views\RouteDebugger\Index.cshtml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="js\Condition.css" />
     <Content Include="js\Condition.js" />
