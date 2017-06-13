@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class SearchRuleService {
-    private searchCriteriaUrl = '/api/searchrule'
+    private searchCriteriaUrl = '/api/searchrule/1'
 
     constructor(private http: Http) {
 

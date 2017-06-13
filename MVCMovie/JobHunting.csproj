@@ -278,6 +278,10 @@
     <Compile Include="Migrations\201704030503146_initialCreate.Designer.cs">
       <DependentUpon>201704030503146_initialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706100518341_AddSearchCriteria.cs" />
+    <Compile Include="Migrations\201706100518341_AddSearchCriteria.Designer.cs">
+      <DependentUpon>201706100518341_AddSearchCriteria.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DatabaseInitializer.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -296,6 +300,8 @@
     <Compile Include="Models\RecruitingSite.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SearchCriteria.cs" />
+    <Compile Include="Models\SearchCriteriaValue.cs" />
     <Compile Include="Models\TitleCond.cs" />
     <Compile Include="Models\WebsiteViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -326,6 +332,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Home.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\SearchRule.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SearchRule.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\CompanyPathService.cs" />
     <Compile Include="Services\ConditionService.cs" />
     <Compile Include="Services\EmailSettingService.cs" />
@@ -336,12 +347,14 @@
     <Compile Include="Services\INextPathService.cs" />
     <Compile Include="Services\IOthersPathService.cs" />
     <Compile Include="Services\IPathNodeService.cs" />
+    <Compile Include="Services\ISearchCriteriaService.cs" />
     <Compile Include="Services\Job2PathService.cs" />
     <Compile Include="Services\NextPathService.cs" />
     <Compile Include="Services\OthersPathService.cs" />
     <Compile Include="Services\PathNodeService.cs" />
     <Compile Include="Services\RecruitingSiteService.cs" />
     <Compile Include="Services\IRecruitingSiteService.cs" />
+    <Compile Include="Services\SearchCriteriaService.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -514,6 +527,9 @@
     <EmbeddedResource Include="Migrations\201704030503146_initialCreate.resx">
       <DependentUpon>201704030503146_initialCreate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706100518341_AddSearchCriteria.resx">
+      <DependentUpon>201706100518341_AddSearchCriteria.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Common.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Common.Designer.cs</LastGenOutput>
@@ -534,6 +550,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Home.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SearchRule.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SearchRule.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -549,6 +569,7 @@
     <Content Include="angular\src\app\search-rule.component.html" />
     <TypeScriptCompile Include="angular\src\app\search-rule.component.ts" />
     <TypeScriptCompile Include="angular\src\app\service\search-rule.service.ts" />
+    <TypeScriptCompile Include="angular\src\constant\droptown-options.ts" />
     <TypeScriptCompile Include="angular\src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="angular\src\environments\environment.ts" />
     <TypeScriptCompile Include="angular\src\main.ts" />

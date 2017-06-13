@@ -28,7 +28,7 @@
     <div class="col-md-3">
         <ng-select [multiple]="true"
                    [active]="model.values ? model.values : null"
-                   [items]="cities"
+                   [items]="values"
                    (data)="refreshCity($event)"
                    (selected)="selected($event)"
                    (removed)="removed($event)"

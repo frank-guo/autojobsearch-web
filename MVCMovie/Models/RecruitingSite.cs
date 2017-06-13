@@ -52,6 +52,8 @@ namespace MVCMovie.Models
         [Display(Name = "Other Information")]
         public virtual IList<Others> othersPath { get; set; }
 
+        public virtual IList<SearchCriteria> SearchRule { get; set; }
+
         public virtual Condition condition { get; set; }
 
         public virtual Email email { get; set; }

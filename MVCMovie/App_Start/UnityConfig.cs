@@ -6,6 +6,7 @@ using MVCMovie.Models;
 using MVCMovie.Controllers;
 using MVCMovie.Services;
 using System.Web.Mvc;
+using System.Web.Http;
 
 namespace MVCMovie.App_Start
 {
@@ -48,6 +49,7 @@ namespace MVCMovie.App_Start
             container.RegisterType<IController, HomeController>("Home");
             container.RegisterType<IController, ConditionController>("Conditon");
             container.RegisterType<IController, EmailController>("Email");
+            container.RegisterType<ApiController, SearchRuleController>("SearchRule");
 
             container.RegisterType<IRepository<RecruitingSite>, Repository<RecruitingSite>>();
             container.RegisterType<IRepository<PathNode>, Repository<PathNode>>();
@@ -66,6 +68,8 @@ namespace MVCMovie.App_Start
             container.RegisterType<INextPathService, NextPathService>();
             container.RegisterType<IConditionService, ConditionService>();
             container.RegisterType<IEmailSettingService, EmailSettingService>();
+
+            container.RegisterType<ISearchCriteriaService, SearchCriteriaService>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿import { Component, Input } from '@angular/core';
 import { SearchCriteria } from './search-criteria';
+import { cities, provinces, titles } from '../constant/droptown-options';
 @Component({
     selector: 'search-criteria',
     templateUrl: './search-criteria.component.html',
@@ -8,13 +9,22 @@ import { SearchCriteria } from './search-criteria';
 export class SearchCriteriaComponent {
     public fields: Array<string> = ['Province', 'City', 'Title', 'Time', 'Company Name', 'Responsibilities', 'Experience'];
     public operators: Array<string> = ['equal', 'not equal to', 'starts with', 'contains', 'does not contain', 'less than', 'greater than', 'within'];
-    public cities: Array<string> = ['Vancouver', 'Burnaby', 'Richmond', 'Coquitlam', 'Surrey', 'Port Coquitlam'];
-    public provinces: Array<string> = ['BC', 'ON', 'AB'];
+    private valuesObj = {
+        Province: provinces,
+        City: cities,
+        Title: titles
+    }
+    public values: string[]
+
     @Input() model: SearchCriteria;
     @Input() onDeleteClick: Function;
     @Input() index: number;
     submitted = false;
     onSubmit() { this.submitted = true; }
+
+    ngOnInit() {
+        this.values = this.valuesObj[this.model.fieldName]
+    }
 
     //ngAfterViewInit () {
     //    this.intialField = this.model.fieldName;
@@ -24,6 +34,7 @@ export class SearchCriteriaComponent {
 
     public refreshField(value: any): void {
         this.model.fieldName = value ? value.id : null;
+        this.values = this.model.fieldName ? this.valuesObj[this.model.fieldName] : null;
         console.log('this.model.fieldName', this.model.fieldName)
     }
 
