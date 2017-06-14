@@ -59,6 +59,7 @@ namespace MVCMovie.App_Start
             container.RegisterType<IRepository<NextPosition>, Repository<NextPosition>>();
             container.RegisterType<IRepository<Condition>, Repository<Condition>>();
             container.RegisterType<IRepository<Email>, Repository<Email>>();
+            container.RegisterType<IRepository<SearchCriteria>, Repository<SearchCriteria>>();
 
             container.RegisterType<IRecruitingSiteService, RecruitingSiteService>();
             container.RegisterType<IPathNodeService, PathNodeService>();
