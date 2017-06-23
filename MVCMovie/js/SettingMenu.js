@@ -11,6 +11,10 @@
         return "/Condition/Index/" + this.siteId();
     }, this);
 
+    this.searchRuleUrl = ko.computed(function () {
+        return "/angularapp/search-rule/" + this.siteId();
+    }, this);
+
     this.emailUrl = ko.computed(function () {
         return "/Email/Index/" + this.siteId();
     }, this);

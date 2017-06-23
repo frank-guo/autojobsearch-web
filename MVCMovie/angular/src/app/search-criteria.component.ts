@@ -7,7 +7,7 @@ import { cities, provinces, titles } from '../constant/droptown-options';
     styleUrls: ['./ng2-select.css']
 })
 export class SearchCriteriaComponent {
-    public fields: Array<string> = ['Province', 'City', 'Title', 'Time', 'Company Name', 'Responsibilities', 'Experience'];
+    public fields: Array<string> = ['Location', 'Title', 'Time', 'Company Name', 'Responsibilities', 'Experience'];
     public operators: Array<string> = ['equal', 'not equal to', 'starts with', 'contains', 'does not contain', 'less than', 'greater than', 'within'];
     private valuesObj = {
         Province: provinces,
@@ -44,7 +44,15 @@ export class SearchCriteriaComponent {
     }
 
     public refreshCity(values: [any]): void {
-        this.model.values = values ? values : null;
+        let vals: string[] = []
+        if (values != null) {
+            values.map((value) => {
+                vals.push(value.id)
+            })
+        } else {
+            vals = null
+        }
+        this.model.values = vals;
     }
 
     public selected(value: any): void {

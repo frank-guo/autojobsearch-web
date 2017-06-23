@@ -27,7 +27,7 @@ namespace MVCMovie.Controllers
 
         [Route("{id}")]
         [HttpPost]
-        public IHttpActionResult Save(IList<SearchCriteria> searchRule)
+        public IHttpActionResult Save(IList<SearchCriteriaViewModel> searchRule, int id)
         {
             if (searchRule == null)
             {
@@ -41,7 +41,7 @@ namespace MVCMovie.Controllers
 
             if (ModelState.IsValid)
             {
-                searchCriteriaService.Update(searchRule);
+                searchCriteriaService.Update(searchRule, id);
 
                 var response = new Common.Model.Message()
                 {

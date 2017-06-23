@@ -16,9 +16,7 @@ using MVCMovie.Common;
 using System.Windows.Forms;
 using System.Threading;
 using MVCMovie.Services;
-
-
-
+using MVCMovie.Utils;
 
 namespace MVCMovie.Controllers
 {
@@ -48,10 +46,12 @@ namespace MVCMovie.Controllers
         private bool exitFlag;
         private string emailSubject;
 
+        private IRecruitingSiteService recruitingSiteService;
+
         internal static Dictionary<int, Email> emails = new Dictionary<int, Email>();
         internal static Dictionary<int, System.Windows.Forms.Timer> timers = new Dictionary<int, System.Windows.Forms.Timer>();
 
-        public EmailProcessor(Email eml)
+        public EmailProcessor(Email eml, IRecruitingSiteService recruitingSiteService)
         {
             timer = new System.Windows.Forms.Timer();
             SetTimer(eml, timer);
@@ -60,6 +60,7 @@ namespace MVCMovie.Controllers
             emails.Add(eml.ID, eml);
             siteId = eml.ID;
             site = Getsite(siteId);
+            this.recruitingSiteService = recruitingSiteService;
         }
 
         public void StartTimer()
@@ -275,35 +276,53 @@ namespace MVCMovie.Controllers
                             }
 
                             //node1 is currently the common ancestor of joba and company
-                            bool isContainsTitle = false;
-                            bool isContainsLocation = false;
+                            //bool isContainsTitle = false;
+                            //bool isContainsLocation = false;
 
-                            var conds = from s in db.Conditions
-                                            select s;
-                            conds = conds.Where(s => s.ID == siteId);
-                            Condition cond = conds.FirstOrDefault();
+                            //var conds = from s in db.Conditions
+                            //                select s;
+                            //conds = conds.Where(s => s.ID == siteId);
+                            //Condition cond = conds.FirstOrDefault();
 
-                            //Evaluate title conditions
-                            foreach (var titleCond in cond.titleConds)
+                            //Get search rule
+                            var site = recruitingSiteService.GetByID(siteId);
+                            IList<SearchCriteria> searchRule = site.SearchRule;
+
+                            bool satisfyRule = true;
+                            SearchCriteriaEvaluator evaluator = new SearchCriteriaEvaluator();
+                            foreach (SearchCriteria criteria in searchRule)
                             {
-                                if (getJobTitleNode(node1, levelNoCommonAnstr).InnerText.Contains(titleCond.titleCond))
+                                evaluator.SearchCriteria = criteria;
+                                var result = evaluator.evaluate(site, node1, levelNoCommonAnstr);
+                                if (result == false)
                                 {
-                                    isContainsTitle = true;
-                                    break;
-                                }
+                                    satisfyRule = false;
+                                };
                             }
 
-                            //Evaluate location conditions
-                            foreach (var locationCond in cond.locationConds)
-                            {
-                                if ( getOtherInfo(node1, levelNoCommonAnstr).InnerText.Contains(locationCond.locationCond) ) {
-                                    isContainsLocation = true;
-                                    break;
-                                }
-                            }
+                            ////Evaluate title conditions
+                            //foreach (var titleCond in cond.titleConds)
+                            //{
+                            //    if (getJobTitleNode(node1, levelNoCommonAnstr).InnerText.Contains(titleCond.titleCond))
+                            //    {
+                            //        isContainsTitle = true;
+                            //        break;
+                            //    }
+                            //}
+
+                            ////Evaluate location conditions
+                            //foreach (var locationCond in cond.locationConds)
+                            //{
+                            //    if (getOtherInfo(node1, levelNoCommonAnstr).InnerText.Contains(locationCond.locationCond))
+                            //    {
+                            //        isContainsLocation = true;
+                            //        break;
+                            //    }
+                            //}
 
                             //If this job satisfies the both types of conditions, then concatenate it to the email body
-                            if (isContainsTitle && isContainsLocation)
+                            //if (isContainsTitle && isContainsLocation)
+                            if (satisfyRule)
                             {
                                 body += getJobTitleNode(node1, levelNoCommonAnstr).InnerText + " " + getCompanyNameNode(node1, levelNoCommonAnstr).InnerText
                                     + " " + getOtherInfo(node1, levelNoCommonAnstr).InnerText
@@ -626,10 +645,12 @@ namespace MVCMovie.Controllers
     public class EmailController : Controller
     {
         private IEmailSettingService emailService;
+        private IRecruitingSiteService recruitingSiteService;
 
-        public EmailController(IEmailSettingService emailService)
+        public EmailController(IEmailSettingService emailService, IRecruitingSiteService recruitingSiteService)
         {
             this.emailService = emailService;
+            this.recruitingSiteService = recruitingSiteService;
         }
 
         // GET: Email
@@ -738,7 +759,7 @@ namespace MVCMovie.Controllers
             //If there is already a thread to send email for this site, don't start a new thread
             if (!EmailProcessor.timers.ContainsKey(email.ID)) 
             {
-                EmailProcessor emailProcessor = new EmailProcessor(email);
+                EmailProcessor emailProcessor = new EmailProcessor(email, recruitingSiteService);
 
                 // Create the thread object, passing in the EmailProcessor.sendAllJobs method
                 // via a ThreadStart delegate. This does not start the thread.

@@ -10,7 +10,7 @@ namespace MVCMovie.Services
     public interface ISearchCriteriaService
     {
         IList<SearchCriteriaViewModel> Get(int siteId);
-        void Update(IList<SearchCriteria> searchRule);
+        void Update(IList<SearchCriteriaViewModel> searchRule, int id);
         void Delete(int id);
         void Delete(IList<SearchCriteria> searchRule);
     }

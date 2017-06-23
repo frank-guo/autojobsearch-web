@@ -1,8 +1,9 @@
 ﻿
 <div class="row form-group">
+    <!--
     <div class="col-md-1">
-        <div class="pull-right">{{index + 1}}</div>
-    </div>
+        <div class="pull-right"><b style="font-size: 150%">{{index + 1}}.</b></div>
+    </div>-->
 	<div class="col-md-3">
         <ng-select [allowClear]="true"
                    [active]="model.fieldName ? [{id: model.fieldName, text: model.fieldName}] : null"
@@ -11,7 +12,7 @@
                    (selected)="selected($event)"
                    (removed)="removed($event)"
                    (typed)="typed($event)"
-                   placeholder="No field name selected">
+                   placeholder="No field name selected" required>
         </ng-select>
 	</div>
     <div class="col-md-3">
@@ -22,10 +23,17 @@
                    (selected)="selected($event)"
                    (removed)="removed($event)"
                    (typed)="typed($event)"
-                   placeholder="No operator selected">
+                   placeholder="No operator selected" required
+                   name="_operator" id="_operator"
+                   class="form-control"
+                   #name="ngModel">
         </ng-select>
+        <div [hidden]="_operator.valid || _operator.pristine"
+             class="alert alert-danger">
+            Name is required
+        </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-5">
         <ng-select [multiple]="true"
                    [active]="model.values ? model.values : null"
                    [items]="values"
@@ -33,10 +41,10 @@
                    (selected)="selected($event)"
                    (removed)="removed($event)"
                    (typed)="typed($event)"
-                   placeholder="No city selected">
+                   placeholder="No city selected" required>
         </ng-select>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-1">
         <button type="button" class="btn btn-primary btn-sm" (click)="onDeleteClick(index)">
             <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;
             Delete

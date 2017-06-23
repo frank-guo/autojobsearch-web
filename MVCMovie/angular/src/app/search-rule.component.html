@@ -1,25 +1,20 @@
 ﻿<br/><br/>
-<div class="row">
-    <div class="col-md-12">
-        <h4 style="display: inline">Search Rule:&nbsp;&nbsp;&nbsp;</h4>
-        <button type="button" class="btn btn-primary btn-sm" (click)="onAddClick()">
-            <i class="fa fa-plus" aria-hidden="true">&nbsp;</i>
-            Add Criteria
-        </button>
-        &nbsp;
-        <button type="button" class="btn btn-primary btn-sm" (click)="onAddClick()" [disabled]="rule ? rule.length === 0 : true">
-            <i class="fa fa-floppy-o" aria-hidden="true">&nbsp;</i>
-            Save
-        </button>
+<form (ngSubmit)="onSaveClick()">
+    <div class="row form-group">
+        <div class="col-md-12">
+            <h4 style="display: inline">Search Rule:&nbsp;&nbsp;&nbsp;</h4>
+            <button type="button" class="btn btn-primary btn-sm" (click)="onAddClick()">
+                <i class="fa fa-plus" aria-hidden="true">&nbsp;</i>
+                Add Criteria
+            </button>
+            &nbsp;
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="fa fa-floppy-o" aria-hidden="true">&nbsp;</i>
+                Save
+            </button>
+        </div>
     </div>
-</div>
-<br/>
-<div class="row">
-    <div class="col-md-12">
-        <form>
-            <search-criteria *ngFor="let criteria of rule; let i=index" [model]="criteria" [onDeleteClick]="onDelete"
-                             [index]="i">
-            </search-criteria>
-        </form>
-    </div>
-</div>
+    <search-criteria *ngFor="let criteria of rule; let i=index" [model]="criteria" [onDeleteClick]="onDelete"
+                        [index]="i">
+    </search-criteria>
+</form>

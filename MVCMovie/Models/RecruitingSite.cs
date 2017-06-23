@@ -10,6 +10,8 @@ using System.Data.Entity;
 using System.ComponentModel;
 using Microsoft.AspNet.Identity.EntityFramework;
 
+using System.Windows.Forms;
+
 namespace MVCMovie.Models
 {
     public class RecruitingSite
@@ -57,6 +59,116 @@ namespace MVCMovie.Models
         public virtual Condition condition { get; set; }
 
         public virtual Email email { get; set; }
+
+        //Given the common ancestor of job1, company and others, Get the Node of this job title
+        public HtmlElement getJobTitleNode(HtmlElement commonAncestor, int levelNoCommonAnstr)
+        {
+            List<PathNode> jobPath = getJobPath();
+
+            if (jobPath.Count == 0)
+            {
+                return null;
+            }
+
+            int idxCommonAnstr = (jobPath.Count - 1) - levelNoCommonAnstr;  //To get the index of common anstr, (jobPath.Count -1) has to be used here
+                                                                            //since levelNoCommonAnstr actually starts from 0, like an index
+
+            var node = commonAncestor;
+            HtmlElementCollection children;
+
+            for (int i = idxCommonAnstr - 1; i >= 0; i--)
+            {
+                children = node.Children;
+                node = children[jobPath[i].position];
+            }
+
+            return node;
+        }
+
+        private List<PathNode> getJobPath()
+        {
+            List<PathNode> JobPath = new List<PathNode>();
+
+            foreach (PathNode p in JobPath)
+            {
+                JobPath.Add(p);
+            }
+
+            return JobPath;
+        }
+
+        //Given the common ancestor of job1, company and others, Get the other info of this job
+        public HtmlElement getOtherInfo(HtmlElement commonAncestor, int levelNoCommonAnstr)
+        {
+            List<Others> othersPath = getOthers();
+
+            if (othersPath.Count == 0)
+            {
+                return null;
+            }
+
+            int idxCommonAnstr = (othersPath.Count - 1) - levelNoCommonAnstr;   //To get the index of common anstr, (othersPath.Count -1) has to be used here
+                                                                                //since levelNoCommonAnstr actually starts from 0, like an index
+
+            var node = commonAncestor;
+            HtmlElementCollection children;
+
+            for (int i = idxCommonAnstr - 1; i >= 0; i--)
+            {
+                children = node.Children;
+                node = children[othersPath[i].position];
+            }
+
+            return node;
+        }
+
+        private List<Others> getOthers()
+        {
+            List<Others> othersPath = new List<Others>();
+            foreach (Others p in othersPath)
+            {
+                othersPath.Add(p);
+            }
+
+            return othersPath;
+        }
+
+        //Given the common ancestor of job1, company and others, Get the Node of this job company
+        public HtmlElement getCompanyNameNode(HtmlElement commonAncestor, int levelNoCommonAnstr)
+        {
+            List<Company> companyPath = getCompanyPath();
+
+            if (companyPath.Count == 0)
+            {
+                return null;
+            }
+
+            int idxCommonAnstr = (companyPath.Count - 1) - levelNoCommonAnstr;  //To get the index of common anstr, (companyPath.Count -1) has to be used here
+                                                                                //since levelNoCommonAnstr actually starts from 0, like an index
+
+            var node = commonAncestor;
+            HtmlElementCollection children;
+
+            for (int i = idxCommonAnstr - 1; i >= 0; i--)
+            {
+                children = node.Children;
+                node = children[companyPath[i].position];
+            }
+
+            return node;
+        }
+
+        private List<Company> getCompanyPath()
+        {
+            List<Company> companyPath = new List<Company>();
+
+            foreach (Company p in companyPath)
+            {
+                companyPath.Add(p);
+            }
+
+            return companyPath;
+        }
     }
 
     public class RecruitingSiteDBContext : IdentityDbContext

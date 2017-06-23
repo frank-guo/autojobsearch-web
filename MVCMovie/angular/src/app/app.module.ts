@@ -25,7 +25,7 @@ import { SearchRuleComponent } from './search-rule.component';
     SelectModule,
     RouterModule.forRoot([
         {
-            path: 'angularapp/search-rule',
+            path: 'angularapp/search-rule/:id',
             component: SearchRuleComponent
         },
         {

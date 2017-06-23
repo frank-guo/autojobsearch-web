@@ -49,19 +49,30 @@ namespace MVCMovie.Services
             return rule;
         }
 
-        public void Update(IList<SearchCriteria> searchRule)
+        public void Update(IList<SearchCriteriaViewModel> searchRule, int id)
         {
-            if (searchRule == null || searchRule.Count <= 0)
+            if (searchRule == null)
             {
                 return;
             }
 
-            RecruitingSite site = recruitingSiteRepository.GetByID(searchRule.First<SearchCriteria>().RecruitingSiteId);
+            RecruitingSite site = recruitingSiteRepository.GetByID(id);
             IList<SearchCriteria> searchCriterias = site.SearchRule;
             Delete(searchCriterias);
 
-            foreach (SearchCriteria criteria in searchRule)
+            foreach (SearchCriteriaViewModel criteriaVM in searchRule)
             {
+                var criteria = new SearchCriteria();
+                criteria.FieldName = criteriaVM.fieldName != null ? criteriaVM.fieldName : null;
+                criteria.CriteriaOperator = criteriaVM._operator != null ? criteriaVM._operator : null;
+
+                IList<SearchCriteriaValue> values = new List<SearchCriteriaValue>();
+                foreach(string val in criteriaVM.values) {
+                    var value = new SearchCriteriaValue();
+                    value.value = val;
+                    values.Add(value);
+                }
+                criteria.Values = values;
                 searchCriterias.Add(criteria);
             }
             recruitingSiteRepository.Update(site);

@@ -363,6 +363,8 @@
     <Compile Include="Services\SearchCriteriaService.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\SearchCriteriaEvaluator.cs" />
+    <Compile Include="Utils\SearchCriteriaOperator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="angular\.gitignore" />
@@ -370,6 +372,8 @@
     <Content Include="angular\protractor.conf.js" />
     <Content Include="angular\src\app\app.component.css" />
     <Content Include="angular\src\app\app.component.html" />
+    <Content Include="angular\src\app\home.component.html" />
+    <Content Include="angular\src\app\ng2-select.css" />
     <Content Include="angular\src\favicon.ico" />
     <Content Include="angular\src\index.html" />
     <Content Include="angular\src\styles.css" />
@@ -570,6 +574,7 @@
     <TypeScriptCompile Include="angular\src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="angular\src\app\app.component.ts" />
     <TypeScriptCompile Include="angular\src\app\app.module.ts" />
+    <TypeScriptCompile Include="angular\src\app\home.component.ts" />
     <TypeScriptCompile Include="angular\src\app\search-criteria.component.ts" />
     <TypeScriptCompile Include="angular\src\app\search-criteria.ts" />
     <Content Include="angular\src\app\search-rule.component.html" />
