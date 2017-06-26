@@ -1,4 +1,4 @@
-﻿import { Component, OnInit  } from '@angular/core';
+﻿import { Component, OnInit, ChangeDetectorRef   } from '@angular/core';
 import { SearchCriteria } from './search-criteria';
 import { SearchRuleService } from './service/search-rule.service';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -13,10 +13,12 @@ export class SearchRuleComponent implements OnInit{
     rule: SearchCriteria[];
     public onDelete: Function;
     private siteId: number;
+    private provinces: string[];
 
     constructor(private searchRuleService: SearchRuleService,
                 private route: ActivatedRoute,
-                private location: Location) {
+                private location: Location,
+                private cdRef: ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -33,6 +35,18 @@ export class SearchRuleComponent implements OnInit{
         //    this.rule = rule
         //    this.onDelete = this.onDeleteClick.bind(this)
         //});
+    }
+
+    ngAfterViewChecked() {
+        //Set province if there is province criteria
+        if (this.rule != null) {
+            this.rule.map((criteira) => {
+                if (criteira.fieldName === 'Province') {
+                    this.provinces = criteira.values
+                    this.cdRef.detectChanges();
+                }
+            })
+        }
     }
 
     public onAddClick(): void {

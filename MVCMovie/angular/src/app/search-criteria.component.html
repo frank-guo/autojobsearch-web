@@ -11,7 +11,6 @@
                    (data)="refreshField($event)"
                    (selected)="selected($event)"
                    (removed)="removed($event)"
-                   (typed)="typed($event)"
                    placeholder="No field name selected" required>
         </ng-select>
 	</div>
@@ -22,16 +21,9 @@
                    (data)="refreshOperator($event)"
                    (selected)="selected($event)"
                    (removed)="removed($event)"
-                   (typed)="typed($event)"
                    placeholder="No operator selected" required
-                   name="_operator" id="_operator"
-                   class="form-control"
-                   #name="ngModel">
+                   >
         </ng-select>
-        <div [hidden]="_operator.valid || _operator.pristine"
-             class="alert alert-danger">
-            Name is required
-        </div>
     </div>
     <div class="col-md-5">
         <ng-select [multiple]="true"
@@ -40,7 +32,7 @@
                    (data)="refreshCity($event)"
                    (selected)="selected($event)"
                    (removed)="removed($event)"
-                   (typed)="typed($event)"
+                   (typed)="valuesTyped($event)"
                    placeholder="No city selected" required>
         </ng-select>
     </div>

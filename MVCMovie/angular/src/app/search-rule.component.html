@@ -15,6 +15,6 @@
         </div>
     </div>
     <search-criteria *ngFor="let criteria of rule; let i=index" [model]="criteria" [onDeleteClick]="onDelete"
-                        [index]="i">
+                        [index]="i" [provinces]="provinces">
     </search-criteria>
 </form>
