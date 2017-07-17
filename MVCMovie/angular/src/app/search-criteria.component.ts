@@ -1,6 +1,6 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Component, Input, SimpleChanges  } from '@angular/core';
 import { SearchCriteria } from './search-criteria';
-import { cities, provinces, titles } from '../constant/droptown-options';
+import { cities, provinces, titles, allCities } from '../constant/droptown-options';
 @Component({
     selector: 'search-criteria',
     templateUrl: './search-criteria.component.html',
@@ -25,15 +25,31 @@ export class SearchCriteriaComponent {
 
     ngOnInit() {
         if (this.model.fieldName === 'City') {
-            if (this.provinces != null) {
+            if (this.provinces != null && this.provinces.length > 0) {
                 this.values = []
                 this.provinces.map((province) => {
                     let _cities = this.valuesObj.City[province]
                     this.values = this.values.concat(_cities)
                 })
+            } else {
+                this.values = allCities()
             }
         } else {
             this.values = this.valuesObj[this.model.fieldName]
+        }
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['provinces'] != null && this.model.fieldName === 'City') {
+            if (this.provinces != null && this.provinces.length > 0) {
+                this.values = []
+                this.provinces.map((province) => {
+                    let _cities = this.valuesObj.City[province]
+                    this.values = this.values.concat(_cities)
+                })
+            } else {
+                this.values = allCities()
+            }
         }
     }
 
@@ -46,12 +62,14 @@ export class SearchCriteriaComponent {
     public refreshField(value: any): void {
         this.model.fieldName = value ? value.id : null;
         if (this.model.fieldName === 'City') {
-            if (this.provinces != null) {
+            if (this.provinces != null && this.provinces.length > 0) {
                 this.values = []
                 this.provinces.map((province) => {
                     let _cities = this.valuesObj.City[province]
                     this.values = this.values.concat(_cities)
                 })
+            } else {
+                this.values = allCities()
             }
         } else {
             this.values = this.model.fieldName ? this.valuesObj[this.model.fieldName] : null;
