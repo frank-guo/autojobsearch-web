@@ -61,6 +61,9 @@ export class SearchRuleComponent implements OnInit{
     }
 
     public onDeleteClick(index): void {
+        if (this.rule[index].fieldName === 'Province') {
+            this.provinces = null
+        }
         this.rule.splice(index, 1)
     }
 }
