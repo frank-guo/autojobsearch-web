@@ -1,5 +1,5 @@
 ﻿<br/><br/>
-<form (ngSubmit)="onSaveClick()">
+<form #ruleForm="ngForm" (ngSubmit)="onSaveClick(ruleForm.form)" validate>
     <div class="row form-group">
         <div class="col-md-12">
             <h4 style="display: inline">Search Rule:&nbsp;&nbsp;&nbsp;</h4>
@@ -14,7 +14,21 @@
             </button>
         </div>
     </div>
+    <!--
     <search-criteria *ngFor="let criteria of rule; let i=index" [model]="criteria" [onDeleteClick]="onDelete"
                         [index]="i" [provinces]="provinces">
-    </search-criteria>
+    </search-criteria>-->
+    <!--<search-criteria [model]="rule != null ? rule[0] : null" [onDeleteClick]="onDelete"
+                     [index]="0" [provinces]="provinces" formErrors="formErrors">
+    </search-criteria>-->
+
+    <div class="row form-group">
+        <div class="col-md-3">
+            <input type="text" [(ngModel)]="fieldName" required minlength="10"
+                   class="form-control" name='fieldName' id='fieldName' />
+            <div *ngIf="formErrors.fieldName" class="alert alert-danger">
+                {{ formErrors.fieldName }}
+            </div>
+        </div>
+    </div>
 </form>

@@ -1,9 +1,11 @@
-﻿import { Component, OnInit, ChangeDetectorRef   } from '@angular/core';
+﻿import { Component, OnInit, ChangeDetectorRef, AfterViewChecked, ViewChild } from '@angular/core';
 import { SearchCriteria } from './search-criteria';
 import { SearchRuleService } from './service/search-rule.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
+import { NgForm, FormArray } from '@angular/forms'
+
 @Component({
     selector: 'search-rule',
     templateUrl: './search-rule.component.html',
@@ -14,6 +16,10 @@ export class SearchRuleComponent implements OnInit{
     public onDelete: Function;
     private siteId: number;
     private provinces: string[];
+
+    private fieldName: string;
+    ruleForm: NgForm;
+    @ViewChild('ruleForm') currentForm: NgForm;
 
     constructor(private searchRuleService: SearchRuleService,
                 private route: ActivatedRoute,
@@ -30,14 +36,11 @@ export class SearchRuleComponent implements OnInit{
         })
         this.onDelete = this.onDeleteClick.bind(this)
 
-        //let response = this.searchRuleService.getSearchRule()
-        //response.then(rule => {
-        //    this.rule = rule
-        //    this.onDelete = this.onDeleteClick.bind(this)
-        //});
+        this.fieldName = "test"
     }
 
     ngAfterViewChecked() {
+        this.formChanged();
         //Set province if there is province criteria
         if (this.rule != null) {
             this.rule.map((criteira) => {
@@ -49,13 +52,50 @@ export class SearchRuleComponent implements OnInit{
         }
     }
 
+    formChanged() {
+        if (this.currentForm === this.ruleForm) { return; }
+        this.ruleForm = this.currentForm;
+        if (this.ruleForm) {
+            this.ruleForm.valueChanges
+                .subscribe(data => this.onValueChanged(data));
+        }
+    }
+
+    onValueChanged(data?: any) {
+        if (!this.ruleForm) { return; }
+        const form = this.ruleForm.form;
+
+        for (const field in this.formErrors) {
+            // clear previous error message (if any)
+            this.formErrors[field] = '';
+            const control = form.get(field);
+
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                for (const key in control.errors) {
+                    this.formErrors[field] += messages[key] + ' ';
+                }
+            }
+        }
+    }
+
+    formErrors = {
+        'fieldName': ''
+    };
+
+    validationMessages = {
+        'fieldName': {
+            'required': 'Name is required.',
+            'minlength': 'Name must be at least 10 characters long.'
+        }
+    };
+
     public onAddClick(): void {
         this.rule.push(new SearchCriteria());
     }
 
-    public onSaveClick(): void {
-
-
+    public onSaveClick(rule: FormArray): void {
+        console.log(rule, this.currentForm)
         this.searchRuleService.saveSearchRule(this.rule, this.siteId)
         //this.searchRuleService.saveSearchRule(this.rule)
     }

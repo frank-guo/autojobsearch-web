@@ -1,4 +1,4 @@
-﻿import { Component, Input, SimpleChanges  } from '@angular/core';
+﻿import { Component, Input, SimpleChanges } from '@angular/core';
 import { SearchCriteria } from './search-criteria';
 import { cities, provinces, titles, allCities } from '../constant/droptown-options';
 @Component({
@@ -14,42 +14,85 @@ export class SearchCriteriaComponent {
         City: cities,
         Title: titles
     }
-    public values: string[]
+    public valuesOptions: string[]
+    active: Array<string> = [this.fields[3]]
 
     @Input() model: SearchCriteria;
     @Input() onDeleteClick: Function;
     @Input() index: number;
     @Input() provinces: string[]
+    @Input() formErrors: {}
+
     submitted = false;
     onSubmit() { this.submitted = true; }
+    private fieldName: any;
 
     ngOnInit() {
+        if (this.model == null) {
+            return
+        }
+        this.fieldName = this.model.fieldName != null ? [{ id:this.model.fieldName, text: this.model.fieldName }] : null
         if (this.model.fieldName === 'City') {
             if (this.provinces != null && this.provinces.length > 0) {
-                this.values = []
+                this.valuesOptions = []
                 this.provinces.map((province) => {
                     let _cities = this.valuesObj.City[province]
-                    this.values = this.values.concat(_cities)
+                    this.valuesOptions = this.valuesOptions.concat(_cities)
                 })
             } else {
-                this.values = allCities()
+                this.valuesOptions = allCities()
             }
         } else {
-            this.values = this.valuesObj[this.model.fieldName]
+            this.valuesOptions = this.valuesObj[this.model.fieldName]
         }
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        if (this.model == null) {
+            return
+        }
         if (changes['provinces'] != null && this.model.fieldName === 'City') {
             if (this.provinces != null && this.provinces.length > 0) {
-                this.values = []
+                this.valuesOptions = []
                 this.provinces.map((province) => {
                     let _cities = this.valuesObj.City[province]
-                    this.values = this.values.concat(_cities)
+                    this.valuesOptions = this.valuesOptions.concat(_cities)
                 })
             } else {
-                this.values = allCities()
+                this.valuesOptions = allCities()
             }
+        }
+        if (changes['model'] != null) {
+            this.fieldName = this.model.fieldName
+        }
+    }
+
+    ngModelOnChange(value: any) {
+        this.model.fieldName = value
+    }
+
+    public setValues(filedNameValues: any): void {
+        if (!filedNameValues || filedNameValues && filedNameValues.length === 0) {
+            this.model.values = []
+            return
+        }
+        if (filedNameValues && filedNameValues[0].id === this.model.fieldName) {
+            return
+        }
+        this.model.values = []
+        this.model.fieldName = filedNameValues ? filedNameValues[0].id : null;
+        if (this.model.fieldName === 'City') {
+            if (this.provinces != null && this.provinces.length > 0) {
+                this.valuesOptions = []
+                this.provinces.map((province) => {
+                    let _cities = this.valuesObj.City[province]
+                    this.valuesOptions = this.valuesOptions.concat(_cities)
+                })
+            } else {
+                this.valuesOptions = allCities()
+            }
+        } else {
+            this.valuesOptions = this.model.fieldName ? this.valuesObj[this.model.fieldName] : null;
         }
     }
 
@@ -63,18 +106,17 @@ export class SearchCriteriaComponent {
         this.model.fieldName = value ? value.id : null;
         if (this.model.fieldName === 'City') {
             if (this.provinces != null && this.provinces.length > 0) {
-                this.values = []
+                this.valuesOptions = []
                 this.provinces.map((province) => {
                     let _cities = this.valuesObj.City[province]
-                    this.values = this.values.concat(_cities)
+                    this.valuesOptions = this.valuesOptions.concat(_cities)
                 })
             } else {
-                this.values = allCities()
+                this.valuesOptions = allCities()
             }
         } else {
-            this.values = this.model.fieldName ? this.valuesObj[this.model.fieldName] : null;
+            this.valuesOptions = this.model.fieldName ? this.valuesObj[this.model.fieldName] : null;
         }
-        console.log('this.model.fieldName', this.model.fieldName)
     }
 
     public refreshOperator(value: any): void {

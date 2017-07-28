@@ -575,6 +575,7 @@
     <TypeScriptCompile Include="angular\src\app\app.component.ts" />
     <TypeScriptCompile Include="angular\src\app\app.module.ts" />
     <TypeScriptCompile Include="angular\src\app\home.component.ts" />
+    <TypeScriptCompile Include="angular\src\app\ngmodel-select.ts" />
     <TypeScriptCompile Include="angular\src\app\search-criteria.component.ts" />
     <TypeScriptCompile Include="angular\src\app\search-criteria.ts" />
     <Content Include="angular\src\app\search-rule.component.html" />

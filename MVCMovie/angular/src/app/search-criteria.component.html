@@ -4,14 +4,12 @@
     <div class="col-md-1">
         <div class="pull-right"><b style="font-size: 150%">{{index + 1}}.</b></div>
     </div>-->
+    <!--
 	<div class="col-md-3">
         <ng-select [allowClear]="true"
-                   [active]="model.fieldName ? [{id: model.fieldName, text: model.fieldName}] : null"
-                   [items]="fields"
-                   (data)="refreshField($event)"
-                   (selected)="selected($event)"
-                   (removed)="removed($event)"
-                   placeholder="No field name selected" required>
+                   [(ngModel)]="fieldName"
+                   [items]="fields" minlength="10"
+                   placeholder="No field name selected" required name="{{'selectFieldName' + index}}" id="selectFieldName">
         </ng-select>
 	</div>
     <div class="col-md-3">
@@ -21,25 +19,35 @@
                    (data)="refreshOperator($event)"
                    (selected)="selected($event)"
                    (removed)="removed($event)"
-                   placeholder="No operator selected" required
+                   placeholder="No operator selected" required name='_operator'
                    >
         </ng-select>
     </div>
     <div class="col-md-5">
         <ng-select [multiple]="true"
                    [active]="model.values ? model.values : null"
-                   [items]="values"
+                   [items]="valuesOptions"
                    (data)="refreshCity($event)"
                    (selected)="selected($event)"
                    (removed)="removed($event)"
                    (typed)="valuesTyped($event)"
-                   placeholder="No city selected" required>
+                   placeholder="No city selected" required name="values">
         </ng-select>
     </div>
+        -->
     <div class="col-md-1">
         <button type="button" class="btn btn-primary btn-sm" (click)="onDeleteClick(index)">
             <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;
             Delete
         </button>
     </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-3">
+        <input type="text" [(ngModel)]="fieldName" (ngModelChange)="ngModelOnChange($event)" required minlength="10"
+               class="form-control" name='fieldName' id='fieldName'/>
+        <div *ngIf="formErrors.fieldName" class="alert alert-danger">
+            {{ formErrors.name }}
+        </div>
+     </div>
 </div>

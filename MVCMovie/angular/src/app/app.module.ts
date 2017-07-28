@@ -10,13 +10,15 @@ import { HomeComponent } from './home.component';
 import { SelectModule } from 'ng2-select';
 import { SearchCriteriaComponent } from './search-criteria.component';
 import { SearchRuleComponent } from './search-rule.component';
+import { NgModalSelect } from './ngmodel-select';
 
 @NgModule({
   declarations: [
       AppComponent,
       SearchCriteriaComponent,
       HomeComponent,
-      SearchRuleComponent
+      SearchRuleComponent,
+      NgModalSelect
   ],
   imports: [
     BrowserModule,
