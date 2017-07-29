@@ -42,12 +42,12 @@
         </button>
     </div>
 </div>
-<div class="row form-group">
+<div class="row form-group" *ngIf="model">
     <div class="col-md-3">
-        <input type="text" [(ngModel)]="fieldName" (ngModelChange)="ngModelOnChange($event)" required minlength="10"
+        <input type="text" [(ngModel)]="model.fieldName" required minlength="10"
                class="form-control" name='fieldName' id='fieldName'/>
         <div *ngIf="formErrors.fieldName" class="alert alert-danger">
-            {{ formErrors.name }}
+            {{ formErrors.fieldName }}
         </div>
      </div>
 </div>

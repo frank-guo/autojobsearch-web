@@ -17,7 +17,6 @@ export class SearchRuleComponent implements OnInit{
     private siteId: number;
     private provinces: string[];
 
-    private fieldName: string;
     ruleForm: NgForm;
     @ViewChild('ruleForm') currentForm: NgForm;
 
@@ -35,8 +34,6 @@ export class SearchRuleComponent implements OnInit{
             this.siteId = +params['id']
         })
         this.onDelete = this.onDeleteClick.bind(this)
-
-        this.fieldName = "test"
     }
 
     ngAfterViewChecked() {
@@ -59,6 +56,7 @@ export class SearchRuleComponent implements OnInit{
             this.ruleForm.valueChanges
                 .subscribe(data => this.onValueChanged(data));
         }
+        this.cdRef.detectChanges();
     }
 
     onValueChanged(data?: any) {
@@ -80,11 +78,11 @@ export class SearchRuleComponent implements OnInit{
     }
 
     formErrors = {
-        'fieldName': ''
+        'rule0': ''
     };
 
     validationMessages = {
-        'fieldName': {
+        'rule0': {
             'required': 'Name is required.',
             'minlength': 'Name must be at least 10 characters long.'
         }

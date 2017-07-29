@@ -1,12 +1,29 @@
-﻿import { Component, Input, SimpleChanges } from '@angular/core';
+﻿import { Component, Input, SimpleChanges, forwardRef } from '@angular/core';
 import { SearchCriteria } from './search-criteria';
 import { cities, provinces, titles, allCities } from '../constant/droptown-options';
+import {NG_VALUE_ACCESSOR, ControlValueAccessor, NG_VALIDATORS, FormControl, Validator } from '@angular/forms';
+
+const noop = () => {
+};
+
+export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => SearchCriteriaComponent),
+    multi: true
+}
+
 @Component({
     selector: 'search-criteria',
     templateUrl: './search-criteria.component.html',
-    styleUrls: ['./ng2-select.css']
+    styleUrls: ['./ng2-select.css'],
+    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR,
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => SearchCriteriaComponent),
+            multi: true,
+        } ]
 })
-export class SearchCriteriaComponent {
+export class SearchCriteriaComponent implements ControlValueAccessor, Validator{
     public fields: Array<string> = ['Province', 'City', 'Title', 'Time', 'Company Name', 'Responsibilities', 'Experience'];
     public operators: Array<string> = ['equal to', 'not equal to', 'starts with', 'contains', 'does not contain', 'less than', 'greater than', 'within'];
     private valuesObj = {
@@ -17,7 +34,7 @@ export class SearchCriteriaComponent {
     public valuesOptions: string[]
     active: Array<string> = [this.fields[3]]
 
-    @Input() model: SearchCriteria;
+    private model: SearchCriteria;
     @Input() onDeleteClick: Function;
     @Input() index: number;
     @Input() provinces: string[]
@@ -25,13 +42,12 @@ export class SearchCriteriaComponent {
 
     submitted = false;
     onSubmit() { this.submitted = true; }
-    private fieldName: any;
 
     ngOnInit() {
         if (this.model == null) {
             return
         }
-        this.fieldName = this.model.fieldName != null ? [{ id:this.model.fieldName, text: this.model.fieldName }] : null
+
         if (this.model.fieldName === 'City') {
             if (this.provinces != null && this.provinces.length > 0) {
                 this.valuesOptions = []
@@ -62,13 +78,46 @@ export class SearchCriteriaComponent {
                 this.valuesOptions = allCities()
             }
         }
-        if (changes['model'] != null) {
-            this.fieldName = this.model.fieldName
+    }
+
+    //Placeholders for the callbacks which are later provided
+    //by the Control Value Accessor
+    private onTouchedCallback: () => void = noop;
+    private onChangeCallback: (_: any) => void = noop;
+
+    //get accessor
+    get value(): any {
+        return this.model;
+    };
+
+    //set accessor including call the onchange callback
+    set value(v: any) {
+        if (v !== this.model) {
+            this.model = v;
+            this.onChangeCallback(v);
         }
     }
 
-    ngModelOnChange(value: any) {
-        this.model.fieldName = value
+    //Set touched on blur
+    onBlur() {
+        this.onTouchedCallback();
+    }
+
+    //From ControlValueAccessor interface
+    writeValue(value: any) {
+        if (value !== this.model) {
+            this.model = value;
+        }
+    }
+
+    //From ControlValueAccessor interface
+    registerOnChange(fn: any) {
+        this.onChangeCallback = fn;
+    }
+
+    //From ControlValueAccessor interface
+    registerOnTouched(fn: any) {
+        this.onTouchedCallback = fn;
     }
 
     public setValues(filedNameValues: any): void {
@@ -151,5 +200,14 @@ export class SearchCriteriaComponent {
         }
 
         this.model.values = vals;
+    }
+
+    public validate(c: FormControl) {
+        let ret =  c.value && c.value.fieldName !== '' ? null : {
+            fieldName: {
+                valid: true,
+            },
+        };
+        return null;
     }
 }
