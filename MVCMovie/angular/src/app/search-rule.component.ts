@@ -17,7 +17,7 @@ export class SearchRuleComponent implements OnInit{
     private siteId: number;
     private provinces: string[];
 
-    ruleForm: NgForm;
+    formValue: SearchCriteria;
     @ViewChild('ruleForm') currentForm: NgForm;
 
     constructor(private searchRuleService: SearchRuleService,
@@ -50,25 +50,30 @@ export class SearchRuleComponent implements OnInit{
     }
 
     formChanged() {
-        if (this.currentForm === this.ruleForm) { return; }
-        this.ruleForm = this.currentForm;
-        if (this.ruleForm) {
-            this.ruleForm.valueChanges
+        if (this.currentForm == null || this.currentForm.value === this.formValue) { return; }
+        let value = Object.assign({}, this.currentForm.value)
+        let rule0 = Object.assign({}, value.rule0)
+        value.rule0 = rule0
+        if (this.currentForm.form.get('rule0')) {
+            this.currentForm.setValue(value)
+        }
+        if (this.currentForm) {
+            this.currentForm.valueChanges
                 .subscribe(data => this.onValueChanged(data));
         }
         this.cdRef.detectChanges();
     }
 
     onValueChanged(data?: any) {
-        if (!this.ruleForm) { return; }
-        const form = this.ruleForm.form;
+        if (!this.currentForm) { return; }
+        const form = this.currentForm.form;
 
         for (const field in this.formErrors) {
             // clear previous error message (if any)
             this.formErrors[field] = '';
             const control = form.get(field);
 
-            if (control && control.dirty && !control.valid) {
+            if (control && !control.valid) {
                 const messages = this.validationMessages[field];
                 for (const key in control.errors) {
                     this.formErrors[field] += messages[key] + ' ';

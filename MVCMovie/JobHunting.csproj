@@ -581,6 +581,7 @@
     <Content Include="angular\src\app\search-rule.component.html" />
     <TypeScriptCompile Include="angular\src\app\search-rule.component.ts" />
     <TypeScriptCompile Include="angular\src\app\service\search-rule.service.ts" />
+    <TypeScriptCompile Include="angular\src\app\validator\SearchCriteriaValidator.ts" />
     <TypeScriptCompile Include="angular\src\constant\droptown-options.ts" />
     <TypeScriptCompile Include="angular\src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="angular\src\environments\environment.ts" />

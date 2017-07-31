@@ -16,14 +16,9 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
     selector: 'search-criteria',
     templateUrl: './search-criteria.component.html',
     styleUrls: ['./ng2-select.css'],
-    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR,
-        {
-            provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => SearchCriteriaComponent),
-            multi: true,
-        } ]
+    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
-export class SearchCriteriaComponent implements ControlValueAccessor, Validator{
+export class SearchCriteriaComponent implements ControlValueAccessor{
     public fields: Array<string> = ['Province', 'City', 'Title', 'Time', 'Company Name', 'Responsibilities', 'Experience'];
     public operators: Array<string> = ['equal to', 'not equal to', 'starts with', 'contains', 'does not contain', 'less than', 'greater than', 'within'];
     private valuesObj = {
@@ -201,7 +196,7 @@ export class SearchCriteriaComponent implements ControlValueAccessor, Validator{
 
         this.model.values = vals;
     }
-
+    /*
     public validate(c: FormControl) {
         let ret =  c.value && c.value.fieldName !== '' ? null : {
             fieldName: {
@@ -210,4 +205,5 @@ export class SearchCriteriaComponent implements ControlValueAccessor, Validator{
         };
         return null;
     }
+    */
 }
