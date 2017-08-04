@@ -20,15 +20,13 @@ function validateSearchCriteriaFactory(): ValidatorFn {
 
 function validateSearchCriteria(c: FormControl) {
     let fieldName = c.value ? c.value.fieldName : null;
-    let isValid = fieldName != null && fieldName !== '';
+    let fieldNameEmpty = fieldName == null || fieldName === '';
 
-    if (isValid) {
+    if (!fieldNameEmpty) {
         return null;
     } else {
         return {
-            validateSearchCriteria: {
-                valid: false
-            }
+            required: fieldNameEmpty ? 'required' : null
         };
     }
 }

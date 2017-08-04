@@ -21,7 +21,10 @@
     <search-criteria [(ngModel)]="rule[0]" validateSearchCriteria [onDeleteClick]="onDelete" name="rule0"
                      [index]="0" [provinces]="provinces" formErrors="formErrors">
     </search-criteria>
-    <p>form is valid: {{ currentForm && currentForm.valid ? 'true' : 'false' }}</p>
+    <div *ngIf="formErrors.rule0" class="alert alert-danger">
+        {{ formErrors.rule0 }}
+    </div>
+
     <!--
     <div class="row form-group">
         <div class="col-md-3">

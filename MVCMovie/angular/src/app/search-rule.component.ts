@@ -88,7 +88,7 @@ export class SearchRuleComponent implements OnInit{
 
     validationMessages = {
         'rule0': {
-            'required': 'Name is required.',
+            'required': 'Field Name is required.',
             'minlength': 'Name must be at least 10 characters long.'
         }
     };
