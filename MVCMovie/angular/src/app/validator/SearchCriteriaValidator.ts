@@ -21,12 +21,14 @@ function validateSearchCriteriaFactory(): ValidatorFn {
 function validateSearchCriteria(c: FormControl) {
     let fieldName = c.value ? c.value.fieldName : null;
     let fieldNameEmpty = fieldName == null || fieldName === '';
+    let length = fieldName == null ? 0 : fieldName.length
 
-    if (!fieldNameEmpty) {
+    if (!fieldNameEmpty && length >= 10) {
         return null;
     } else {
         return {
-            required: fieldNameEmpty ? 'required' : null
+            required: fieldNameEmpty ? 'required' : null,
+            minlength: length < 10 && !fieldNameEmpty ? 'minlength' : null 
         };
     }
 }

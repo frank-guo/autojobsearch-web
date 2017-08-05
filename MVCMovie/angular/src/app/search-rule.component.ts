@@ -76,7 +76,9 @@ export class SearchRuleComponent implements OnInit{
             if (control && !control.valid) {
                 const messages = this.validationMessages[field];
                 for (const key in control.errors) {
-                    this.formErrors[field] += messages[key] + ' ';
+                    if (control.errors[key] != null) {
+                        this.formErrors[field] += messages[key] + ' ';
+                    }
                 }
             }
         }
@@ -90,8 +92,8 @@ export class SearchRuleComponent implements OnInit{
 
     validationMessages = {
         'criteria': {
-            'required': 'Field Name is required.',
-            'minlength': 'Name must be at least 10 characters long.'
+            'required': 'Field name is required.',
+            'minlength': 'Field name must be at least 10 characters long.'
         }
     };
 
