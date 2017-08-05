@@ -52,9 +52,9 @@ export class SearchRuleComponent implements OnInit{
     formChanged() {
         if (this.currentForm == null || this.currentForm.value === this.formValue) { return; }
         let value = Object.assign({}, this.currentForm.value)
-        let rule0 = Object.assign({}, value.rule0)
-        value.rule0 = rule0
-        if (this.currentForm.form.get('rule0')) {
+        let rule0 = Object.assign({}, value.criteria)
+        value.criteria = rule0
+        if (this.currentForm.form.get('criteria')) {
             this.currentForm.setValue(value)
         }
         if (this.currentForm) {
@@ -80,14 +80,16 @@ export class SearchRuleComponent implements OnInit{
                 }
             }
         }
+        console.log(this.formErrors)
+        this.cdRef.detectChanges();
     }
 
     formErrors = {
-        'rule0': ''
+        'criteria': ''
     };
 
     validationMessages = {
-        'rule0': {
+        'criteria': {
             'required': 'Field Name is required.',
             'minlength': 'Name must be at least 10 characters long.'
         }

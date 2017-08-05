@@ -18,11 +18,11 @@
     <search-criteria *ngFor="let criteria of rule; let i=index" [model]="criteria" [onDeleteClick]="onDelete"
                         [index]="i" [provinces]="provinces">
     </search-criteria>-->
-    <search-criteria [(ngModel)]="rule[0]" validateSearchCriteria [onDeleteClick]="onDelete" name="rule0"
+    <search-criteria [(ngModel)]="rule[0]" validateSearchCriteria [onDeleteClick]="onDelete" name="criteria"
                      [index]="0" [provinces]="provinces" formErrors="formErrors">
     </search-criteria>
-    <div *ngIf="formErrors.rule0" class="alert alert-danger">
-        {{ formErrors.rule0 }}
+    <div *ngIf="formErrors.criteria" class="alert alert-danger">
+        {{ formErrors.criteria }}
     </div>
 
     <!--
