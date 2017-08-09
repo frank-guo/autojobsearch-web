@@ -27,8 +27,10 @@ function validateSearchCriteria(c: FormControl) {
         return null;
     } else {
         return {
-            required: fieldNameEmpty ? 'required' : null,
-            minlength: length < 10 && !fieldNameEmpty ? 'minlength' : null 
+            fieldName: {
+                required: fieldNameEmpty ? 'required' : null,
+                minlength: length < 10 && !fieldNameEmpty ? 'minlength' : null
+            }
         };
     }
 }

@@ -46,8 +46,8 @@
     <div class="col-md-3">
         <input type="text" [(ngModel)]="model.fieldName" required minlength="10"
                class="form-control" name='fieldName' id='fieldName'/>
-        <div *ngIf="formErrors.fieldName" class="alert alert-danger">
-            {{ formErrors.fieldName }}
+        <div *ngIf="formErrors.criteria.fieldName" class="alert alert-danger">
+            {{ formErrors.criteria.fieldName }}
         </div>
      </div>
 </div>

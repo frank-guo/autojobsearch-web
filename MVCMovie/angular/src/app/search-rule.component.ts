@@ -68,16 +68,20 @@ export class SearchRuleComponent implements OnInit{
         if (!this.currentForm) { return; }
         const form = this.currentForm.form;
 
-        for (const field in this.formErrors) {
+        for (const field in form.controls) {
             // clear previous error message (if any)
-            this.formErrors[field] = '';
+            this.formErrors[field] = {};
             const control = form.get(field);
 
             if (control && !control.valid) {
-                const messages = this.validationMessages[field];
-                for (const key in control.errors) {
-                    if (control.errors[key] != null) {
-                        this.formErrors[field] += messages[key] + ' ';
+                const messages = this.validationMessages['criteria'];
+                for (const subFieldName in control.errors) {
+                    for (const errorKey in control.errors[subFieldName]) {
+                        if (control.errors[subFieldName][errorKey] != null) {
+                            let subfieldErrors = this.formErrors[field][subFieldName]
+                            let subfieldError = messages[subFieldName][errorKey]
+                            this.formErrors[field][subFieldName] = subfieldErrors != null ? subfieldErrors + subfieldError + ' ' : subfieldError + ' ';
+                        }
                     }
                 }
             }
@@ -87,13 +91,15 @@ export class SearchRuleComponent implements OnInit{
     }
 
     formErrors = {
-        'criteria': ''
+        'criteria': {}
     };
 
     validationMessages = {
         'criteria': {
-            'required': 'Field name is required.',
-            'minlength': 'Field name must be at least 10 characters long.'
+            fieldName: {
+                'required': 'Field name is required.',
+                'minlength': 'Field name must be at least 10 characters long.'
+            }
         }
     };
 

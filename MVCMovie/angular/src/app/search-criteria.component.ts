@@ -33,7 +33,7 @@ export class SearchCriteriaComponent implements ControlValueAccessor{
     @Input() onDeleteClick: Function;
     @Input() index: number;
     @Input() provinces: string[]
-    @Input() formErrors: {}
+    @Input() formErrors: any
 
     submitted = false;
     onSubmit() { this.submitted = true; }

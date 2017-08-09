@@ -19,11 +19,11 @@
                         [index]="i" [provinces]="provinces">
     </search-criteria>-->
     <search-criteria [(ngModel)]="rule[0]" validateSearchCriteria [onDeleteClick]="onDelete" name="criteria"
-                     [index]="0" [provinces]="provinces" formErrors="formErrors">
+                     [index]="0" [provinces]="provinces" [formErrors]="formErrors">
     </search-criteria>
-    <div *ngIf="formErrors.criteria" class="alert alert-danger">
-        {{ formErrors.criteria }}
-    </div>
+    <!--<div *ngIf="formErrors.criteria" class="alert alert-danger">
+        {{ formErrors.criteria.fieldName }}
+    </div>-->
 
     <!--
     <div class="row form-group">
