@@ -21,8 +21,19 @@ export class SearchRuleService {
         ).catch(this.handleError);
     }
 
-    saveSearchRule(searchRule : SearchCriteria[], id : number): Promise<SearchCriteria[]> {
-        return this.http.post(this.baseUrl + id, JSON.stringify(searchRule), { headers: this.headers })
+    saveSearchRule(searchRule: any[], id: number): Promise<SearchCriteria[]> {
+        let searchRuleCopy : SearchCriteria[] = []
+        for (let criteria of searchRule) {
+            let criteriaCopy = Object.assign({}, criteria)
+            let fieldName = criteria.fieldName
+            if (fieldName != null && fieldName[0].id != null) {
+                let newFieldName = [fieldName[0].id]
+                criteriaCopy.fieldName = newFieldName
+            }
+            searchRuleCopy.push(criteriaCopy)
+        } 
+
+        return this.http.post(this.baseUrl + id, JSON.stringify(searchRuleCopy), { headers: this.headers })
             .toPromise()
             .then(() => searchRule)
             .catch(this.handleError);

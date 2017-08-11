@@ -33,7 +33,7 @@ namespace MVCMovie.Services
                 var criteriaVM = new SearchCriteriaViewModel();
                 criteriaVM.id = criteria.ID;
                 criteriaVM.recruitingSiteId = criteria.RecruitingSiteId;
-                criteriaVM.fieldName = criteria.FieldName;
+                criteriaVM.fieldName = new string[] { criteria.FieldName };
                 criteriaVM._operator = criteria.CriteriaOperator;
 
                 IList<string> values = new List<string>();
@@ -63,7 +63,7 @@ namespace MVCMovie.Services
             foreach (SearchCriteriaViewModel criteriaVM in searchRule)
             {
                 var criteria = new SearchCriteria();
-                criteria.FieldName = criteriaVM.fieldName != null ? criteriaVM.fieldName : null;
+                criteria.FieldName = criteriaVM.fieldName != null ? criteriaVM.fieldName[0] : null;
                 criteria.CriteriaOperator = criteriaVM._operator != null ? criteriaVM._operator : null;
 
                 IList<SearchCriteriaValue> values = new List<SearchCriteriaValue>();

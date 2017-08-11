@@ -43,7 +43,7 @@ export class SearchCriteriaComponent implements ControlValueAccessor{
             return
         }
 
-        if (this.model.fieldName === 'City') {
+        if (this.model.fieldName === ['City']) {
             if (this.provinces != null && this.provinces.length > 0) {
                 this.valuesOptions = []
                 this.provinces.map((province) => {
@@ -54,7 +54,7 @@ export class SearchCriteriaComponent implements ControlValueAccessor{
                 this.valuesOptions = allCities()
             }
         } else {
-            this.valuesOptions = this.valuesObj[this.model.fieldName]
+            this.valuesOptions = this.valuesObj[this.model.fieldName[0]]
         }
     }
 
@@ -62,7 +62,7 @@ export class SearchCriteriaComponent implements ControlValueAccessor{
         if (this.model == null) {
             return
         }
-        if (changes['provinces'] != null && this.model.fieldName === 'City') {
+        if (changes['provinces'] != null && this.model.fieldName === ['City']) {
             if (this.provinces != null && this.provinces.length > 0) {
                 this.valuesOptions = []
                 this.provinces.map((province) => {
@@ -125,7 +125,7 @@ export class SearchCriteriaComponent implements ControlValueAccessor{
         }
         this.model.values = []
         this.model.fieldName = filedNameValues ? filedNameValues[0].id : null;
-        if (this.model.fieldName === 'City') {
+        if (this.model.fieldName === ['City']) {
             if (this.provinces != null && this.provinces.length > 0) {
                 this.valuesOptions = []
                 this.provinces.map((province) => {
@@ -136,7 +136,7 @@ export class SearchCriteriaComponent implements ControlValueAccessor{
                 this.valuesOptions = allCities()
             }
         } else {
-            this.valuesOptions = this.model.fieldName ? this.valuesObj[this.model.fieldName] : null;
+            this.valuesOptions = this.model.fieldName ? this.valuesObj[this.model.fieldName[0]] : null;
         }
     }
 
@@ -148,7 +148,7 @@ export class SearchCriteriaComponent implements ControlValueAccessor{
 
     public refreshField(value: any): void {
         this.model.fieldName = value ? value.id : null;
-        if (this.model.fieldName === 'City') {
+        if (this.model.fieldName === ['City']) {
             if (this.provinces != null && this.provinces.length > 0) {
                 this.valuesOptions = []
                 this.provinces.map((province) => {
@@ -159,7 +159,7 @@ export class SearchCriteriaComponent implements ControlValueAccessor{
                 this.valuesOptions = allCities()
             }
         } else {
-            this.valuesOptions = this.model.fieldName ? this.valuesObj[this.model.fieldName] : null;
+            this.valuesOptions = this.model.fieldName ? this.valuesObj[this.model.fieldName[0]] : null;
         }
     }
 

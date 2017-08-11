@@ -1,17 +1,21 @@
 ﻿
-<div class="row form-group">
+<div class="row form-group" *ngIf="model">
     <!--
     <div class="col-md-1">
         <div class="pull-right"><b style="font-size: 150%">{{index + 1}}.</b></div>
     </div>-->
-    <!--
+
 	<div class="col-md-3">
         <ng-select [allowClear]="true"
-                   [(ngModel)]="fieldName"
-                   [items]="fields" minlength="10"
-                   placeholder="No field name selected" required name="{{'selectFieldName' + index}}" id="selectFieldName">
+                   [(ngModel)]="model.fieldName"
+                   [items]="fields"
+                   placeholder="No field name selected" name="{{'selectFieldName' + index}}" id="selectFieldName">
         </ng-select>
+        <div *ngIf="formErrors.criteria.fieldName" class="alert alert-danger">
+            {{ formErrors.criteria['selectFieldName' + index] }}
+        </div>
 	</div>
+    <!--
     <div class="col-md-3">
         <ng-select [allowClear]="true"
                    [active]="model._operator ? [{id: model._operator, text: model._operator}] : null"
@@ -42,12 +46,12 @@
         </button>
     </div>
 </div>
-<div class="row form-group" *ngIf="model">
+<!--<div class="row form-group" *ngIf="model">
     <div class="col-md-3">
-        <input type="text" [(ngModel)]="model.fieldName" required minlength="10"
+        <input type="text" [(ngModel)]="model.fieldName"
                class="form-control" name='fieldName' id='fieldName'/>
         <div *ngIf="formErrors.criteria.fieldName" class="alert alert-danger">
             {{ formErrors.criteria.fieldName }}
         </div>
      </div>
-</div>
+</div>-->

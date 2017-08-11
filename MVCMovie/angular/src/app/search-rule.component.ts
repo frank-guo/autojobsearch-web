@@ -41,7 +41,7 @@ export class SearchRuleComponent implements OnInit{
         //Set province if there is province criteria
         if (this.rule != null) {
             this.rule.map((criteira) => {
-                if (criteira.fieldName === 'Province') {
+                if (criteira.fieldName === ['Province']) {
                     this.provinces = criteira.values
                     this.cdRef.detectChanges();
                 }
@@ -86,7 +86,6 @@ export class SearchRuleComponent implements OnInit{
                 }
             }
         }
-        console.log(this.formErrors)
         this.cdRef.detectChanges();
     }
 
@@ -114,7 +113,7 @@ export class SearchRuleComponent implements OnInit{
     }
 
     public onDeleteClick(index): void {
-        if (this.rule[index].fieldName === 'Province') {
+        if (this.rule[index].fieldName === ['Province']) {
             this.provinces = null
         }
         this.rule.splice(index, 1)
