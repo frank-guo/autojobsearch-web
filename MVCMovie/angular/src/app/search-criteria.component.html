@@ -7,12 +7,13 @@
 
 	<div class="col-md-3">
         <ng-select [allowClear]="true"
-                   [(ngModel)]="model.fieldName"
+                   [ngModel]="model.fieldName"
+                   (ngModelChange)="onNgModelChange($event)"
                    [items]="fields"
-                   placeholder="No field name selected" name="{{'selectFieldName' + index}}" id="selectFieldName">
+                   placeholder="No field name selected" name="fieldName" id="fieldName">
         </ng-select>
-        <div *ngIf="formErrors.criteria.fieldName" class="alert alert-danger">
-            {{ formErrors.criteria['selectFieldName' + index] }}
+        <div *ngIf="formErrors.criteria0.fieldName" class="alert alert-danger">
+            {{ formErrors.criteria0.fieldName }}
         </div>
 	</div>
     <!--

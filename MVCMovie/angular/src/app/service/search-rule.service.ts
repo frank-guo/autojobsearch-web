@@ -26,7 +26,7 @@ export class SearchRuleService {
         for (let criteria of searchRule) {
             let criteriaCopy = Object.assign({}, criteria)
             let fieldName = criteria.fieldName
-            if (fieldName != null && fieldName[0].id != null) {
+            if (fieldName != null && fieldName.length > 0 && fieldName[0].id != null) {
                 let newFieldName = [fieldName[0].id]
                 criteriaCopy.fieldName = newFieldName
             }

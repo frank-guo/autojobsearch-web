@@ -63,14 +63,18 @@ namespace MVCMovie.Services
             foreach (SearchCriteriaViewModel criteriaVM in searchRule)
             {
                 var criteria = new SearchCriteria();
-                criteria.FieldName = criteriaVM.fieldName != null ? criteriaVM.fieldName[0] : null;
+                criteria.FieldName = criteriaVM.fieldName != null && criteriaVM.fieldName.Length > 0 ? criteriaVM.fieldName[0] : null;
                 criteria.CriteriaOperator = criteriaVM._operator != null ? criteriaVM._operator : null;
 
                 IList<SearchCriteriaValue> values = new List<SearchCriteriaValue>();
-                foreach(string val in criteriaVM.values) {
-                    var value = new SearchCriteriaValue();
-                    value.value = val;
-                    values.Add(value);
+                if (criteriaVM.values != null)
+                {
+                    foreach (string val in criteriaVM.values)
+                    {
+                        var value = new SearchCriteriaValue();
+                        value.value = val;
+                        values.Add(value);
+                    }
                 }
                 criteria.Values = values;
                 searchCriterias.Add(criteria);

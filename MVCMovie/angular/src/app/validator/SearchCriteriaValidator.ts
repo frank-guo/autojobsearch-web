@@ -18,9 +18,10 @@ function validateSearchCriteriaFactory(): ValidatorFn {
     }
 }
 
+//Tommorrow solve the issue that this fucntion doesn't get called when fieldName value changes
 function validateSearchCriteria(c: FormControl) {
     let fieldName = c.value ? c.value.fieldName : null;
-    let fieldNameEmpty = fieldName == null || fieldName === '';
+    let fieldNameEmpty = fieldName == null || fieldName.length === 0;
     let length = fieldName == null ? 0 : fieldName.length
 
     if (!fieldNameEmpty && length >= 10) {

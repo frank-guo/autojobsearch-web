@@ -75,6 +75,18 @@ export class SearchCriteriaComponent implements ControlValueAccessor{
         }
     }
 
+    onNgModelChange(event) {
+        let newFN = []
+        for (let fieldNameItem of event) {
+            newFN.push(fieldNameItem.id)
+        }
+        this.model.fieldName = newFN
+
+        //let model = Object.assign({}, this.model)
+        //model.fieldName = newFN
+        //this.model = model
+    }
+
     //Placeholders for the callbacks which are later provided
     //by the Control Value Accessor
     private onTouchedCallback: () => void = noop;

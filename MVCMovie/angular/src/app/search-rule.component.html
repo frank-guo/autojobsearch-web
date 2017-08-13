@@ -14,13 +14,16 @@
             </button>
         </div>
     </div>
+    <search-criteria *ngFor="let criteria of rule; let i=index" [(ngModel)]="rule[i]" [onDeleteClick]="onDelete" name="{{'criteria'+i}}"
+                     [index]="i" [provinces]="provinces"  [formErrors]="formErrors" validateSearchCriteria>
+    </search-criteria>
     <!--
     <search-criteria *ngFor="let criteria of rule; let i=index" [model]="criteria" [onDeleteClick]="onDelete"
                         [index]="i" [provinces]="provinces">
     </search-criteria>-->
-    <search-criteria [(ngModel)]="rule[0]" validateSearchCriteria [onDeleteClick]="onDelete" name="criteria"
+    <!--<search-criteria [(ngModel)]="rule[0]" validateSearchCriteria [onDeleteClick]="onDelete" name="criteria"
                      [index]="0" [provinces]="provinces" [formErrors]="formErrors">
-    </search-criteria>
+    </search-criteria>-->
     <!--<div *ngIf="formErrors.criteria" class="alert alert-danger">
         {{ formErrors.criteria.fieldName }}
     </div>-->
