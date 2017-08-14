@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ChangeDetectorRef, AfterViewChecked, ViewChild } from '@angular/core';
+﻿import { Component, OnInit, ChangeDetectorRef, AfterViewChecked, ViewChild, SimpleChanges } from '@angular/core';
 import { SearchCriteria } from './search-criteria';
 import { SearchRuleService } from './service/search-rule.service';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -50,6 +50,11 @@ export class SearchRuleComponent implements OnInit {
         }
     }
 
+    //ngDoCheck() {
+    //    //This method can be called even though the rule reference is not changed when the inside property of the rule changes 
+    //    console.log("rule=", this.rule)
+    //}
+
     private equal(array1: string[], array2: string[]) : boolean{
         if (array1 == null || array2 == null || array1.length !== array2.length) {
             return false
@@ -73,7 +78,7 @@ export class SearchRuleComponent implements OnInit {
         let criteria0 = Object.assign({}, value.criteria0)
         if (criteria0 != null) {
             let fieldName = criteria0.fieldName
-            console.log('fieldName=', fieldName)
+
             if (fieldName != null && !this.equal(this.prevFieldName, fieldName)) {
                 let newFN = []
                 if (fieldName != null && fieldName.length > 0) {
@@ -82,18 +87,18 @@ export class SearchRuleComponent implements OnInit {
                     }
                 }
                 //criteria0.fieldName = newFN
-                value.criteria0 = criteria0
+                //value.criteria0 = criteria0
                 this.rule[0] = criteria0
                 this.prevFieldName = newFN
             }
         }
-        if (this.currentForm.form.get('criteria0')) {
-            //this.currentForm.setValue(value)
-        }
-        if (this.currentForm) {
-            this.currentForm.valueChanges
-                .subscribe(data => this.onValueChanged(data));
-        }
+        //if (this.currentForm.form.get('criteria0')) {
+        //    //this.currentForm.setValue(value)
+        //}
+        //if (this.currentForm) {
+        //    this.currentForm.valueChanges
+        //        .subscribe(data => this.onValueChanged(data));
+        //}
 
         if (!this.currentForm) { return; }
         const form = this.currentForm.form;
@@ -120,30 +125,30 @@ export class SearchRuleComponent implements OnInit {
         this.cdRef.detectChanges();
     }
 
-    onValueChanged(data?: any) {
-        if (!this.currentForm) { return; }
-        const form = this.currentForm.form;
+    //onValueChanged(data?: any) {
+    //    if (!this.currentForm) { return; }
+    //    const form = this.currentForm.form;
 
-        for (const field in form.controls) {
-            // clear previous error message (if any)
-            this.formErrors[field] = {};
-            const control = form.get(field);
+    //    for (const field in form.controls) {
+    //        // clear previous error message (if any)
+    //        this.formErrors[field] = {};
+    //        const control = form.get(field);
 
-            if (control && !control.valid) {
-                const messages = this.validationMessages['criteria0'];
-                for (const subFieldName in control.errors) {
-                    for (const errorKey in control.errors[subFieldName]) {
-                        if (control.errors[subFieldName][errorKey] != null) {
-                            let subfieldErrors = this.formErrors[field][subFieldName]
-                            let subfieldError = messages[subFieldName][errorKey]
-                            this.formErrors[field][subFieldName] = subfieldErrors != null ? subfieldErrors + subfieldError + ' ' : subfieldError + ' ';
-                        }
-                    }
-                }
-            }
-        }
-        this.cdRef.detectChanges();
-    }
+    //        if (control && !control.valid) {
+    //            const messages = this.validationMessages['criteria0'];
+    //            for (const subFieldName in control.errors) {
+    //                for (const errorKey in control.errors[subFieldName]) {
+    //                    if (control.errors[subFieldName][errorKey] != null) {
+    //                        let subfieldErrors = this.formErrors[field][subFieldName]
+    //                        let subfieldError = messages[subFieldName][errorKey]
+    //                        this.formErrors[field][subFieldName] = subfieldErrors != null ? subfieldErrors + subfieldError + ' ' : subfieldError + ' ';
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    //    this.cdRef.detectChanges();
+    //}
 
     formErrors = {
         'criteria0': {}

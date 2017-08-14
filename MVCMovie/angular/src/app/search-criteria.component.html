@@ -7,8 +7,7 @@
 
 	<div class="col-md-3">
         <ng-select [allowClear]="true"
-                   [ngModel]="model.fieldName"
-                   (ngModelChange)="onNgModelChange($event)"
+                   [(ngModel)]="model.fieldName"
                    [items]="fields"
                    placeholder="No field name selected" name="fieldName" id="fieldName">
         </ng-select>
