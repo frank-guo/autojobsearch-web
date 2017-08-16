@@ -20,6 +20,7 @@ export class SearchRuleComponent implements OnInit {
     formValue: SearchCriteria;
     @ViewChild('ruleForm') currentForm: NgForm;
     private prevFieldName: any[];
+    private prevOperator: any[];
 
     constructor(private searchRuleService: SearchRuleService,
         private route: ActivatedRoute,
@@ -78,8 +79,10 @@ export class SearchRuleComponent implements OnInit {
         let criteria0 = Object.assign({}, value.criteria0)
         if (criteria0 != null) {
             let fieldName = criteria0.fieldName
+            let _operator = criteria0._operator
 
-            if (fieldName != null && !this.equal(this.prevFieldName, fieldName)) {
+            if (fieldName != null && !this.equal(this.prevFieldName, fieldName) || 
+                _operator != null && !this.equal(this.prevOperator, _operator)) {
                 let newFN = []
                 if (fieldName != null && fieldName.length > 0) {
                     for (let field of fieldName) {
@@ -90,6 +93,14 @@ export class SearchRuleComponent implements OnInit {
                 //value.criteria0 = criteria0
                 this.rule[0] = criteria0
                 this.prevFieldName = newFN
+
+                let newOperator = []
+                if (_operator != null && _operator.length > 0) {
+                    for (let op of _operator) {
+                        newOperator.push(op)
+                    }
+                }
+                this.prevOperator = newOperator
             }
         }
         //if (this.currentForm.form.get('criteria0')) {
@@ -112,7 +123,7 @@ export class SearchRuleComponent implements OnInit {
                 const messages = this.validationMessages['criteria0'];
                 for (const subFieldName in control.errors) {
                     for (const errorKey in control.errors[subFieldName]) {
-                        if (control.errors[subFieldName][errorKey] != null) {
+                        if (control.errors[subFieldName][errorKey]) {
                             let subfieldErrors = this.formErrors[field][subFieldName]
                             let subfieldError = messages[subFieldName][errorKey]
                             this.formErrors[field][subFieldName] = subfieldErrors != null ? subfieldErrors + subfieldError + ' ' : subfieldError + ' ';
@@ -157,8 +168,10 @@ export class SearchRuleComponent implements OnInit {
     validationMessages = {
         'criteria0': {
             fieldName: {
-                'required': 'Field name is required.',
-                'minlength': 'Field name must be at least 10 characters long.'
+                'required': 'Field name is required.'
+            },
+            _operator: {
+                'required': 'Field name is required.'
             }
         }
     };
