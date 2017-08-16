@@ -34,7 +34,7 @@ namespace MVCMovie.Services
                 criteriaVM.id = criteria.ID;
                 criteriaVM.recruitingSiteId = criteria.RecruitingSiteId;
                 criteriaVM.fieldName = new string[] { criteria.FieldName };
-                criteriaVM._operator = criteria.CriteriaOperator;
+                criteriaVM._operator = new string[] { criteria.CriteriaOperator };
 
                 IList<string> values = new List<string>();
                 foreach(SearchCriteriaValue value in criteria.Values)
@@ -64,7 +64,7 @@ namespace MVCMovie.Services
             {
                 var criteria = new SearchCriteria();
                 criteria.FieldName = criteriaVM.fieldName != null && criteriaVM.fieldName.Length > 0 ? criteriaVM.fieldName[0] : null;
-                criteria.CriteriaOperator = criteriaVM._operator != null ? criteriaVM._operator : null;
+                criteria.CriteriaOperator = criteriaVM._operator != null && criteriaVM._operator.Length > 0 ? criteriaVM._operator[0] : null;
 
                 IList<SearchCriteriaValue> values = new List<SearchCriteriaValue>();
                 if (criteriaVM.values != null)

@@ -25,6 +25,16 @@
             {{ formErrors.criteria0._operator }}
         </div>
     </div>
+    <div class="col-md-5">
+        <ng-select [multiple]="true"
+                   [(ngModel)]="model.values"
+                   [items]="valuesOptions"
+                   placeholder="No city selected" required name="values">
+        </ng-select>
+        <div *ngIf="formErrors.criteria0.values" class="alert alert-danger">
+            {{ formErrors.criteria0.values }}
+        </div>
+    </div>
     <!--
     <div class="col-md-3">
         <ng-select [allowClear]="true"

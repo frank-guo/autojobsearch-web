@@ -30,6 +30,11 @@ export class SearchRuleService {
                 let newFieldName = [fieldName[0].id]
                 criteriaCopy.fieldName = newFieldName
             }
+            let operator = criteria._operator
+            if (operator != null && operator.length > 0 && operator[0].id != null) {
+                let newOp = [operator[0].id]
+                criteriaCopy._operator = newOp
+            }
             searchRuleCopy.push(criteriaCopy)
         } 
 
