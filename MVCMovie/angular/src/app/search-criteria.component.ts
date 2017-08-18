@@ -29,11 +29,11 @@ export class SearchCriteriaComponent implements ControlValueAccessor{
     public valuesOptions: string[]
     active: Array<string> = [this.fields[3]]
 
-    private model: SearchCriteria;
+    private model: any;
     @Input() onDeleteClick: Function;
     @Input() index: number;
     @Input() provinces: string[]
-    @Input() formErrors: any
+    @Input() errors: any
 
     submitted = false;
     onSubmit() { this.submitted = true; }
@@ -75,12 +75,34 @@ export class SearchCriteriaComponent implements ControlValueAccessor{
         }
     }
 
-    //onNgModelChange(event) {
-    //    let newFN = []
-    //    for (let fieldNameItem of event) {
-    //        newFN.push(fieldNameItem.id)
+    ngAfterContentChecked() {
+        if (this.model == null) {
+            return
+        }
+
+        let fieldName = this.model.fieldName
+        if (fieldName != null && (fieldName[0] === 'City' || fieldName[0] != null && fieldName[0].id === 'City')) {
+            if (this.provinces != null && this.provinces.length > 0) {
+                this.valuesOptions = []
+                this.provinces.map((province) => {
+                    let _cities = this.valuesObj.City[province]
+                    this.valuesOptions = this.valuesOptions.concat(_cities)
+                })
+            } else {
+                this.valuesOptions = allCities()
+            }
+        } else {
+            let fieldName0 = fieldName ? fieldName[0] : null
+            this.valuesOptions = fieldName && fieldName0 ? this.valuesObj[fieldName0.id ? fieldName0.id : fieldName0] : null
+        }
+    }
+
+    //onNgModelValuesChange(event) {
+    //    let newValues = []
+    //    for (let value of event) {
+    //        newValues.push(value.id)
     //    }
-    //    this.model.fieldName = newFN
+    //    this.model.values = newValues
     //}
 
     //Placeholders for the callbacks which are later provided

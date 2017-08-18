@@ -27,9 +27,11 @@ function validateSearchCriteria(c: FormControl) {
     let fieldNameEmpty = fieldName == null || fieldName.length === 0;
     //let length = fieldName == null ? 0 : fieldName.length
     let _operator = c.value._operator
-    let operatorEmpty = _operator == null || c.value._operator.length === 0  
+    let operatorEmpty = _operator == null || _operator.length === 0
+    let values = c.value.values  
+    let valuesEmpty = values == null || values.length === 0
 
-    if (!fieldNameEmpty && length >= 10) {
+    if (!fieldNameEmpty && !operatorEmpty && !valuesEmpty) {
         return null;
     } else {
         return {
@@ -39,6 +41,9 @@ function validateSearchCriteria(c: FormControl) {
             },
             _operator: {
                 required: operatorEmpty ? true : false
+            },
+            values: {
+                required: valuesEmpty ? true : false
             }
         };
     }

@@ -17,10 +17,10 @@ export class SearchRuleComponent implements OnInit {
     private siteId: number;
     private provinces: string[];
 
-    formValue: SearchCriteria;
     @ViewChild('ruleForm') currentForm: NgForm;
     private prevFieldName: any[];
     private prevOperator: any[];
+    private preValues: any[]
 
     constructor(private searchRuleService: SearchRuleService,
         private route: ActivatedRoute,
@@ -56,13 +56,19 @@ export class SearchRuleComponent implements OnInit {
     //    console.log("rule=", this.rule)
     //}
 
-    private equal(array1: string[], array2: string[]) : boolean{
+    private equal(array1: any[], array2: any[]) : boolean{
         if (array1 == null || array2 == null || array1.length !== array2.length) {
             return false
         } else {
             for (let i = 0; i < array1.length; i++) {
-                if (array1[i] !== array2[i]) {
-                    return false
+                if (array1[i].id != null) {
+                    if (array1[i].id !== array2[i].id) {
+                        return false
+                    }
+                } else {
+                    if (array1[i] !== array2[i]) {
+                        return false
+                    }
                 }
             }
             return true
@@ -70,27 +76,25 @@ export class SearchRuleComponent implements OnInit {
     }
 
     formChanged() {
-        if (this.currentForm == null || this.currentForm.value === this.formValue) { return; }
-        //let value = Object.assign({}, this.currentForm.value)
-        //let rule0 = Object.assign({}, value.criteria0)
-        //value.criteria0 = rule0
-        //console.log(value)
+        if (this.currentForm == null) { return; }
         let value = this.currentForm.value
         let criteria0 = Object.assign({}, value.criteria0)
         if (criteria0 != null) {
             let fieldName = criteria0.fieldName
             let _operator = criteria0._operator
+            let values = criteria0.values
 
             if (fieldName != null && !this.equal(this.prevFieldName, fieldName) || 
-                _operator != null && !this.equal(this.prevOperator, _operator)) {
+                _operator != null && !this.equal(this.prevOperator, _operator) ||
+                values != null && !this.equal(this.preValues, values)) {
                 let newFN = []
                 if (fieldName != null && fieldName.length > 0) {
                     for (let field of fieldName) {
                         newFN.push(field)
                     }
                 }
-                //criteria0.fieldName = newFN
-                //value.criteria0 = criteria0
+
+                //Set rule[0] to a new object copy so as to make the validating function being invoked
                 this.rule[0] = criteria0
                 this.prevFieldName = newFN
 
@@ -101,6 +105,14 @@ export class SearchRuleComponent implements OnInit {
                     }
                 }
                 this.prevOperator = newOperator
+
+                let newValues = []
+                if (values != null && values.length > 0) {
+                    for (let val of values) {
+                        newValues.push(val)
+                    }
+                }
+                this.preValues = newValues
             }
         }
         //if (this.currentForm.form.get('criteria0')) {
@@ -120,12 +132,11 @@ export class SearchRuleComponent implements OnInit {
             const control = form.get(field);
 
             if (control && !control.valid) {
-                const messages = this.validationMessages['criteria0'];
                 for (const subFieldName in control.errors) {
                     for (const errorKey in control.errors[subFieldName]) {
                         if (control.errors[subFieldName][errorKey]) {
                             let subfieldErrors = this.formErrors[field][subFieldName]
-                            let subfieldError = messages[subFieldName][errorKey]
+                            let subfieldError = this.searchCriteriaValidationMessages[subFieldName][errorKey]
                             this.formErrors[field][subFieldName] = subfieldErrors != null ? subfieldErrors + subfieldError + ' ' : subfieldError + ' ';
                         }
                     }
@@ -165,14 +176,15 @@ export class SearchRuleComponent implements OnInit {
         'criteria0': {}
     };
 
-    validationMessages = {
-        'criteria0': {
-            fieldName: {
-                'required': 'Field name is required.'
-            },
-            _operator: {
-                'required': 'Field name is required.'
-            }
+    searchCriteriaValidationMessages = {
+        fieldName: {
+            'required': 'Field name is required.'
+        },
+        _operator: {
+            'required': 'Field name is required.'
+        },
+        values: {
+            'required': 'Field name is required.'
         }
     };
 
@@ -181,7 +193,6 @@ export class SearchRuleComponent implements OnInit {
     }
 
     public onSaveClick(rule: FormArray): void {
-        console.log(rule, this.currentForm)
         this.searchRuleService.saveSearchRule(this.rule, this.siteId)
         //this.searchRuleService.saveSearchRule(this.rule)
     }

@@ -35,6 +35,18 @@ export class SearchRuleService {
                 let newOp = [operator[0].id]
                 criteriaCopy._operator = newOp
             }
+            let values = criteria.values
+            if (values != null) {
+                let newValues = []
+                for (let value of values) {
+                    if (value.id != null) {
+                        newValues.push(value.id)
+                    } else {
+                        newValues.push(value.id)
+                    }
+                }
+                criteriaCopy.values = newValues
+            }
             searchRuleCopy.push(criteriaCopy)
         } 
 

@@ -1,5 +1,5 @@
 ﻿<br/><br/>
-<form #ruleForm="ngForm"  *ngIf="rule" (ngSubmit)="onSaveClick(ruleForm.form)" novalidate >
+<form #ruleForm="ngForm"  *ngIf="rule" (ngSubmit)="onSaveClick(ruleForm.form)">
     <div class="row form-group">
         <div class="col-md-12">
             <h4 style="display: inline">Search Rule:&nbsp;&nbsp;&nbsp;</h4>
@@ -8,14 +8,14 @@
                 Add Criteria
             </button>
             &nbsp;
-            <button type="submit" class="btn btn-primary btn-sm">
+            <button type="submit" class="btn btn-primary btn-sm" [disabled]="!ruleForm.form.valid">
                 <i class="fa fa-floppy-o" aria-hidden="true">&nbsp;</i>
                 Save
             </button>
         </div>
     </div>
     <search-criteria *ngFor="let criteria of rule; let i=index" [(ngModel)]="rule[i]" [onDeleteClick]="onDelete" name="{{'criteria'+i}}"
-                     [index]="i" [provinces]="provinces"  [formErrors]="formErrors" validateSearchCriteria>
+                     [index]="i" [provinces]="provinces"  [errors]="formErrors['criteria'+i]" validateSearchCriteria>
     </search-criteria>
     <!--
     <search-criteria *ngFor="let criteria of rule; let i=index" [model]="criteria" [onDeleteClick]="onDelete"

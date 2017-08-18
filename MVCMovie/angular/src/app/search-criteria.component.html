@@ -11,8 +11,8 @@
                    [items]="fields"
                    placeholder="No field name selected" name="fieldName" id="fieldName">
         </ng-select>
-        <div *ngIf="formErrors.criteria0.fieldName" class="alert alert-danger">
-            {{ formErrors.criteria0.fieldName }}
+        <div *ngIf="errors ? errors.fieldName : null" class="alert alert-danger">
+            {{ errors.fieldName }}
         </div>
 	</div>
     <div class="col-md-3">
@@ -21,18 +21,18 @@
                    [items]="operators"
                    placeholder="No operator selected" name='_operator'>
         </ng-select>
-        <div *ngIf="formErrors.criteria0._operator" class="alert alert-danger">
-            {{ formErrors.criteria0._operator }}
+        <div *ngIf="errors ? errors._operator : null" class="alert alert-danger">
+            {{ errors._operator }}
         </div>
     </div>
     <div class="col-md-5">
         <ng-select [multiple]="true"
                    [(ngModel)]="model.values"
                    [items]="valuesOptions"
-                   placeholder="No city selected" required name="values">
+                   placeholder="No city selected" name="values">
         </ng-select>
-        <div *ngIf="formErrors.criteria0.values" class="alert alert-danger">
-            {{ formErrors.criteria0.values }}
+        <div *ngIf="errors ? errors.values : null" class="alert alert-danger">
+            {{ errors.values }}
         </div>
     </div>
     <!--
