@@ -14,8 +14,8 @@
             </button>
         </div>
     </div>
-    <search-criteria *ngFor="let criteria of rule; let i=index" [(ngModel)]="rule[i]" [onDeleteClick]="onDelete" name="{{'criteria'+i}}"
-                     [index]="i" [provinces]="provinces"  [errors]="formErrors['criteria'+i]" validateSearchCriteria>
+    <search-criteria *ngFor="let criteria of rule; let i=index" [(ngModel)]="rule[i]" [onDeleteClick]="onDelete" name="{{i}}"
+                     [index]="i" [provinces]="provinces"  [errors]="formErrors[i]" validateSearchCriteria>
     </search-criteria>
     <!--
     <search-criteria *ngFor="let criteria of rule; let i=index" [model]="criteria" [onDeleteClick]="onDelete"

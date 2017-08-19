@@ -18,9 +18,9 @@ export class SearchRuleComponent implements OnInit {
     private provinces: string[];
 
     @ViewChild('ruleForm') currentForm: NgForm;
-    private prevFieldName: any[];
-    private prevOperator: any[];
-    private preValues: any[]
+    private prevFieldNames: [any[]];
+    private prevOperators: [any[]];
+    private preValuesArray: [any[]]
 
     constructor(private searchRuleService: SearchRuleService,
         private route: ActivatedRoute,
@@ -78,73 +78,92 @@ export class SearchRuleComponent implements OnInit {
     formChanged() {
         if (this.currentForm == null) { return; }
         let value = this.currentForm.value
-        let criteria0 = Object.assign({}, value.criteria0)
-        if (criteria0 != null) {
-            let fieldName = criteria0.fieldName
-            let _operator = criteria0._operator
-            let values = criteria0.values
+        if (value != null) {
+            for (let key of Object.keys(value)) {
+                let criteria = Object.assign({}, value[key])
+                if (criteria != null) {
+                    let fieldName = criteria.fieldName
+                    let _operator = criteria._operator
+                    let values = criteria.values
 
-            if (fieldName != null && !this.equal(this.prevFieldName, fieldName) || 
-                _operator != null && !this.equal(this.prevOperator, _operator) ||
-                values != null && !this.equal(this.preValues, values)) {
-                let newFN = []
-                if (fieldName != null && fieldName.length > 0) {
-                    for (let field of fieldName) {
-                        newFN.push(field)
-                    }
-                }
+                    if (fieldName != null && (this.prevFieldNames == null || !this.equal(this.prevFieldNames[key], fieldName)) ||
+                        _operator != null && (this.prevOperators == null || !this.equal(this.prevOperators[key], _operator)) ||
+                        values != null && (this.preValuesArray == null || !this.equal(this.preValuesArray[key], values))) {
+                        let newFN = []
+                        if (fieldName != null && fieldName.length > 0) {
+                            for (let field of fieldName) {
+                                newFN.push(field)
+                            }
+                        }
 
-                //Set rule[0] to a new object copy so as to make the validating function being invoked
-                this.rule[0] = criteria0
-                this.prevFieldName = newFN
+                        //Set rule[0] to a new object copy so as to make the validating function being invoked
+                        this.rule[key] = criteria
+                        if (this.prevFieldNames == null) {
+                            this.prevFieldNames = [[]]
+                            this.prevFieldNames[key] = newFN
+                        } else {
+                            this.prevFieldNames[key] = newFN
+                        }
 
-                let newOperator = []
-                if (_operator != null && _operator.length > 0) {
-                    for (let op of _operator) {
-                        newOperator.push(op)
-                    }
-                }
-                this.prevOperator = newOperator
+                        let newOperator = []
+                        if (_operator != null && _operator.length > 0) {
+                            for (let op of _operator) {
+                                newOperator.push(op)
+                            }
+                        }
+                        if (this.prevOperators == null) {
+                            this.prevOperators = [[]]
+                            this.prevOperators[key] = newOperator
+                        } else {
+                            this.prevOperators[key] = newOperator
+                        }
 
-                let newValues = []
-                if (values != null && values.length > 0) {
-                    for (let val of values) {
-                        newValues.push(val)
-                    }
-                }
-                this.preValues = newValues
-            }
-        }
-        //if (this.currentForm.form.get('criteria0')) {
-        //    //this.currentForm.setValue(value)
-        //}
-        //if (this.currentForm) {
-        //    this.currentForm.valueChanges
-        //        .subscribe(data => this.onValueChanged(data));
-        //}
-
-        if (!this.currentForm) { return; }
-        const form = this.currentForm.form;
-
-        for (const field in form.controls) {
-            // clear previous error message (if any)
-            this.formErrors[field] = {};
-            const control = form.get(field);
-
-            if (control && !control.valid) {
-                for (const subFieldName in control.errors) {
-                    for (const errorKey in control.errors[subFieldName]) {
-                        if (control.errors[subFieldName][errorKey]) {
-                            let subfieldErrors = this.formErrors[field][subFieldName]
-                            let subfieldError = this.searchCriteriaValidationMessages[subFieldName][errorKey]
-                            this.formErrors[field][subFieldName] = subfieldErrors != null ? subfieldErrors + subfieldError + ' ' : subfieldError + ' ';
+                        let newValues = []
+                        if (values != null && values.length > 0) {
+                            for (let val of values) {
+                                newValues.push(val)
+                            }
+                        }
+                        if (this.preValuesArray == null) {
+                            this.preValuesArray = [[]]
+                            this.preValuesArray[key] = newValues
+                        } else {
+                            this.preValuesArray[key] = newValues
                         }
                     }
                 }
             }
-        }
+            //if (this.currentForm.form.get('criteria0')) {
+            //    //this.currentForm.setValue(value)
+            //}
+            //if (this.currentForm) {
+            //    this.currentForm.valueChanges
+            //        .subscribe(data => this.onValueChanged(data));
+            //}
 
-        this.cdRef.detectChanges();
+            if (!this.currentForm) { return; }
+            const form = this.currentForm.form;
+
+            for (const field in form.controls) {
+                // clear previous error message (if any)
+                this.formErrors[field] = {};
+                const control = form.get(field);
+
+                if (control && !control.valid) {
+                    for (const subFieldName in control.errors) {
+                        for (const errorKey in control.errors[subFieldName]) {
+                            if (control.errors[subFieldName][errorKey]) {
+                                let subfieldErrors = this.formErrors[field][subFieldName]
+                                let subfieldError = this.searchCriteriaValidationMessages[subFieldName][errorKey]
+                                this.formErrors[field][subFieldName] = subfieldErrors != null ? subfieldErrors + subfieldError + ' ' : subfieldError + ' ';
+                            }
+                        }
+                    }
+                }
+            }
+
+            this.cdRef.detectChanges();
+        }
     }
 
     //onValueChanged(data?: any) {
