@@ -170,62 +170,65 @@ export class SearchCriteriaComponent implements ControlValueAccessor{
         }
     }
 
+    //The following block of code is no longer useful if using ngModel
     //ngAfterViewInit () {
     //    this.intialField = this.model.fieldName;
     //    this.intialOperator = this.model.operator;
     //    this.intialCities = this.model.values;
     //}
 
-    public refreshField(value: any): void {
-        this.model.fieldName = value ? value.id : null;
-        if (this.model.fieldName === ['City']) {
-            if (this.provinces != null && this.provinces.length > 0) {
-                this.valuesOptions = []
-                this.provinces.map((province) => {
-                    let _cities = this.valuesObj.City[province]
-                    this.valuesOptions = this.valuesOptions.concat(_cities)
-                })
-            } else {
-                this.valuesOptions = allCities()
-            }
-        } else {
-            this.valuesOptions = this.model.fieldName ? this.valuesObj[this.model.fieldName[0]] : null;
-        }
-    }
+    //public refreshField(value: any): void {
+    //    this.model.fieldName = value ? value.id : null;
+    //    if (this.model.fieldName === ['City']) {
+    //        if (this.provinces != null && this.provinces.length > 0) {
+    //            this.valuesOptions = []
+    //            this.provinces.map((province) => {
+    //                let _cities = this.valuesObj.City[province]
+    //                this.valuesOptions = this.valuesOptions.concat(_cities)
+    //            })
+    //        } else {
+    //            this.valuesOptions = allCities()
+    //        }
+    //    } else {
+    //        this.valuesOptions = this.model.fieldName ? this.valuesObj[this.model.fieldName[0]] : null;
+    //    }
+    //}
 
-    public refreshOperator(value: any): void {
-        this.model._operator = value ? value.id : null;
-        console.log('this.model.operator=', this.model._operator)
-    }
+    //public refreshOperator(value: any): void {
+    //    this.model._operator = value ? value.id : null;
+    //    console.log('this.model.operator=', this.model._operator)
+    //}
 
-    public refreshCity(values: [any]): void {
-        let vals: string[] = []
-        if (values != null) {
-            values.map((value) => {
-                vals.push(value.id)
-            })
-        } else {
-            vals = null
-        }
-        this.model.values = vals;
-    }
+    //public refreshCity(values: [any]): void {
+    //    let vals: string[] = []
+    //    if (values != null) {
+    //        values.map((value) => {
+    //            vals.push(value.id)
+    //        })
+    //    } else {
+    //        vals = null
+    //    }
+    //    this.model.values = vals;
+    //}
 
-    public selected(value: any): void {
-        console.log('Selected value is: ', value);
-    }
+    //public selected(value: any): void {
+    //    console.log('Selected value is: ', value);
+    //}
 
-    public removed(value: any): void {
-        console.log('Removed value is: ', value);
-    }
+    //public removed(value: any): void {
+    //    console.log('Removed value is: ', value);
+    //}
 
-    public valuesTyped(value: any): void {
-        let vals: string[] = []
-        if (value != null) {
-            vals.push(value)
-        }
+    //public valuesTyped(value: any): void {
+    //    let vals: string[] = []
+    //    if (value != null) {
+    //        vals.push(value)
+    //    }
 
-        this.model.values = vals;
-    }
+    //    this.model.values = vals;
+    //}
+
+
     /*
     public validate(c: FormControl) {
         let ret =  c.value && c.value.fieldName !== '' ? null : {
